@@ -35,6 +35,8 @@ public class MDCFilter implements Filter{
         }
         if(req.getSession() != null)
         MDC.put("sessionId",req.getSession().getId());
+
+
         chain.doFilter(request,response);
     }
 

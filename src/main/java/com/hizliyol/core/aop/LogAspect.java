@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 /**
@@ -78,10 +79,16 @@ public class LogAspect {
             obj = joinPoint.proceed();
             long elapsedtime = System.currentTimeMillis() - start;
             logger.info(new StringBuffer( joinPoint.getSignature().getName()).append("(").append(builder.toString()).append(") Time : ").append(elapsedtime).append(" ms").toString());
+            synchronized (this){
+                MDC.clear();
+            }
         } catch (Throwable throwable) {
             long elapsedtime = System.currentTimeMillis() - start;
             logger.error(new StringBuffer( joinPoint.getSignature().getName()).append("(").append(builder.toString()).append(") Time : ").append(elapsedtime).append(" ms").toString());
             logger.error(getStackTrace(throwable.getStackTrace()));
+            synchronized (this){
+                MDC.clear();
+            }
             switch (type){
                 case CONTROLLER:
                     throw new ControllerException(throwable);
