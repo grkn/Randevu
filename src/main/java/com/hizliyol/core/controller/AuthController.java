@@ -44,11 +44,6 @@ public class AuthController extends BaseController{
     }
 
     public void insert(){
-        List<Auhorization> auth = authService.getByName(authorization.getAuthName());
-        if(!CollectionUtils.isEmpty(auth)){
-            showInfoMessage("user.auth.defined");
-            return;
-        }
         authorization.setRoleId(selectedRole);
         authService.insert(authorization);
         showInfoMessage("user.inserted.successfully");
