@@ -20,4 +20,9 @@
             <supported-locale>en</supported-locale>
         </locale-config>
     </application>
+    <factory>
+        <exception-handler-factory>
+            com.hizliyol.core.exception.handler.CustomExceptionHandlerFactory
+        </exception-handler-factory>
+    </factory>
 </faces-config>
