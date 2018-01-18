@@ -33,4 +33,8 @@ public class RoleDao extends AbstractJPADao {
         LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
         return getEntityManager().createQuery(criteriaQuery).setFirstResult(first).setMaxResults(pageSize).getResultList();
     }
+
+    public List<Role> queryRoles(){
+        return getEntityManager().createNamedQuery("Role.findAll").getResultList();
+    }
 }

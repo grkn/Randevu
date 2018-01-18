@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+
+</h:head>
+<h:body>
+
+	<ui:composition template="/WEB-INF/views/template.xhtml">
+
+		<ui:define name="content">
+			<p:fieldset legend="Rol Tanımlama Ekranı">
+					<p:panelGrid columns="4">
+						<h:outputText value="Auth Adı" />
+						<p:inputText
+								value="#{authController.authorization.authName}"></p:inputText>
+
+						<h:outputText value="Roller" />
+						<p:selectOneMenu id="roles" label="Role Listesi"
+									value="#{authController.selectedRole}" converter="anySelectConverter">
+							<f:selectItems value="${authController.roleList}" itemValue="${item}" itemLabel="${item.roleName}" var="item"/>
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<p:panel>
+						<p:commandButton update="@form"
+										 actionListener="#{authController.insert}" value="Kaydet"></p:commandButton>
+					</p:panel>
+			</p:fieldset>
+			<p:fieldset legend="Auth Listesi">
+				<p:dataTable var="auth" value="#{authController.authList}" paginator="true" rows="10"
+							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+							 rowsPerPageTemplate="5,10,15" id="auth" >
+					<p:column headerText="Id" sortBy="#{auth.id}" filterBy="#{auth.id}">
+						<h:outputText value="#{auth.id}" />
+					</p:column>
+					<p:column headerText="Auth İsmi" sortBy="#{auth.authName}" filterBy="#{auth.authName}">
+						<h:outputText value="#{auth.authName}" />
+					</p:column>
+					<p:column>
+						<p:commandButton actionListener="#{authController.delete(auth)}" value="Sil" update="@form"/>
+					</p:column>
+
+				</p:dataTable>
+			</p:fieldset>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

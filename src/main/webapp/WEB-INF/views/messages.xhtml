@@ -14,6 +14,7 @@
             <p:menuitem rendered="#{loginController.sessionBean.isRoot()}" value="Müşteri Tanımlama" url="/root/adminUser.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
             <p:menuitem value="Kullanıcı Tanımlama" url="/admin/admin.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
             <p:menuitem rendered="#{loginController.sessionBean.isRoot()}" value="Role Tanımlama" url="/root/rootRoleDefinition.xhtml" icon="ui-icon-bookmark"/>
+            <p:menuitem rendered="#{loginController.sessionBean.isRoot()}" value="Auth Tanımlama" url="/root/rootAuthDefinition.xhtml" icon="ui-icon-bookmark"/>
         </p:submenu>
         <f:facet name="options">
             <p:commandButton action="#{loginController.logout()}" value="Çıkış" icon="ui-icon-extlink"  />

@@ -37,6 +37,11 @@ public class RoleService {
     @Autowired
     private AuthorizationDataDao authorizationDataDao;
 
+
+    public List<Role> getRoleList(){
+        return roleDao.queryRoles();
+    }
+
     public List<Auhorization> getAuthorizationList(){
         Set<Auhorization> hashSet = new HashSet<>();
         authorizationDataDao.findAll().forEach(auhorization -> hashSet.add(auhorization));
