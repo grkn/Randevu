@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:menubar>
+        <p:submenu  label="Anasayfa" icon="ui-icon-pencil">
+            <p:menuitem value="Anasayfa" url="/index.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+        </p:submenu>
+        <p:submenu rendered="#{loginController.sessionBean.isAdmin() or loginController.sessionBean.isRoot()}" label="Admin Menu" icon="ui-icon-pencil">
+            <p:menuitem rendered="#{loginController.sessionBean.isRoot()}" value="Müşteri Tanımlama" url="/root/adminUser.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+            <p:menuitem value="Kullanıcı Tanımlama" url="/admin/admin.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
+            <p:menuitem rendered="#{loginController.sessionBean.isRoot()}" value="Role Tanımlama" url="/root/rootRoleDefinition.xhtml" icon="ui-icon-bookmark"/>
+        </p:submenu>
+        <f:facet name="options">
+            <p:commandButton action="#{loginController.logout()}" value="Çıkış" icon="ui-icon-extlink"  />
+        </f:facet>
+    </p:menubar>
+	<p:messages showDetail="true" ></p:messages>
+</ui:composition>

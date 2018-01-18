@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/WEB-INF/views/template.xhtml">
+		<ui:define name="content">
+			<p:fieldset legend="Tanımlama Ekranı">
+				<p:panel>
+					<p:accordionPanel>
+						<p:tab title="Kullınıcı Tanımlama">
+							<p:inputText type="hidden" value="#{adminUserDefinitionController.userDefinitionDto.id}"></p:inputText>
+						
+							<h:panelGrid columns="4" cellpadding="10">
+								<h:outputText value="Kullanıcı Adı" />
+								<p:inputText
+									value="#{adminUserDefinitionController.userDefinitionDto.name}"></p:inputText>
+								<h:outputText value="Sorumluluk Giriniz"></h:outputText>
+								<p:inputText
+									value="#{adminUserDefinitionController.userDefinitionDto.responsibility}"></p:inputText>
+
+								<h:outputText value="Kaç Dakikalık İş Aralığı Var" />
+								<p:inputText
+									value="#{adminUserDefinitionController.userDefinitionDto.interval}"></p:inputText>
+
+							
+							</h:panelGrid>
+						</p:tab>
+						<p:tab title="İzin Tarihleri Girme">
+							<h:panelGrid columns="4" cellpadding="10">
+								<h:outputText value="İzinli Gün Bir" />
+								<p:calendar locale="tr" value="#{adminUserDefinitionController.userDefinitionDto.freeDay}"></p:calendar>
+								
+								<h:outputText value="İzinli Gün İki" />
+								<p:calendar locale="tr" value="#{adminUserDefinitionController.userDefinitionDto.freeDayTwo}"></p:calendar>
+							</h:panelGrid>
+						</p:tab>
+					</p:accordionPanel>
+					<div style="margin-top:20px">
+						<p:commandButton update="@form"
+									actionListener="#{adminUserDefinitionController.insert}"
+									value="Kaydet"></p:commandButton>
+						<p:commandButton update="@form"
+									actionListener="#{adminUserDefinitionController.clear}"
+									value="Temizle"></p:commandButton>
+					</div>
+					
+				</p:panel>
+			</p:fieldset>
+
+			<p:fieldset legend="Kişi Listesi">
+				<p:dataTable var="item"
+					value="#{adminUserDefinitionController.userDefinitionList}">
+					<p:column headerText="#">
+						<h:outputText value="#{item.id}" />
+					</p:column>
+
+					<p:column headerText="İsim">
+						<h:outputText value="#{item.name}" />
+					</p:column>
+
+					<p:column headerText="Sorumluluk">
+						<h:outputText value="#{item.responsibility}" />
+					</p:column>
+					
+					<p:column headerText="Süre">
+						<h:outputText value="#{item.timeInterval}" />
+					</p:column>
+					
+					<p:column headerText="Sorumlu Kişi">
+						<h:outputText value="#{item.userName}" />
+					</p:column>
+					
+					<p:column headerText="İzinli Gün Bir">
+						<h:outputText value="#{item.freeDay}" >
+							<f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="İzinli Gün İki">
+						<h:outputText value="#{item.freeDayTwo}" >
+							<f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+						</h:outputText>
+					</p:column>
+					
+					<p:column>
+						<p:commandButton value="Sil" actionListener="#{adminUserDefinitionController.delete(item)}" update="@form"></p:commandButton>
+						<p:commandButton value="Değiştir" actionListener="#{adminUserDefinitionController.edit(item)}" update="@form" />
+					</p:column>
+				</p:dataTable>
+			</p:fieldset>
+			<h:outputScript library="js" name="datepicker-tr.js"></h:outputScript>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

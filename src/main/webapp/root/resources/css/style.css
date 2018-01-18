@@ -1,0 +1,20 @@
+.container{
+	width:100%;
+	text-align:center;
+}
+
+.content-container {
+	width: 100%;
+	text-align: center
+}
+
+.content-container .content{
+	width: 60%;
+    left: 20%;
+    position: relative;
+	text-align: center;
+}
+
+.ui-widget {
+   font-size: 12px !important;
+}
