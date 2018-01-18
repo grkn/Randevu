@@ -93,7 +93,7 @@ public class LogAspect {
                     throw new ServiceException(throwable);
             }
         }finally {
-            if(type.equals(Type.DAO)){
+            if(type.equals(Type.CONTROLLER)){
                 synchronized (this){
                     MDC.clear();
                 }
