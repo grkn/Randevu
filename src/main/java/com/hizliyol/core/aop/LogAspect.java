@@ -79,16 +79,11 @@ public class LogAspect {
             obj = joinPoint.proceed();
             long elapsedtime = System.currentTimeMillis() - start;
             logger.info(new StringBuffer( joinPoint.getSignature().getName()).append("(").append(builder.toString()).append(") Time : ").append(elapsedtime).append(" ms").toString());
-            synchronized (this){
-                MDC.clear();
-            }
         } catch (Throwable throwable) {
             long elapsedtime = System.currentTimeMillis() - start;
             logger.error(new StringBuffer( joinPoint.getSignature().getName()).append("(").append(builder.toString()).append(") Time : ").append(elapsedtime).append(" ms").toString());
             logger.error(getStackTrace(throwable.getStackTrace()));
-            synchronized (this){
-                MDC.clear();
-            }
+
             switch (type){
                 case CONTROLLER:
                     throw new ControllerException(throwable);
@@ -96,6 +91,12 @@ public class LogAspect {
                     throw new DaoException(throwable);
                 case SERVICE:
                     throw new ServiceException(throwable);
+            }
+        }finally {
+            if(type.equals(Type.DAO)){
+                synchronized (this){
+                    MDC.clear();
+                }
             }
         }
         return obj;
