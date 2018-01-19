@@ -1,6 +1,7 @@
 package com.hizliyol.core.security;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -33,7 +34,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
         String password = authentication.getCredentials().toString();
 
         if("root".equals(name) && "passw0rd!".equals(password)){
-        	UserDetailDto userDetailDto = new UserDetailDto(new User("root", "passw0rd!", Arrays.asList(new SimpleGrantedAuthority("ROLE_ROOT"))), "ROOT", "ROOT", "gurkanilleez@gmail.com");
+        	UserDetailDto userDetailDto = new UserDetailDto(new User("root", "passw0rd!", Arrays.asList(new SimpleGrantedAuthority("ROLE_ROOT"))), "ROOT", "ROOT", "gurkanilleez@gmail.com",new HashSet<>());
         	return new UsernamePasswordAuthenticationToken(userDetailDto, userDetailDto.getPassword(), userDetailDto.getAuthorities() );
 		}
 

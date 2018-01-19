@@ -14,7 +14,7 @@
 	<ui:composition template="/WEB-INF/views/template.xhtml">
 		<ui:define name="content">
 			<p:fieldset legend="Okuldan Sorumlu Kişi Kayıt">
-				<p:panelGrid columns="9">
+				<p:panelGrid columns="11">
 					<p:outputLabel value="Adı: "></p:outputLabel>
 					<p:inputText value="#{schoolResponsibleController.schoolResponsible.name}" placeholder="Adı Giriniz"></p:inputText>
 					<p:outputLabel value="Soyadı:"></p:outputLabel>
@@ -24,6 +24,10 @@
 					<p:outputLabel value="Okul Seçiniz:"></p:outputLabel>
 					<p:selectOneMenu converter="anySelectConverter" value="#{schoolResponsibleController.selectedSchool}">
 						<f:selectItems var="item" itemValue="${item}" itemLabel="${item.name}" value="#{schoolResponsibleController.schoolList}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:outputLabel value="Kullanıcı Seçiniz"></p:outputLabel>
+					<p:selectOneMenu converter="anySelectConverter" value="#{schoolResponsibleController.selectedRandevuUser}">
+						<f:selectItems var="item" itemValue="${item}" itemLabel="${item.username}" value="#{schoolResponsibleController.randevuUserList}"></f:selectItems>
 					</p:selectOneMenu>
 					<p:commandButton actionListener="#{schoolResponsibleController.save}" value="#{schoolResponsibleController.schoolResponsible.id ne null ? 'Güncelle' : 'Kaydet'}" update="@form"></p:commandButton>
 				</p:panelGrid>	

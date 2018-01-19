@@ -74,6 +74,11 @@ public class SchoolResponsible implements Serializable {
     @JoinColumn(name = "school_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private School schoolId;
+    
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private RandevuUser userId;
+
 
     public SchoolResponsible() {
     }
@@ -178,5 +183,13 @@ public class SchoolResponsible implements Serializable {
     public String toString() {
         return "entity.SchoolResponsible[ id=" + id + " ]";
     }
+
+	public RandevuUser getUserId() {
+		return userId;
+	}
+
+	public void setUserId(RandevuUser userId) {
+		this.userId = userId;
+	}
     
 }

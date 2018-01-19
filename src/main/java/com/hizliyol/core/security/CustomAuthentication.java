@@ -42,7 +42,7 @@ public class CustomAuthentication implements UserDetailsService{
 			}
 		}
 		
-		UserDetailDto userDetail = new UserDetailDto(new User(user.getUsername(),user.getPassword(),list),user.getFirstName(),user.getLastName(),user.getEmail());
+		UserDetailDto userDetail = new UserDetailDto(new User(user.getUsername(),user.getPassword(),list),user.getFirstName(),user.getLastName(),user.getEmail(),user.getSchoolResponsibleSet());
 		
 		return userDetail;
 	}

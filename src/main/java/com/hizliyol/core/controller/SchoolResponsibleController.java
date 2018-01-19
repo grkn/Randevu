@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.hizliyol.core.entity.RandevuUser;
 import com.hizliyol.core.entity.School;
 import com.hizliyol.core.entity.SchoolResponsible;
 import com.hizliyol.core.service.SchoolResponsibleService;
 import com.hizliyol.core.service.SchoolService;
+import com.hizliyol.core.service.UserService;
 
 @Component
 @Scope("view")
@@ -21,10 +23,15 @@ public class SchoolResponsibleController extends BaseController{
 	private SchoolResponsibleService service;
 	
 	@Autowired
+	UserService userService;
+	
+	@Autowired
 	private SchoolService schoolService;
 	
 	private SchoolResponsible schoolResponsible = new SchoolResponsible();
 	private List<SchoolResponsible> schoolResponsibleList;
+	private List<RandevuUser> randevuUserList;
+	private RandevuUser selectedRandevuUser;
 	
 	private School selectedSchool;
 	private List<School> schoolList;
@@ -33,11 +40,14 @@ public class SchoolResponsibleController extends BaseController{
 	public void init(){
 		schoolList = schoolService.findAll();
 		schoolResponsibleList = service.findAll();
+		randevuUserList = userService.findAll();
 	}
 	
 	public void save(){
 		schoolResponsibleList.remove(schoolResponsible);
+		
 		schoolResponsible.setSchoolId(selectedSchool);
+		schoolResponsible.setUserId(selectedRandevuUser);
 		service.save(schoolResponsible);
 		schoolResponsibleList.add(schoolResponsible);
 		schoolResponsible = new SchoolResponsible();
@@ -82,6 +92,22 @@ public class SchoolResponsibleController extends BaseController{
 
 	public void setSchoolResponsibleList(List<SchoolResponsible> schoolResponsibleList) {
 		this.schoolResponsibleList = schoolResponsibleList;
+	}
+
+	public List<RandevuUser> getRandevuUserList() {
+		return randevuUserList;
+	}
+
+	public void setRandevuUserList(List<RandevuUser> randevuUserList) {
+		this.randevuUserList = randevuUserList;
+	}
+
+	public RandevuUser getSelectedRandevuUser() {
+		return selectedRandevuUser;
+	}
+
+	public void setSelectedRandevuUser(RandevuUser selectedRandevuUser) {
+		this.selectedRandevuUser = selectedRandevuUser;
 	}
 	
 }
