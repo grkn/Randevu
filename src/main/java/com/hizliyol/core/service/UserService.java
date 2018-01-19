@@ -18,13 +18,17 @@ import com.hizliyol.core.entity.Role;
 
 @Service
 @Transactional("transactionManager")
-public class UserService{
+public class UserService extends BaseService<RandevuUser,UserDataDao>{
+	
+	private UserDataDao userDataDao;
+	
+	public UserService(@Autowired UserDataDao userDataDao) {
+		super(userDataDao);
+		this.userDataDao = userDataDao;
+	}
 	
 	@Autowired
 	private UserDao userDao;
-
-	@Autowired
-	private UserDataDao userDataDao;
 
 	@Autowired
 	private UserRoleDao userRoleDao;

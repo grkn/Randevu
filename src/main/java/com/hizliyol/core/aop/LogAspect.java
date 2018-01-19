@@ -72,8 +72,6 @@ public class LogAspect {
         for (Object arg :joinPoint.getArgs()) {
             builder.append(arg).append(",");
         }
-
-
         long start = System.currentTimeMillis();
         try {
             obj = joinPoint.proceed();
@@ -93,11 +91,7 @@ public class LogAspect {
                     throw new ServiceException(throwable);
             }
         }finally {
-            if(type.equals(Type.CONTROLLER)){
-                synchronized (this){
-                    MDC.clear();
-                }
-            }
+            
         }
         return obj;
     }

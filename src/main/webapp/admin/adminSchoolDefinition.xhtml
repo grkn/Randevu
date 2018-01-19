@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/WEB-INF/views/template.xhtml">
+		<ui:define name="content">
+			<p:fieldset legend="Okul Kayıt">
+				<p:panelGrid columns="7" style="border:none">
+					<p:outputLabel value="Okul Adı:"></p:outputLabel>
+					<p:inputText value="#{schoolController.school.name}" placeholder="Okul Adı Giriniz"></p:inputText>
+					<p:outputLabel value="Oda Sayısı:"></p:outputLabel>
+					<p:inputText value="#{schoolController.school.roomNumber}" placeholder="Oda Sayısı Giriniz"></p:inputText>
+					<p:outputLabel value="Kuruluş Yılı:"></p:outputLabel>
+					<p:inputText value="#{schoolController.school.year}" placeholder="Kuruluş Yılı Giriniz"></p:inputText>
+					<p:commandButton actionListener="#{schoolController.insert}" value="#{schoolController.school.id ne null ? 'Güncelle' : 'Kaydet'}" update="@form"></p:commandButton>
+				</p:panelGrid>	
+			</p:fieldset>
+			
+			<p:fieldset legend="Okul Listesi">
+				<p:dataTable var="item" value="#{schoolController.schoolList}" paginator="true" rows="10"
+							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+							 rowsPerPageTemplate="5,10,15" id="schoolList" >
+					<p:column headerText="Id" sortBy="#{item.id}" filterBy="#{item.id}">
+						<h:outputText value="#{item.id}" />
+					</p:column>
+					<p:column headerText="Okul İsmi" sortBy="#{item.name}" filterBy="#{item.name}">
+						<h:outputText value="#{item.name}" />
+					</p:column>
+					<p:column headerText="Oda Sayısı" sortBy="#{item.roomNumber}" filterBy="#{item.roomNumber}">
+						<h:outputText value="#{item.roomNumber}" />
+					</p:column>
+					<p:column headerText="Açılış Yılı" sortBy="#{item.year}" filterBy="#{item.year}">
+						<h:outputText value="#{item.year}" />
+					</p:column>
+					<p:column headerText="Yaratılma Tarihi" sortBy="#{item.createdDate}" filterBy="#{item.createdDate}">
+						<h:outputText value="#{item.createdDate}">
+						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Yaratan Kişi" sortBy="#{item.createdUser}" filterBy="#{item.createdUser}">
+						<h:outputText value="#{item.createdUser}" />
+					</p:column>
+					<p:column headerText="Güncelleme Tarihi" sortBy="#{item.updatedDate}" filterBy="#{item.updatedDate}">
+						<h:outputText value="#{item.updatedDate}">
+						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Güncelleyen Kişi" sortBy="#{item.updatedUser}" filterBy="#{item.updatedUser}">
+						<h:outputText value="#{item.updatedUser}" />
+					</p:column>
+					<p:column>
+						<p:commandButton actionListener="#{schoolController.update(item.id)}" update="@form" value="Güncelle"></p:commandButton>
+						<p:commandButton actionListener="#{schoolController.delete(item)}" update="@form" value="Sil"></p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:fieldset>				
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

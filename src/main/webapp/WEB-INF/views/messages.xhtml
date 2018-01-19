@@ -10,12 +10,16 @@
         <p:submenu  label="Anasayfa" icon="ui-icon-pencil">
             <p:menuitem value="Anasayfa" url="/index.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
         </p:submenu>
-        <p:submenu rendered="#{loginController.sessionBean.isAdmin() or loginController.sessionBean.isRoot()}" label="Admin Menu" icon="ui-icon-pencil">
-            <p:menuitem rendered="#{loginController.sessionBean.isRoot()}" value="Müşteri Tanımlama" url="/root/adminUser.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
-            <p:menuitem value="Kullanıcı Tanımlama" url="/admin/admin.xhtml" icon="ui-icon-arrowreturnthick-1-e" />
-            <p:menuitem rendered="#{loginController.sessionBean.isRoot()}" value="Role Tanımlama" url="/root/rootRoleDefinition.xhtml" icon="ui-icon-bookmark"/>
-            <p:menuitem rendered="#{loginController.sessionBean.isRoot()}" value="Auth Tanımlama" url="/root/rootAuthDefinition.xhtml" icon="ui-icon-bookmark"/>
+        <p:submenu rendered="#{loginController.sessionBean.isRoot()}" label="Root Menu" icon="ui-icon-pencil">
+            <p:menuitem  value="Kullanıcı Tanımlama" url="/root/adminUser.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+            <p:menuitem  value="Role Tanımlama" url="/root/rootRoleDefinition.xhtml" icon="ui-icon-bookmark"/>
+            <p:menuitem  value="Auth Tanımlama" url="/root/rootAuthDefinition.xhtml" icon="ui-icon-bookmark"/>
         </p:submenu>
+        <p:submenu rendered="#{loginController.sessionBean.isAdmin() or loginController.sessionBean.isRoot()}" label="Okul Menu" icon="ui-icon-pencil">
+            <p:menuitem value="Okul Tanımlama" url="/admin/adminSchoolDefinition.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+            <p:menuitem  value="Sorumlu Tanımlama" url="/admin/adminSchoolResponsible.xhtml" icon="ui-icon-bookmark"/>
+        </p:submenu>
+        
         <f:facet name="options">
             <p:commandButton action="#{loginController.logout()}" value="Çıkış" icon="ui-icon-extlink"  />
         </f:facet>

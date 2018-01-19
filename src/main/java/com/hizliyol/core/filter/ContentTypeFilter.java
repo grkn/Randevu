@@ -1,20 +1,14 @@
 package com.hizliyol.core.filter;
 
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
-import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerMapping;
-
+import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
 
 /**
  * Created by bilge_gilleez on 16.01.2018.
