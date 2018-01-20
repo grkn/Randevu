@@ -40,7 +40,7 @@ public class LoginController extends  BaseController {
 
 	public void logout() throws IOException {
 		SecurityContextHolder.clearContext();
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/Randevu/login.xhtml?logout");
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/EnerjiOkul/login.xhtml?logout");
 	}
 	
 }
