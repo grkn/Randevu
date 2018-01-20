@@ -38,8 +38,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
     , @NamedQuery(name = "School.findByName", query = "SELECT s FROM School s WHERE s.name = :name")
     , @NamedQuery(name = "School.findByYear", query = "SELECT s FROM School s WHERE s.year = :year")
     , @NamedQuery(name = "School.findByCreatedUser", query = "SELECT s FROM School s WHERE s.createdUser = :createdUser")
-    , @NamedQuery(name = "School.findByUpdatedUser", query = "SELECT s FROM School s WHERE s.updatedUser = :updatedUser")
-    , @NamedQuery(name = "School.findByRoomNumber", query = "SELECT s FROM School s WHERE s.roomNumber = :roomNumber")})
+    , @NamedQuery(name = "School.findByUpdatedUser", query = "SELECT s FROM School s WHERE s.updatedUser = :updatedUser")})
 public class School implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,10 +63,17 @@ public class School implements Serializable {
     @Column(name = "updated_date")
     @LastModifiedDate
     private Date updatedDate;
-    @Column(name = "room_number")
-    private Integer roomNumber;
+    @Column(name = "area")
+    private Integer area;
+    @Column(name = "students")
+    private Integer students;
     @OneToMany(mappedBy = "schoolId", fetch = FetchType.EAGER)
     private Set<SchoolResponsible> schoolResponsibleSet;
+    
+    @OneToMany(mappedBy = "schoolId", fetch = FetchType.LAZY)
+    private Set<EnergyConsumption> energyConsumptionSet;
+    
+    
     public School() {
     }
 
@@ -113,14 +119,6 @@ public class School implements Serializable {
 
     public void setUpdatedUser(String updatedUser) {
         this.updatedUser = updatedUser;
-    }
-
-    public Integer getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(Integer roomNumber) {
-        this.roomNumber = roomNumber;
     }
 
     @Override
@@ -170,6 +168,30 @@ public class School implements Serializable {
 
 	public void setSchoolResponsibleSet(Set<SchoolResponsible> schoolResponsibleSet) {
 		this.schoolResponsibleSet = schoolResponsibleSet;
+	}
+
+	public Set<EnergyConsumption> getEnergyConsumptionSet() {
+		return energyConsumptionSet;
+	}
+
+	public void setEnergyConsumptionSet(Set<EnergyConsumption> energyConsumptionSet) {
+		this.energyConsumptionSet = energyConsumptionSet;
+	}
+
+	public Integer getArea() {
+		return area;
+	}
+
+	public void setArea(Integer area) {
+		this.area = area;
+	}
+
+	public Integer getStudents() {
+		return students;
+	}
+
+	public void setStudents(Integer students) {
+		this.students = students;
 	}
     
 }

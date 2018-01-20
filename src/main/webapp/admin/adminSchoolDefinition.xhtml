@@ -14,11 +14,13 @@
 	<ui:composition template="/WEB-INF/views/template.xhtml">
 		<ui:define name="content">
 			<p:fieldset legend="Okul Kayıt">
-				<p:panelGrid columns="7" style="border:none">
+				<p:panelGrid columns="9" style="border:none">
 					<p:outputLabel value="Okul Adı:"></p:outputLabel>
 					<p:inputText value="#{schoolController.school.name}" placeholder="Okul Adı Giriniz"></p:inputText>
-					<p:outputLabel value="Oda Sayısı:"></p:outputLabel>
-					<p:inputText value="#{schoolController.school.roomNumber}" placeholder="Oda Sayısı Giriniz"></p:inputText>
+					<p:outputLabel value="Kapalı Alan:"></p:outputLabel>
+					<p:inputText value="#{schoolController.school.area}" placeholder="Kapalı Alan Giriniz"></p:inputText>
+					<p:outputLabel value="Öğrenci Sayısı:"></p:outputLabel>
+					<p:inputText value="#{schoolController.school.students}" placeholder="Öğrenci Sayısı Giriniz"></p:inputText>
 					<p:outputLabel value="Kuruluş Yılı:"></p:outputLabel>
 					<p:inputText value="#{schoolController.school.year}" placeholder="Kuruluş Yılı Giriniz"></p:inputText>
 					<p:commandButton actionListener="#{schoolController.insert}" value="#{schoolController.school.id ne null ? 'Güncelle' : 'Kaydet'}" update="@form"></p:commandButton>
@@ -35,8 +37,11 @@
 					<p:column headerText="Okul İsmi" sortBy="#{item.name}" filterBy="#{item.name}">
 						<h:outputText value="#{item.name}" />
 					</p:column>
-					<p:column headerText="Oda Sayısı" sortBy="#{item.roomNumber}" filterBy="#{item.roomNumber}">
-						<h:outputText value="#{item.roomNumber}" />
+					<p:column headerText="Kapalı Alan" sortBy="#{item.area}" filterBy="#{item.area}">
+						<h:outputText value="#{item.area}" />
+					</p:column>
+					<p:column headerText="Öğrenci Sayısı" sortBy="#{item.students}" filterBy="#{item.students}">
+						<h:outputText value="#{item.students}" />
 					</p:column>
 					<p:column headerText="Açılış Yılı" sortBy="#{item.year}" filterBy="#{item.year}">
 						<h:outputText value="#{item.year}" />

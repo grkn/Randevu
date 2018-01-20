@@ -9,22 +9,23 @@
 	<p:menubar>
         <p:submenu  label="Anasayfa" icon="ui-icon-pencil">
             <p:menuitem value="Anasayfa" url="/index.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+            <p:menuitem value="#{msg['graphs']}" url="/dashboard.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
         </p:submenu>
         <p:submenu rendered="#{loginController.sessionBean.isRoot()}" label="Root Menu" icon="ui-icon-pencil">
             <p:menuitem  value="Kullanıcı Tanımlama" url="/root/adminUser.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
             <p:menuitem  value="Role Tanımlama" url="/root/rootRoleDefinition.xhtml" icon="ui-icon-bookmark"/>
             <p:menuitem  value="Auth Tanımlama" url="/root/rootAuthDefinition.xhtml" icon="ui-icon-bookmark"/>
+        	 <p:menuitem value="Okul Tanımlama" url="/admin/adminSchoolDefinition.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+        	 <p:menuitem  value="Statik Tanımlama" url="/admin/adminConstantItem.xhtml" icon="ui-icon-bookmark"/>
         </p:submenu>
         <p:submenu rendered="#{loginController.sessionBean.isAdmin() or loginController.sessionBean.isRoot()}" label="Okul Menu" icon="ui-icon-pencil">
-            <p:menuitem value="Okul Tanımlama" url="/admin/adminSchoolDefinition.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
             <p:menuitem  value="Sorumlu Tanımlama" url="/admin/adminSchoolResponsible.xhtml" icon="ui-icon-bookmark"/>
-            <p:menuitem  value="Statik Tanımlama" url="/admin/adminConstantItem.xhtml" icon="ui-icon-bookmark"/>
         </p:submenu>
         
         <f:facet name="options">
 			<p:panelGrid columns="4">
 	        	<p:outputLabel value="Hoşgeldin #{homePageController.user.firstName} #{homePageController.user.lastName}"></p:outputLabel>
-	       		<p:outputLabel value="Okul Seçiniz"></p:outputLabel>
+	       		<p:outputLabel value="Okul:"></p:outputLabel>
 	       		<p:selectOneMenu converter="anySelectConverter" value="#{homePageController.selectedSchool}">
 	       			<f:selectItems var="item" itemLabel="#{item.name}" itemValue="#{item}" value="#{homePageController.schoolList}"></f:selectItems>
 	       		</p:selectOneMenu>
@@ -32,5 +33,5 @@
             </p:panelGrid>
         </f:facet>
     </p:menubar>
-	<p:messages showDetail="true" ></p:messages>
+	<p:growl showDetail="true"  sticky="true" ></p:growl>
 </ui:composition>

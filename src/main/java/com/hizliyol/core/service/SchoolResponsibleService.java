@@ -7,6 +7,7 @@ import com.hizliyol.core.data.SchoolResponsibleDataDao;
 import com.hizliyol.core.entity.SchoolResponsible;
 
 @Service
+@org.springframework.transaction.annotation.Transactional
 public class SchoolResponsibleService extends BaseService<SchoolResponsible,SchoolResponsibleDataDao>{
 
 	

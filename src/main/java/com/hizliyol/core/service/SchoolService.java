@@ -10,6 +10,7 @@ import com.hizliyol.core.data.SchoolDataDao;
 import com.hizliyol.core.entity.School;
 
 @Service
+@org.springframework.transaction.annotation.Transactional
 public class SchoolService {
 
 	@Autowired

@@ -22,16 +22,51 @@
 					<p:commandButton value="Ekle" actionListener="#{homePageController.add}" update="@form"></p:commandButton>
 				</p:panel>
 				<ui:repeat var="item" value="#{homePageController.enerjiList}" varStatus="index">
-					<p:panelGrid columns="3">
+					<p:panelGrid columns="5">
 						<p:outputLabel value="#{item.label}"></p:outputLabel>
 						<p:inputText value="#{item.value}"></p:inputText>
+						<p:calendar pattern="MM-yyyy" value="#{item.date}"></p:calendar>
 						<p:commandButton actionListener="#{homePageController.remove(index.index)}" value="Sil" update="@form"></p:commandButton>
+						<p:commandButton actionListener="#{homePageController.insert(index.index)}" value="Kaydet" update="@form"></p:commandButton>
+						
 					</p:panelGrid>
 				</ui:repeat>
-				<p:commandButton actionListener="#{homePageController.insert}" value="Kaydet"></p:commandButton>
 			</p:fieldset>
+			
+			<p:fieldset legend="Enerji Kayıt Listesi">
+				<p:dataTable var="item" value="#{homePageController.lazyModel}" paginator="true" rows="10"
+							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+							 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{homePageController.selectedEnergyConsumption}" id="energyConsumption" lazy="true">
+					<p:ajax event="rowSelect" update="@this" />
+					<p:column headerText="Id" sortBy="#{item.id}" filterBy="#{item.id}">
+						<h:outputText value="#{item.id}" />
+					</p:column>
+					<p:column headerText="Enerji Türü" sortBy="#{item.type}" filterBy="#{item.type}">
+						<h:outputText value="#{item.type}" />
+					</p:column>
+					<p:column headerText="Enerji Türü" sortBy="#{item.value}" filterBy="#{item.value}">
+						<h:outputText value="#{item.value}" />
+					</p:column>
+					<p:column headerText="Yaratılma Tarihi" sortBy="#{item.createdDate}" filterBy="#{item.createdDate}">
+						<h:outputText value="#{item.createdDate}">
+						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Yaratan Kişi" sortBy="#{item.createdUser}" filterBy="#{item.createdUser}">
+						<h:outputText value="#{item.createdUser}" />
+					</p:column>
+					<p:column headerText="Güncelleme Tarihi" sortBy="#{item.updatedDate}" filterBy="#{item.updatedDate}">
+						<h:outputText value="#{item.updatedDate}">
+						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Güncelleyen Kişi" sortBy="#{item.updatedUser}" filterBy="#{item.updatedUser}">
+						<h:outputText value="#{item.updatedUser}" />
+					</p:column>
+				</p:dataTable>
+			</p:fieldset>
+			<h:outputScript library="js"  value="datepicker-tr.js"> </h:outputScript>
 		</ui:define>
 	</ui:composition>
-	
 </h:body>
 </html>
