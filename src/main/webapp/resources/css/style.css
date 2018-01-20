@@ -18,3 +18,17 @@
 .ui-widget {
    font-size: 12px !important;
 }
+
+
+.ui-panelgrid{
+	border:  none !important;
+}
+
+.ui-panelgrid tr{
+	border:  none !important;
+}
+
+
+.ui-panelgrid tr td{
+	border:  none !important;
+}

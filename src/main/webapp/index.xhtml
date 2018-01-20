@@ -13,9 +13,23 @@
 	
 	<ui:composition template="/WEB-INF/views/template.xhtml">
 		<ui:define name="content">
-			#{homePageController.user.username}
-			#{homePageController.user.schoolResponsibleSet}
-			
+			<p:fieldset legend="Enerji Giriniz">
+				<p:panel>
+					<p:outputLabel value="Enerji Şekli Giriniz:"></p:outputLabel>&nbsp;
+					<p:selectOneMenu value="#{homePageController.selectedConstant}" converter="anySelectConverter">
+						<f:selectItems var="item" itemValue="#{item}" itemLabel="#{item.name}" value="#{homePageController.constantList}"></f:selectItems>
+					</p:selectOneMenu> &nbsp;
+					<p:commandButton value="Ekle" actionListener="#{homePageController.add}" update="@form"></p:commandButton>
+				</p:panel>
+				<ui:repeat var="item" value="#{homePageController.enerjiList}" varStatus="index">
+					<p:panelGrid columns="3">
+						<p:outputLabel value="#{item.label}"></p:outputLabel>
+						<p:inputText value="#{item.value}"></p:inputText>
+						<p:commandButton actionListener="#{homePageController.remove(index.index)}" value="Sil" update="@form"></p:commandButton>
+					</p:panelGrid>
+				</ui:repeat>
+				<p:commandButton actionListener="#{homePageController.insert}" value="Kaydet"></p:commandButton>
+			</p:fieldset>
 		</ui:define>
 	</ui:composition>
 	
