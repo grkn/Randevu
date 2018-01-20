@@ -68,6 +68,9 @@
 					<p:column headerText="Güncelleyen Kişi" sortBy="#{item.updatedUser}" filterBy="#{item.updatedUser}">
 						<h:outputText value="#{item.updatedUser}" />
 					</p:column>
+					<p:column headerText="" >
+						<p:commandButton actionListener="#{homePageController.delete(item)}" value="Sil" update="@form"></p:commandButton>
+					</p:column>
 				</p:dataTable>
 			</p:fieldset>
 			<h:outputScript library="js"  value="datepicker-tr.js"> </h:outputScript>

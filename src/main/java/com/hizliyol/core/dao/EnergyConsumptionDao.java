@@ -24,7 +24,8 @@ public class EnergyConsumptionDao extends AbstractJPADao {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteriaQuery = cb.createQuery(Long.class);
 		Root<EnergyConsumption> c = criteriaQuery.from(EnergyConsumption.class);
-		criteriaQuery.select(cb.count(c)).where(cb.equal(c.get("schoolId"),school));
+		criteriaQuery = criteriaQuery.select(cb.count(c)).where(cb.equal(c.get("schoolId"),school));
+		criteriaQuery.where(cb.equal(c.get("deleted"), Boolean.FALSE));
 		LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
@@ -34,7 +35,8 @@ public class EnergyConsumptionDao extends AbstractJPADao {
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<EnergyConsumption> criteriaQuery = cb.createQuery(EnergyConsumption.class);
 		Root<EnergyConsumption> c = criteriaQuery.from(EnergyConsumption.class);
-		criteriaQuery.where(cb.equal(c.get("schoolId"),school));
+		criteriaQuery = criteriaQuery.where(cb.equal(c.get("schoolId"),school));
+		criteriaQuery.where(cb.equal(c.get("deleted"), Boolean.FALSE));
 		LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
 		return getEntityManager().createQuery(criteriaQuery).setFirstResult(first).setMaxResults(pageSize)
 				.getResultList();

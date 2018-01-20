@@ -152,6 +152,11 @@ public class HomePageController extends BaseController {
 		enerjiList.remove(index.intValue());
 	}
 
+	public void delete(EnergyConsumption entity){
+		entity.setDeleted(true);
+		energyConsumptionService.save(entity);
+	}
+	
 	public void insert(Integer index) {
 		EnerjiDto item = enerjiList.get(index);
 		EnergyConsumption entity = new EnergyConsumption();
