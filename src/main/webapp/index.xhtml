@@ -47,6 +47,11 @@
 					<p:column headerText="Enerji Türü" sortBy="#{item.value}" filterBy="#{item.value}">
 						<h:outputText value="#{item.value}" />
 					</p:column>
+					<p:column headerText="Enerji Seçilen Zaman" sortBy="#{item.selectedDate}" filterBy="#{item.selectedDate}">
+						<h:outputText value="#{item.selectedDate}" >
+							<f:convertDateTime type="date" pattern="MM-yyyy"/>
+						</h:outputText>
+					</p:column>
 					<p:column headerText="Yaratılma Tarihi" sortBy="#{item.createdDate}" filterBy="#{item.createdDate}">
 						<h:outputText value="#{item.createdDate}">
 						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
