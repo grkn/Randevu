@@ -65,7 +65,7 @@ public class HomePageController extends BaseController {
 
 		createFirstLinearChart();
 		createAnimatedModels();
-		 lazyModel = new EnergyConsumptionLazyModel(energyConsumptionService);
+		 lazyModel = new EnergyConsumptionLazyModel(energyConsumptionService,selectedSchool);
 	}
 
 	private void createFirstLinearChart() {

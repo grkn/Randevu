@@ -8,6 +8,7 @@ import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import com.hizliyol.core.entity.EnergyConsumption;
+import com.hizliyol.core.entity.School;
 import com.hizliyol.core.service.EnergyConsumptionService;
 
 public class EnergyConsumptionLazyModel  extends LazyDataModel<EnergyConsumption>{
@@ -16,8 +17,11 @@ public class EnergyConsumptionLazyModel  extends LazyDataModel<EnergyConsumption
 	
 	private EnergyConsumptionService service;
 	
-	public EnergyConsumptionLazyModel(EnergyConsumptionService service) {
+	private School selectedSchool;
+	
+	public EnergyConsumptionLazyModel(EnergyConsumptionService service, School selectedSchool) {
 		this.service = service;
+		this.selectedSchool = selectedSchool;
 	}
 	
 	@Override
@@ -37,11 +41,11 @@ public class EnergyConsumptionLazyModel  extends LazyDataModel<EnergyConsumption
 
     @Override
     public List<EnergyConsumption> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        Long count = service.getRandevuUserLazilyCount(first,pageSize,sortField,sortOrder,filters);
+        Long count = service.getRandevuUserLazilyCount(first,pageSize,sortField,sortOrder,filters,selectedSchool);
         if(count == null || count == 0L)
             return new ArrayList<>();
 
-        result = service.getRandevuUserLazily(first,pageSize,sortField,sortOrder,filters);
+        result = service.getRandevuUserLazily(first,pageSize,sortField,sortOrder,filters,selectedSchool);
 
         setRowCount(count.intValue());
         setWrappedData(result);

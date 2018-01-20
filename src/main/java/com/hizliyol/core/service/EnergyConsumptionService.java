@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.hizliyol.core.dao.EnergyConsumptionDao;
 import com.hizliyol.core.data.EnergyConsumptionDataDao;
 import com.hizliyol.core.entity.EnergyConsumption;
+import com.hizliyol.core.entity.School;
 
 @Service
 @org.springframework.transaction.annotation.Transactional
@@ -24,15 +25,15 @@ public class EnergyConsumptionService extends BaseService<EnergyConsumption,Ener
 	}
 
 	public Long getRandevuUserLazilyCount(int first, int pageSize, String sortField, SortOrder sortOrder,
-			Map<String, Object> filters) {
+			Map<String, Object> filters,School school) {
 		return energyConsumptionDao.getRandevuUserLazilyCount( first,  pageSize,  sortField,  sortOrder,
-				filters);
+				filters,school);
 	}
 
 	public List<EnergyConsumption> getRandevuUserLazily(int first, int pageSize, String sortField, SortOrder sortOrder,
-			Map<String, Object> filters) {
+			Map<String, Object> filters,School school) {
 		return energyConsumptionDao.getRandevuUserLazily( first,  pageSize,  sortField,  sortOrder,
-				filters);
+				filters,school);
 	}
 
 }
