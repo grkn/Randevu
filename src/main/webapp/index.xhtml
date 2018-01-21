@@ -14,13 +14,13 @@
 	<ui:composition template="/WEB-INF/views/template.xhtml">
 		<ui:define name="content">
 			<p:fieldset legend="Enerji Giriniz">
-				<p:panel>
-					<p:outputLabel value="Enerji Şekli Giriniz:"></p:outputLabel>&nbsp;
+				<p:panelGrid columns="3">
+					<p:outputLabel value="Enerji Şekli Giriniz:"></p:outputLabel>
 					<p:selectOneMenu value="#{homePageController.selectedConstant}" converter="anySelectConverter">
 						<f:selectItems var="item" itemValue="#{item}" itemLabel="#{item.name}" value="#{homePageController.constantList}"></f:selectItems>
-					</p:selectOneMenu> &nbsp;
+					</p:selectOneMenu> 
 					<p:commandButton value="Ekle" actionListener="#{homePageController.add}" update="addPanel"></p:commandButton>
-				</p:panel>
+				</p:panelGrid>
 				<p:panel id="addPanel">
 					<ui:repeat var="item" value="#{homePageController.enerjiList}" varStatus="index">
 						<p:panelGrid columns="5">
@@ -29,7 +29,6 @@
 							<p:calendar pattern="MM-yyyy" value="#{item.date}"></p:calendar>
 							<p:commandButton actionListener="#{homePageController.remove(index.index)}" value="Sil" update="@form"></p:commandButton>
 							<p:commandButton actionListener="#{homePageController.insert(index.index)}" value="Kaydet" update="@form"></p:commandButton>
-							
 						</p:panelGrid>
 					</ui:repeat>
 				</p:panel>

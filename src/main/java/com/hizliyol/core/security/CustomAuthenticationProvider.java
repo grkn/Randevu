@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import com.hizliyol.core.domain.UserDetailDto;
 import com.hizliyol.core.service.SchoolResponsibleService;
-import com.hizliyol.core.session.SessionBean;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider{
@@ -31,12 +31,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 	@Autowired
 	SchoolResponsibleService schoolResponsibleService;
 	
+	@Value(value="${root.username}")
+	String rootUserName;
+	
+	@Value(value="${root.password}")
+	String rootPassword;
+	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		String name = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        if("root".equals(name) && "passw0rd!".equals(password)){
+        if(rootUserName.equals(name) && rootPassword.equals(password)){
         	UserDetailDto userDetailDto = new UserDetailDto(new User("root", "passw0rd!", Arrays.asList(new SimpleGrantedAuthority("ROLE_ROOT"))), "ROOT", "ROOT", "gurkanilleez@gmail.com",new HashSet<>(schoolResponsibleService.findAll()));
         	return new UsernamePasswordAuthenticationToken(userDetailDto, userDetailDto.getPassword(), userDetailDto.getAuthorities() );
 		}
