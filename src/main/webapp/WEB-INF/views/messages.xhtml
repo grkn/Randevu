@@ -27,6 +27,7 @@
 	        	<p:outputLabel value="Hoşgeldin #{homePageController.user.firstName} #{homePageController.user.lastName}"></p:outputLabel>
 	       		<p:outputLabel value="Okul:"></p:outputLabel>
 	       		<p:selectOneMenu converter="anySelectConverter" value="#{homePageController.selectedSchool}">
+	       			<p:ajax event="itemSelect" listener="#{homePageController.selectEvent}" update="@form" ></p:ajax>
 	       			<f:selectItems var="item" itemLabel="#{item.name}" itemValue="#{item}" value="#{homePageController.schoolList}"></f:selectItems>
 	       		</p:selectOneMenu>
 	            <p:commandButton action="#{loginController.logout()}" value="Çıkış" icon="ui-icon-extlink"  />

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.faces.event.AjaxBehaviorEvent;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -49,6 +50,7 @@ public class HomePageController extends BaseController {
 	private ConstantItem selectedConstant;
 	private EnergyConsumptionLazyModel lazyModel;
 	private EnergyConsumption selectedEnergyConsumption;
+
 	@PostConstruct
 	public void init() {
 		setUser(sessionBean.getUserDetailDto());
@@ -72,6 +74,10 @@ public class HomePageController extends BaseController {
 		enerjiList.remove(index.intValue());
 	}
 
+	public void selectEvent(AjaxBehaviorEvent event){
+		 lazyModel = new EnergyConsumptionLazyModel(energyConsumptionService,selectedSchool);
+	}
+	
 	public void delete(EnergyConsumption entity){
 		entity.setDeleted(true);
 		energyConsumptionService.save(entity);

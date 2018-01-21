@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.hizliyol.core.domain.UserDetailDto;
+import com.hizliyol.core.service.SchoolResponsibleService;
 import com.hizliyol.core.session.SessionBean;
 
 @Component
@@ -27,6 +28,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	SchoolResponsibleService schoolResponsibleService;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -34,7 +37,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
         String password = authentication.getCredentials().toString();
 
         if("root".equals(name) && "passw0rd!".equals(password)){
-        	UserDetailDto userDetailDto = new UserDetailDto(new User("root", "passw0rd!", Arrays.asList(new SimpleGrantedAuthority("ROLE_ROOT"))), "ROOT", "ROOT", "gurkanilleez@gmail.com",new HashSet<>());
+        	UserDetailDto userDetailDto = new UserDetailDto(new User("root", "passw0rd!", Arrays.asList(new SimpleGrantedAuthority("ROLE_ROOT"))), "ROOT", "ROOT", "gurkanilleez@gmail.com",new HashSet<>(schoolResponsibleService.findAll()));
         	return new UsernamePasswordAuthenticationToken(userDetailDto, userDetailDto.getPassword(), userDetailDto.getAuthorities() );
 		}
 
