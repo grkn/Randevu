@@ -19,6 +19,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 @Repository
@@ -40,7 +41,8 @@ public class UserDao extends AbstractJPADao{
 		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<RandevuUser> criteriaQuery = cb.createQuery(RandevuUser.class);
 		Root<RandevuUser> c = criteriaQuery.from(RandevuUser.class);
-		LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
+		List<Predicate> predicateList = LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
+		criteriaQuery.where(predicateList.toArray(new Predicate[predicateList.size()]));
 		return getEntityManager().createQuery(criteriaQuery).setFirstResult(first).setMaxResults(pageSize).getResultList();
 	}
 
@@ -49,7 +51,8 @@ public class UserDao extends AbstractJPADao{
 		CriteriaQuery<Long> criteriaQuery = cb.createQuery(Long.class);
 		Root<RandevuUser> c = criteriaQuery.from(RandevuUser.class);
 		criteriaQuery.select(cb.count(c));
-		LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
+		List<Predicate> predicateList = LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
+		criteriaQuery.where(predicateList.toArray(new Predicate[predicateList.size()]));
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
 }
