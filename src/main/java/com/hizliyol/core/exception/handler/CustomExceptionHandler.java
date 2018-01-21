@@ -10,9 +10,16 @@ import javax.faces.context.Flash;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
+import org.slf4j.LoggerFactory;
+
+import com.hizliyol.core.util.Util;
+
+import ch.qos.logback.classic.Logger;
+
 public class CustomExceptionHandler extends ExceptionHandlerWrapper {
   private ExceptionHandler wrapped;
  
+  Logger logger = (Logger) LoggerFactory.getLogger("jsf.exception");
   
   public CustomExceptionHandler(ExceptionHandler wrapped) {
     this.wrapped = wrapped;
@@ -41,7 +48,7 @@ public class CustomExceptionHandler extends ExceptionHandlerWrapper {
           // Put the exception in the flash scope to be displayed in the error 
           // page if necessary ...
           flash.put("errorDetails", throwable.getMessage());
-
+          logger.error(Util.getStackTrace(throwable.getStackTrace()));
 
 
           NavigationHandler navigationHandler = fc.getApplication().getNavigationHandler();
