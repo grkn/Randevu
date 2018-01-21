@@ -7,8 +7,8 @@ import java.util.Date;
 
 public interface Constants {
 
-	String mmYY = "MM-YYYY";
-	String ddMMYYYYHHmm = "dd-MM-YYYY HH:mm";
+	String mmYY = "MM-yyyy";
+	String ddMMYYYYHHmm = "dd-MM-yyyy HH:mm";
 	
 	default Date getFormattedDate(String date,String format) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat(format);

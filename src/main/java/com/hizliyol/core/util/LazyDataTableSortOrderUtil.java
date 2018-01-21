@@ -15,17 +15,12 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.primefaces.model.SortOrder;
-import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.Logger;
 
 /**
  * Created by bilge_gilleez on 17.01.2018.
  */
 public class LazyDataTableSortOrderUtil {
 
-	private static Logger logger = (Logger) LoggerFactory.getLogger(LazyDataTableSortOrderUtil.class);
-	
     public static <T,F> List<Predicate> sortAndFilterMethod(String sortField, SortOrder sortOrder, Map<String, Object> filters, CriteriaBuilder cb, CriteriaQuery<T> criteriaQuery, Root<F> c) {
         if(sortField != null){
             if(sortOrder.name().equals("ASCENDING")){
@@ -61,7 +56,8 @@ public class LazyDataTableSortOrderUtil {
 		Boolean parsed = Boolean.FALSE;
 		try {
 			Date dt = constants.getFormattedDate(String.valueOf(value), Constants.ddMMYYYYHHmm);
-			predicates.add(cb.equal(path, dt));
+			Date maxDate = new Date(dt.getTime()+1);
+			predicates.add(cb.between(path, dt,maxDate));
 			parsed = Boolean.TRUE;
 		} catch (ParseException e) {
 		}
@@ -69,13 +65,11 @@ public class LazyDataTableSortOrderUtil {
 		if(!parsed){
 			try {
 				Date dt2 = constants.getFormattedDate(String.valueOf(value),Constants.mmYY);
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(dt2);
-				cal.add(1, Calendar.MILLISECOND);
-				Date maxDate = cal.getTime();
+				Date maxDate = new Date(dt2.getTime()+1);
 				predicates.add(cb.between(path,dt2,maxDate));
 			} catch (ParseException e) {
 			}
 		}
 	}
+
 }
