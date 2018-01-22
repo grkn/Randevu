@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+
+	<ui:composition template="/WEB-INF/views/template.xhtml">
+		<ui:define name="content">
+			<p:fieldset legend="Statik Veri Tanımlama">
+				<p:panelGrid columns="7">
+					<p:outputLabel value="İsim:"></p:outputLabel>
+					<p:inputText value="#{constantItemController.constantItem.name}" placeholder="İsim Giriniz"></p:inputText>
+					<p:outputLabel value="Tip Giriniz"></p:outputLabel>
+					<p:inputText value="#{constantItemController.constantItem.type}" placeholder="Tip Giriniz"></p:inputText>
+					<p:outputLabel value="Değer Giriniz"></p:outputLabel>
+					<p:inputText value="#{constantItemController.constantItem.value}" placeholder="Değer Giriniz"></p:inputText>
+					<p:commandButton actionListener="#{constantItemController.save}" value="#{constantItemController.constantItem.id ne null ? 'Güncelle' : 'Kaydet'}" update="@form"></p:commandButton>
+				</p:panelGrid>	
+			</p:fieldset>
+			
+			<p:fieldset legend="Statik Değer Listesi">
+				<p:dataTable var="item" value="#{constantItemController.constantItemList}" paginator="true" rows="10"
+							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+							 rowsPerPageTemplate="5,10,15" id="constantItemId" >
+					<p:column headerText="Id" sortBy="#{item.id}" filterBy="#{item.id}">
+						<h:outputText value="#{item.id}" />
+					</p:column>
+					<p:column headerText="Adı" sortBy="#{item.name}" filterBy="#{item.name}">
+						<h:outputText value="#{item.name}" />
+					</p:column>
+					<p:column headerText="Tipi" sortBy="#{item.type}" filterBy="#{item.type}">
+						<h:outputText value="#{item.type}" />
+					</p:column>
+					<p:column headerText="Değeri" sortBy="#{item.value}" filterBy="#{item.value}">
+						<h:outputText value="#{item.value}" />
+					</p:column>
+					<p:column headerText="Yaratılma Tarihi" sortBy="#{item.createdDate}" filterBy="#{item.createdDate}">
+						<h:outputText value="#{item.createdDate}">
+						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Yaratan Kişi" sortBy="#{item.createdUser}" filterBy="#{item.createdUser}">
+						<h:outputText value="#{item.createdUser}" />
+					</p:column>
+					<p:column headerText="Güncelleme Tarihi" sortBy="#{item.updatedDate}" filterBy="#{item.updatedDate}">
+						<h:outputText value="#{item.updatedDate}">
+						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Güncelleyen Kişi" sortBy="#{item.updatedUser}" filterBy="#{item.updatedUser}">
+						<h:outputText value="#{item.updatedUser}" />
+					</p:column>
+					<p:column>
+						<p:commandButton actionListener="#{constantItemController.update(item.id)}" update="@form" value="Güncelle"></p:commandButton>
+						<p:commandButton actionListener="#{constantItemController.delete(item)}" update="@form" value="Sil"></p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:fieldset>	
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

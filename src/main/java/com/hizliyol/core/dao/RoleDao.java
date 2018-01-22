@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,8 @@ public class RoleDao extends AbstractJPADao {
         CriteriaQuery<Long> criteriaQuery = cb.createQuery(Long.class);
         Root<Role> c = criteriaQuery.from(Role.class);
         criteriaQuery.select(cb.count(c));
-        LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
+        List<Predicate> predicateList = LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
+		criteriaQuery.where(predicateList.toArray(new Predicate[predicateList.size()]));
         return getEntityManager().createQuery(criteriaQuery).getSingleResult();
     }
 
@@ -30,8 +32,9 @@ public class RoleDao extends AbstractJPADao {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery<Role> criteriaQuery = cb.createQuery(Role.class);
         Root<Role> c = criteriaQuery.from(Role.class);
-        LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
-        return getEntityManager().createQuery(criteriaQuery).setFirstResult(first).setMaxResults(pageSize).getResultList();
+        List<Predicate> predicateList = LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
+		criteriaQuery.where(predicateList.toArray(new Predicate[predicateList.size()]));
+		return getEntityManager().createQuery(criteriaQuery).setFirstResult(first).setMaxResults(pageSize).getResultList();
     }
 
     public List<Role> queryRoles(){

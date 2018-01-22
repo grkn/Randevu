@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -50,7 +51,8 @@ public class RandevuUser implements Serializable {
     private String email;
     @ManyToMany(mappedBy = "randevuUserSet",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.REMOVE})
     private Set<Role> roleSet = new HashSet<>();
-
+    @OneToMany(mappedBy = "userId" ,fetch = FetchType.EAGER)
+    private Set<SchoolResponsible> schoolResponsibleSet;
     public RandevuUser() {
     }
     
@@ -138,5 +140,13 @@ public class RandevuUser implements Serializable {
     public String toString() {
         return "entity.RandevuUser[ id=" + id + " ]";
     }
+
+	public Set<SchoolResponsible> getSchoolResponsibleSet() {
+		return schoolResponsibleSet;
+	}
+
+	public void setSchoolResponsibleSet(Set<SchoolResponsible> schoolResponsibleSet) {
+		this.schoolResponsibleSet = schoolResponsibleSet;
+	}
     
 }

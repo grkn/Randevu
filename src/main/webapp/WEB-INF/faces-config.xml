@@ -12,7 +12,7 @@
 </application>
     <application>
         <resource-bundle>
-            <base-name>messages</base-name>
+            <base-name>message</base-name>
             <var>msg</var>
         </resource-bundle>
         <locale-config>
