@@ -20,6 +20,21 @@ import org.primefaces.model.SortOrder;
  * Created by bilge_gilleez on 17.01.2018.
  */
 public class LazyDataTableSortOrderUtil {
+	
+	public static <T,F> List<Predicate> sortAndFilterMethodForCountPostgre(String sortField, SortOrder sortOrder, Map<String, Object> filters, CriteriaBuilder cb, CriteriaQuery<T> criteriaQuery, Root<F> c) {
+		if(sortField != null){
+            if(sortOrder.name().equals("ASCENDING")){
+                criteriaQuery.orderBy(cb.asc(c.get(sortField)));
+                criteriaQuery.groupBy(c.get(sortField));
+            }else{
+                criteriaQuery.orderBy(cb.desc(c.get(sortField)));
+                criteriaQuery.groupBy(c.get(sortField));
+            }
+        }
+		
+		return prepareFilter(filters, cb, c);
+
+	}
 
     public static <T,F> List<Predicate> sortAndFilterMethod(String sortField, SortOrder sortOrder, Map<String, Object> filters, CriteriaBuilder cb, CriteriaQuery<T> criteriaQuery, Root<F> c) {
         if(sortField != null){
@@ -29,7 +44,11 @@ public class LazyDataTableSortOrderUtil {
                 criteriaQuery.orderBy(cb.desc(c.get(sortField)));
             }
         }
-        List<Predicate> predicates = new ArrayList<>();
+        return prepareFilter(filters, cb, c);
+    }
+
+	private static <F> List<Predicate> prepareFilter(Map<String, Object> filters, CriteriaBuilder cb, Root<F> c) {
+		List<Predicate> predicates = new ArrayList<>();
         Set<Map.Entry<String,Object>> entrySet = filters.entrySet();
         for (Map.Entry<String,Object> entry :entrySet) {
             String key = entry.getKey();
@@ -46,7 +65,7 @@ public class LazyDataTableSortOrderUtil {
             }
         }
         return predicates;
-    }
+	}
 
 	private static void prepareDatePredicate(CriteriaBuilder cb, List<Predicate> predicates, Object value,
 			Expression<Date> path) {

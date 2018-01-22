@@ -8,8 +8,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.criterion.Expression;
-import org.hibernate.criterion.Restrictions;
 import org.primefaces.model.SortOrder;
 import org.springframework.stereotype.Repository;
 
@@ -26,11 +24,18 @@ public class EnergyConsumptionDao extends AbstractJPADao {
 		CriteriaQuery<Long> criteriaQuery = cb.createQuery(Long.class);
 		Root<EnergyConsumption> c = criteriaQuery.from(EnergyConsumption.class);
 		criteriaQuery = criteriaQuery.select(cb.count(c));
-		List<Predicate> predicateList = LazyDataTableSortOrderUtil.sortAndFilterMethod(sortField, sortOrder, filters, cb, criteriaQuery, c);
+		List<Predicate> predicateList = LazyDataTableSortOrderUtil.sortAndFilterMethodForCountPostgre(sortField, sortOrder, filters, cb, criteriaQuery, c);
 		predicateList.add(cb.equal(c.get("schoolId"),school));
 		predicateList.add(cb.equal(c.get("deleted"), Boolean.FALSE));
 		criteriaQuery.where(predicateList.toArray(new Predicate[predicateList.size()]));
-		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
+		
+		List<Long> list = getEntityManager().createQuery(criteriaQuery).getResultList();
+		//postgre fix it is really weird count order by statement requires group by expression in postgre
+		Long total = 0L;
+		for (Long long1 : list) {
+			total += long1;
+		}
+		return total;
 	}
 
 	public List<EnergyConsumption> getRandevuUserLazily(int first, int pageSize, String sortField, SortOrder sortOrder,
