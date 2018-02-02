@@ -22,16 +22,6 @@ import org.primefaces.model.SortOrder;
 public class LazyDataTableSortOrderUtil {
 	
 	public static <T,F> List<Predicate> sortAndFilterMethodForCountPostgre(String sortField, SortOrder sortOrder, Map<String, Object> filters, CriteriaBuilder cb, CriteriaQuery<T> criteriaQuery, Root<F> c) {
-		if(sortField != null){
-            if(sortOrder.name().equals("ASCENDING")){
-                criteriaQuery.orderBy(cb.asc(c.get(sortField)));
-                criteriaQuery.groupBy(c.get(sortField));
-            }else{
-                criteriaQuery.orderBy(cb.desc(c.get(sortField)));
-                criteriaQuery.groupBy(c.get(sortField));
-            }
-        }
-		
 		return prepareFilter(filters, cb, c);
 
 	}
