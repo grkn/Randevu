@@ -21,7 +21,9 @@
         <p:submenu rendered="#{loginController.sessionBean.isAdmin() or loginController.sessionBean.isRoot()}" label="Okul Menu" icon="ui-icon-pencil">
             <p:menuitem  value="Sorumlu Tanımlama" url="/admin/adminSchoolResponsible.xhtml" icon="ui-icon-bookmark"/>
         </p:submenu>
-        
+          <p:submenu label="Chat Menu" icon="ui-icon-pencil">
+            <p:menuitem  value="Chat" url="/chat.xhtml" icon="ui-icon-bookmark"/>
+        </p:submenu>
         <f:facet name="options">
 			<p:panelGrid columns="4">
 	        	<p:outputLabel value="Hoşgeldin #{homePageController.user.firstName} #{homePageController.user.lastName}"></p:outputLabel>

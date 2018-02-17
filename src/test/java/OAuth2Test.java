@@ -27,7 +27,7 @@ public class OAuth2Test {
         ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
         resourceDetails.setUsername("root");
         resourceDetails.setPassword("passw0rd!");
-        resourceDetails.setAccessTokenUri("http://localhost:8080/oauth/token");
+        resourceDetails.setAccessTokenUri("http://localhost:8080/EnerjiOkul/oauth/token");
         resourceDetails.setClientId("root");
         resourceDetails.setClientSecret("passw0rd!");
         resourceDetails.setGrantType("password");
@@ -53,8 +53,8 @@ public class OAuth2Test {
 
         HttpEntity entity = new HttpEntity(headers);
 
-        ResponseEntity<List> listResponseEntity = template.exchange("http://localhost:8080/secure/users/get/allUsers", HttpMethod.GET,entity,List.class);
-        System.out.println(listResponseEntity);
+        ResponseEntity<String> listResponseEntity = template.exchange("http://localhost:8080/EnerjiOkul/secure/api/webchat", HttpMethod.GET,entity,String.class);
+        System.out.println(listResponseEntity.getBody());
 
     }
 }
