@@ -377,7 +377,7 @@ Vue.component('quickreply_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/quickReply", {obj : this.quickReply, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath+"/secure/api/view/create/quickReply", {quickReply : this.quickReply, intent : this.selectedIntent}, function(resp){
 
 			});
 		},
@@ -498,13 +498,13 @@ Vue.component('listTemplate_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/listTemplate", {obj : this.listTemplate, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath+"/secure/api/view/create/listTemplate", {listTemplate : this.listTemplate, intent : this.selectedIntent}, function(resp){
 
 			});
 		},
 		selectedIntentFunc : function(){
 			var listTemplate = this.listTemplate;
-			Vue.http.post(contextPath+"/secure/api/view/get/quickReply", {intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath+"/secure/api/view/get/listTemplate", {intent : this.selectedIntent}, function(resp){
 				if(resp.type && resp.type == 'listTemplate'){
 					while(0 < listTemplate.list.length){
 						listTemplate.list.splice(0, 1);
@@ -614,7 +614,7 @@ Vue.component('generic_buttons_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/genericButtons", {obj : this.genericButtons, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath+"/secure/api/view/create/genericButtons", {genericButtons : this.genericButtons, intent : this.selectedIntent}, function(resp){
 			});
 		},
 		selectedIntentFunc : function(){
@@ -725,7 +725,7 @@ Vue.component('attachment_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/attachment", {obj : this.genericButtons, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath+"/secure/api/view/create/attachment", {attachments : this.genericButtons, intent : this.selectedIntent}, function(resp){
 
 			});
 		},

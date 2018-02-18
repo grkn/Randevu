@@ -75,6 +75,9 @@
 		 <intercept-url pattern="/secure/api/**"
                        access="hasRole('ROLE_ROOT')"
                        method="POST" />
+        <intercept-url pattern="/secure/api/**"
+                       access="hasRole('ROLE_ROOT')"
+                       method="DELETE" />
         <intercept-url pattern="/nonsecure/*"
                        access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN','ROLE_USER')"
                        method="POST" />
