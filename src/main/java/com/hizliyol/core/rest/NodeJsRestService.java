@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -240,6 +241,118 @@ public class NodeJsRestService {
         
         return result;
 	}
+	
+	@RequestMapping(value="/api/get/threshold",method = RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String getThreshold(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/get/threshold",HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value="/api/change/threshold",method = RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String getThreshold(@RequestParam("threshold") Float threshold){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/change/threshold/"+threshold.toString(),HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	
+	@RequestMapping(value="/api/add/responseList",method = RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String getThreshold(@RequestParam("response") String response){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/add/responseList/"+response,HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+
+
+	@RequestMapping(value="/api/delete/responseList",method = RequestMethod.DELETE,produces="application/json;charset=utf-8")
+	public String deleteResponseList(@RequestParam("response") String response){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/delete/responseList/"+response,HttpMethod.DELETE, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value="/api/mongo/findByLimitTen/training_messages",method = RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String getTrainingMessages(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/findByLimitTen/training_messages",HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value="/api/witai/delete",method = RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String witAIDelete(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/witai/delete",HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value="/api/witai/validate",method = RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String witAIValidate(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/witai/validate",HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value="/api/facebook/get",method = RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String facebookGetDeploymentInfo(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/facebook/get",HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+
+	
+	@RequestMapping(value="/api/facebook/post",method = RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String facebookDeploy(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/facebook/post",HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
 	
 	private HttpEntity<Object> createEntityAndHeader(ModelEntity modelEntity) {
 		HttpHeaders headers = createJsonHeader();

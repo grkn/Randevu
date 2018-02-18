@@ -14,6 +14,7 @@ public class ModelEntity {
 	private ListTemplate listTemplate;
 	private List<GenericButton> genericButtons;
 	private List<Attachment> attachments;
+	private FacebookDeployment facebookDeployment;
 	
 	public String getValue() {
 		return value;
@@ -74,5 +75,11 @@ public class ModelEntity {
 	}
 	public void setAttachments(List<Attachment> attachments) {
 		this.attachments = attachments;
+	}
+	public FacebookDeployment getFacebookDeployment() {
+		return facebookDeployment;
+	}
+	public void setFacebookDeployment(FacebookDeployment facebookDeployment) {
+		this.facebookDeployment = facebookDeployment;
 	}
 }

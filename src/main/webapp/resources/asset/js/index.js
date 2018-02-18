@@ -993,18 +993,18 @@ var trainingContainer = Vue.component("trainingContainer",{
 					+'</div> <!--container-->',
 	methods : {
 		changeThreshold : function(){
-			Vue.http.get(contextPath+"/secure/api/change/threshold/"+this.threshold.val).then(function(resp){
+			Vue.http.get(contextPath+"/secure/api/change/threshold?threshold="+this.threshold.val).then(function(resp){
 			});
 		},
 		addDefaultResponse : function(){
 			this.responseList.push(this.response);
-			Vue.http.get(contextPath+"/secure/api/add/responseList/"+this.response).then(function(resp){
+			Vue.http.get(contextPath+"/secure/api/add/responseList?response="+this.response).then(function(resp){
 			});
 		},
 		deleteDefaultMessage : function(){
 			if(this.selectedResponse.trim() != ""){
 				this.responseList.splice(this.responseList.indexOf(this.selectedResponse),1);
-				Vue.http.delete(contextPath+"/secure/api/add/responcontextPath+"/secure/api/secure/api/secure/apis.selectedResponse).then(function(resp){
+				Vue.http.delete(contextPath+"/secure/api/delete/responseList?response="+this.selectedResponse).then(function(resp){
 				});
 			}
 		},
