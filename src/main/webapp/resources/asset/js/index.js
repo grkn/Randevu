@@ -94,9 +94,13 @@ var container = Vue.component('container',{
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
+								+'<span style="float:right;margin-left: 20px;">'
+								+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+							+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
 								+'</span>'
+								
 							+'</div> <!--page-header-->'
 						+'</div> <!--header-->'
 						+'<div class="content">'
@@ -817,7 +821,7 @@ Vue.component('answers',{
 						if(resp.data.type && resp.data.type != 'text'){
 							sentence.default = resp.data.type;
 						}else{
-							sentence.default = resp.data.resp;
+							sentence.default = resp.data.value;
 						}
 					}
 			});
@@ -851,9 +855,12 @@ var answersContainer = Vue.component("answersContainer",{
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
+								+'<span style="float:right;margin-left: 20px;">'
+								+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+							+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
-								+'</span>'
+								+'</span>'				
 							+'</div> <!--page-header-->'
 						+'</div> <!--header-->'
 						+'<div class="content">'
@@ -973,6 +980,9 @@ var trainingContainer = Vue.component("trainingContainer",{
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
+								+'<span style="float:right;margin-left: 20px;">'
+								+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+							+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
 								+'</span>'
@@ -1093,7 +1103,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 						+'<div class="header">'
 							+'<div class="page-header">'
 								+'<div style="text-align:center">'
-									+'<h1>{{$t("message.trainingPage")}}</h1>'
+									+'<h1>Facebook Deployment</h1>'
 								+'</div>'
 								+'<span>'
 									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
@@ -1101,6 +1111,9 @@ var facebookContainer = Vue.component("facebookContainer",{
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
+								+'</span>'
+								+'<span style="float:right;margin-left: 20px;">'
+									+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 								+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
@@ -1113,7 +1126,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 								+'<div class="form-group">'
 									+'<label class="control-label col-sm-2" for="pageId">Page Id:</label>'
 									+'<div class="col-sm-10">'
-										+'<input type="text" class="form-control" v-model="this.facebookDeployment.values.pageId" id="pageId" placeholder="Page Id">'
+										+'<input type="text" class="form-control" v-model="facebookDeployment.values.pageId" id="pageId" placeholder="Page Id">'
 									+'</div>'
 								+'</div>'
 								+'<div class="form-group">'
@@ -1160,7 +1173,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 		this.$nextTick(function () {
 			var facebookTemp = this.facebookDeployment;
 				Vue.http.get(contextPath+'/secure/api/facebook/get',function(resp){
-					facebookTemp.values = resp;
+					facebookTemp.values = resp[0].facebookDeployment;
 				});
 	  })
 	},
@@ -1174,7 +1187,7 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 		+'<div class="header">'
 		+'<div class="page-header">'
 					+'<div style="text-align:center">'
-						+'<h1>{{$t("message.trainingPage")}}</h1>'
+						+'<h1>Witai Deployment</h1>'
 					+'</div>'
 					+'<span>'
 						+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
@@ -1183,6 +1196,9 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 						+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 						+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 					+'</span>'
+					+'<span style="float:right;margin-left: 20px;">'
+					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+				+'</span>'
 					+'<span style="float:right">'
 						+'<i18n_custom></i18n_custom>'
 					+'</span>'

@@ -15,6 +15,20 @@
 	text-align: center;
 }
 
+.messages-container{
+	width: 100%;
+	text-align:center;
+}
+
+.messages-container .messages{
+	width: 80%;
+    left: 10%;
+    position: relative;
+    text-align: center;
+}
+
+
+
 .ui-widget {
    font-size: 12px !important;
 }

@@ -13,66 +13,11 @@
 	
 	<ui:composition template="/WEB-INF/views/template.xhtml">
 		<ui:define name="content">
-			<p:fieldset legend="Enerji Giriniz">
-				<p:panelGrid columns="3">
-					<p:outputLabel value="Enerji Şekli Giriniz:"></p:outputLabel>
-					<p:selectOneMenu value="#{homePageController.selectedConstant}" converter="anySelectConverter">
-						<f:selectItems var="item" itemValue="#{item}" itemLabel="#{item.name}" value="#{homePageController.constantList}"></f:selectItems>
-					</p:selectOneMenu> 
-					<p:commandButton value="Ekle" actionListener="#{homePageController.add}" update="addPanel"></p:commandButton>
+			<p:fieldset legend="Grafikler">
+				<p:panelGrid columns="1" style="width:100%">
+					<p:chart type="line" model="#{graphController.lineModel}" style="height:300px;width:100%"/>
+					<p:chart type="line" model="#{graphController.animatedModel1}" style="height:300px;width:100%"/>
 				</p:panelGrid>
-				<p:panel id="addPanel">
-					<ui:repeat var="item" value="#{homePageController.enerjiList}" varStatus="index">
-						<p:panelGrid columns="5">
-							<p:outputLabel value="#{item.label}"></p:outputLabel>
-							<p:inputText value="#{item.value}"></p:inputText>
-							<p:calendar pattern="MM-yyyy" value="#{item.date}"></p:calendar>
-							<p:commandButton actionListener="#{homePageController.remove(index.index)}" value="Sil" update="@form"></p:commandButton>
-							<p:commandButton actionListener="#{homePageController.insert(index.index)}" value="Kaydet" update="@form"></p:commandButton>
-						</p:panelGrid>
-					</ui:repeat>
-				</p:panel>
-			</p:fieldset>
-			
-			<p:fieldset legend="Enerji Kayıt Listesi">
-				<p:dataTable var="item" value="#{homePageController.lazyModel}" paginator="true" rows="10"  filterDelay="500"
-							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-							 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{homePageController.selectedEnergyConsumption}" id="energyConsumption" lazy="true">
-					<p:ajax event="rowSelect" update="@this" />
-					<p:column headerText="Id" sortBy="#{item.id}" filterBy="#{item.id}">
-						<h:outputText value="#{item.id}" />
-					</p:column>
-					<p:column headerText="Enerji Türü" sortBy="#{item.type}" filterBy="#{item.type}">
-						<h:outputText value="#{item.type}" />
-					</p:column>
-					<p:column headerText="Enerji Miktarı" sortBy="#{item.value}" filterBy="#{item.value}">
-						<h:outputText value="#{item.value}" />
-					</p:column>
-					<p:column headerText="Enerji Seçilen Zaman" sortBy="#{item.selectedDate}" filterBy="#{item.selectedDate}">
-						<h:outputText value="#{item.selectedDate}" >
-							<f:convertDateTime type="date" pattern="MM-yyyy"/>
-						</h:outputText>
-					</p:column>
-					<p:column headerText="Yaratılma Tarihi" sortBy="#{item.createdDate}" filterBy="#{item.createdDate}">
-						<h:outputText value="#{item.createdDate}">
-						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
-						</h:outputText>
-					</p:column>
-					<p:column headerText="Yaratan Kişi" sortBy="#{item.createdUser}" filterBy="#{item.createdUser}">
-						<h:outputText value="#{item.createdUser}" />
-					</p:column>
-					<p:column headerText="Güncelleme Tarihi" sortBy="#{item.updatedDate}" filterBy="#{item.updatedDate}">
-						<h:outputText value="#{item.updatedDate}">
-						 	<f:convertDateTime type="date" pattern="dd-MM-yyyy HH:mm"/>
-						</h:outputText>
-					</p:column>
-					<p:column headerText="Güncelleyen Kişi" sortBy="#{item.updatedUser}" filterBy="#{item.updatedUser}">
-						<h:outputText value="#{item.updatedUser}" />
-					</p:column>
-					<p:column headerText="" >
-						<p:commandButton actionListener="#{homePageController.delete(item)}" value="Sil" update="@form"></p:commandButton>
-					</p:column>
-				</p:dataTable>
 			</p:fieldset>
 		</ui:define>
 	</ui:composition>

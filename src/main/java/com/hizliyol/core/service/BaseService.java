@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.hizliyol.core.data.SchoolResponsibleDataDao;
-
 public abstract class BaseService<T,E extends CrudRepository<T, Integer>> {
 
 	private Object instance;

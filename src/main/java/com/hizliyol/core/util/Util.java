@@ -22,10 +22,10 @@ public class Util {
         return builder.toString();
     }
     
-    public static String getAccessToken(String url,String userName,String password,String clientId){
+    public static String getAccessToken(String url,String userName,String password,String clientId,String userPassword){
     	 ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
          resourceDetails.setUsername(userName);
-         resourceDetails.setPassword(password);
+         resourceDetails.setPassword(userPassword);
          resourceDetails.setAccessTokenUri(url);
          resourceDetails.setClientId(clientId);
          resourceDetails.setClientSecret(password);

@@ -20,18 +20,18 @@ public class HomePageRestController {
 	@Autowired
 	private SessionBean sessionBean;
 	
-	@RequestMapping(value="/admin",method = RequestMethod.GET,produces="text/html")
+	@RequestMapping(value="/admin",method = RequestMethod.POST,produces="text/html")
 	public ModelAndView getAdminPage(HttpServletRequest request){
 		Map<String,String> authToken = new HashMap<>() ;
 		
 		String req =request.getRequestURL().toString().replaceAll(request.getRequestURI(), "");
 		req = req + "/"+request.getContextPath();
 		if(sessionBean.isRoot()){
-			authToken.put("authToken",Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(),"root","passw0rd!", "root"));
+			authToken.put("authToken",Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(),"root","passw0rd!", "root",sessionBean.getUserDetailDto().getPassword()));
 		}else if(sessionBean.isAdmin()){
-			authToken.put("authToken",Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(),"admin","adminPassword", "admin"));
+			authToken.put("authToken",Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(),sessionBean.getUserDetailDto().getUsername(),"adminPassword", "admin",sessionBean.getUserDetailDto().getPassword()));
 		}else{
-			authToken.put("authToken",Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(),"user","userPassword", "user"));
+			authToken.put("authToken",Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(),"user","userPassword", "user",sessionBean.getUserDetailDto().getPassword()));
 		}
 		
 		return new ModelAndView("index", authToken);

@@ -7,31 +7,14 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<p:menubar>
-        <p:submenu  label="Anasayfa" icon="ui-icon-pencil">
-            <p:menuitem value="Anasayfa" url="/index.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
-            <p:menuitem value="#{msg['graphs']}" url="/dashboard.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
-        </p:submenu>
         <p:submenu rendered="#{loginController.sessionBean.isRoot()}" label="Root Menu" icon="ui-icon-pencil">
             <p:menuitem  value="Kullanıcı Tanımlama" url="/root/adminUser.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
             <p:menuitem  value="Role Tanımlama" url="/root/rootRoleDefinition.xhtml" icon="ui-icon-bookmark"/>
             <p:menuitem  value="Auth Tanımlama" url="/root/rootAuthDefinition.xhtml" icon="ui-icon-bookmark"/>
-        	 <p:menuitem value="Okul Tanımlama" url="/admin/adminSchoolDefinition.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
-        	 <p:menuitem  value="Statik Tanımlama" url="/admin/adminConstantItem.xhtml" icon="ui-icon-bookmark"/>
-        </p:submenu>
-        <p:submenu rendered="#{loginController.sessionBean.isAdmin() or loginController.sessionBean.isRoot()}" label="Okul Menu" icon="ui-icon-pencil">
-            <p:menuitem  value="Sorumlu Tanımlama" url="/admin/adminSchoolResponsible.xhtml" icon="ui-icon-bookmark"/>
-        </p:submenu>
-          <p:submenu label="Chat Menu" icon="ui-icon-pencil">
-            <p:menuitem  value="Chat" url="/chat.xhtml" icon="ui-icon-bookmark"/>
         </p:submenu>
         <f:facet name="options">
 			<p:panelGrid columns="4">
-	        	<p:outputLabel value="Hoşgeldin #{homePageController.user.firstName} #{homePageController.user.lastName}"></p:outputLabel>
-	       		<p:outputLabel value="Okul:"></p:outputLabel>
-	       		<p:selectOneMenu converter="anySelectConverter" value="#{homePageController.selectedSchool}">
-	       			<p:ajax event="itemSelect" listener="#{homePageController.selectEvent}" update="@form" ></p:ajax>
-	       			<f:selectItems var="item" itemLabel="#{item.name}" itemValue="#{item}" value="#{homePageController.schoolList}"></f:selectItems>
-	       		</p:selectOneMenu>
+	        	<p:outputLabel value="Hoşgeldiniz"></p:outputLabel>
 	            <p:commandButton action="#{loginController.logout()}" value="Çıkış" icon="ui-icon-extlink"  />
             </p:panelGrid>
         </f:facet>

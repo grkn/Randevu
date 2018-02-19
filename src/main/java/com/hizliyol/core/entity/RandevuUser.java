@@ -51,8 +51,7 @@ public class RandevuUser implements Serializable {
     private String email;
     @ManyToMany(mappedBy = "randevuUserSet",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.REMOVE})
     private Set<Role> roleSet = new HashSet<>();
-    @OneToMany(mappedBy = "userId" ,fetch = FetchType.EAGER)
-    private Set<SchoolResponsible> schoolResponsibleSet;
+
     public RandevuUser() {
     }
     
@@ -141,12 +140,4 @@ public class RandevuUser implements Serializable {
         return "entity.RandevuUser[ id=" + id + " ]";
     }
 
-	public Set<SchoolResponsible> getSchoolResponsibleSet() {
-		return schoolResponsibleSet;
-	}
-
-	public void setSchoolResponsibleSet(Set<SchoolResponsible> schoolResponsibleSet) {
-		this.schoolResponsibleSet = schoolResponsibleSet;
-	}
-    
 }

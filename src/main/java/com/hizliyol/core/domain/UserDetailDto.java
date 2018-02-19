@@ -2,13 +2,11 @@ package com.hizliyol.core.domain;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.hizliyol.core.entity.SchoolResponsible;
 
 public class UserDetailDto extends User implements UserDetails,Serializable{
 
@@ -19,14 +17,15 @@ public class UserDetailDto extends User implements UserDetails,Serializable{
 	private String firstName;
 	private String lastName;
 	private String email;
-	private Set<SchoolResponsible> schoolResponsibleSet;
+	private String password;
 	
-	public UserDetailDto(User user,String firstName,String lastName,String email,Set<SchoolResponsible> schoolResponsibles) {
+	public UserDetailDto(User user,String password,String firstName,String lastName,String email) {
 		super(user.getUsername(), user.getPassword(), user.getAuthorities());
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.schoolResponsibleSet = schoolResponsibles;
+		this.password = password;
+	
 	}
 
 	@Override
@@ -36,7 +35,7 @@ public class UserDetailDto extends User implements UserDetails,Serializable{
 
 	@Override
 	public String getPassword() {
-		return super.getPassword();
+		return password;
 	}
 
 	@Override
@@ -88,12 +87,9 @@ public class UserDetailDto extends User implements UserDetails,Serializable{
 		this.email = email;
 	}
 
-	public Set<SchoolResponsible> getSchoolResponsibleSet() {
-		return schoolResponsibleSet;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-
-	public void setSchoolResponsibleSet(Set<SchoolResponsible> schoolResponsibleSet) {
-		this.schoolResponsibleSet = schoolResponsibleSet;
-	}
-
+	
+	
 }

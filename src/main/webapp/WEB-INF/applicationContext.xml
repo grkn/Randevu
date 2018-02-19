@@ -140,9 +140,17 @@
         <oauth:client client-id="root"
                       authorized-grant-types="password,authorization_code,refresh_token,implicit"
                       secret="passw0rd!" scope="read,write" authorities="ROLE_ROOT" access-token-validity="315360000" />
+         <oauth:client client-id="user"
+                      authorized-grant-types="password,authorization_code,refresh_token,implicit"
+                      scope="read,write" authorities="ROLE_USER"
+                      access-token-validity="315360000"/>
         <oauth:client client-id="user"
                       authorized-grant-types="password,authorization_code,refresh_token,implicit"
                       secret="userPassword" scope="read,write" authorities="ROLE_USER" access-token-validity="315360000" />
+         <oauth:client client-id="admin"
+                      authorized-grant-types="password,authorization_code,refresh_token,implicit"
+                      scope="read,write" authorities="ROLE_ADMIN"
+                      access-token-validity="315360000"/>
          <oauth:client client-id="admin"
                       authorized-grant-types="password,authorization_code,refresh_token,implicit"
                       secret="adminPassword" scope="read,write" authorities="ROLE_ADMIN" access-token-validity="315360000" />
@@ -200,7 +208,7 @@
 
         <security:intercept-url pattern="/login.xhtml"
                                 access="permitAll"/>
-        <security:intercept-url pattern="/admin/*"
+        <security:intercept-url pattern="/nonsecure/admin/*"
                                 access="hasAnyRole('ROLE_ADMIN','ROLE_ROOT')"/>
         <security:intercept-url pattern="/root/*"
                                 access="hasRole('ROLE_ROOT')"/>
@@ -209,7 +217,7 @@
         <security:logout logout-success-url="/login.xhtml?logout"
                          logout-url="/logout" invalidate-session="true"/>
         <security:form-login authentication-failure-url="/login.xhtml?error"
-                             authentication-success-forward-url="/index.xhtml" login-page="/login.xhtml"
+                             authentication-success-forward-url="/nonsecure/admin" login-page="/login.xhtml"
                              login-processing-url="/login" password-parameter="password" default-target-url="index.xhtml"
                              username-parameter="username"/>
 

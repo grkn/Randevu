@@ -18,7 +18,7 @@
 		<ui:define name="content">
 			<p:fieldset legend="Rol Tanımlama Ekranı">
 					<p:panelGrid columns="4">
-						<h:outputText value="Auth Adı" />
+						<h:outputText value="Yetki Adı" />
 						<p:inputText
 								value="#{authController.authorization.authName}"></p:inputText>
 
@@ -33,14 +33,14 @@
 										 actionListener="#{authController.insert}" value="Kaydet"></p:commandButton>
 					</p:panel>
 			</p:fieldset>
-			<p:fieldset legend="Auth Listesi">
+			<p:fieldset legend="Yetki Listesi">
 				<p:dataTable var="auth" value="#{authController.authList}" paginator="true" rows="10"
 							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 							 rowsPerPageTemplate="5,10,15" id="auth" >
 					<p:column headerText="Id" sortBy="#{auth.id}" filterBy="#{auth.id}">
 						<h:outputText value="#{auth.id}" />
 					</p:column>
-					<p:column headerText="Auth İsmi" sortBy="#{auth.authName}" filterBy="#{auth.authName}">
+					<p:column headerText="Yetki İsmi" sortBy="#{auth.authName}" filterBy="#{auth.authName}">
 						<h:outputText value="#{auth.authName}" />
 					</p:column>
 					<p:column>
