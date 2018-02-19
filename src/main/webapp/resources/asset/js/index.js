@@ -92,6 +92,7 @@ var container = Vue.component('container',{
 									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
+									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
@@ -848,6 +849,7 @@ var answersContainer = Vue.component("answersContainer",{
 									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
+									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
@@ -969,6 +971,7 @@ var trainingContainer = Vue.component("trainingContainer",{
 									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
+									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
@@ -1097,6 +1100,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
+									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
@@ -1165,13 +1169,73 @@ var facebookContainer = Vue.component("facebookContainer",{
 	}
 });
 
+var witDeployContainer = Vue.component("witDeployContainer",{
+	template : '<div class="container">'
+		+'<div class="header">'
+		+'<div class="page-header">'
+					+'<div style="text-align:center">'
+						+'<h1>{{$t("message.trainingPage")}}</h1>'
+					+'</div>'
+					+'<span>'
+						+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
+					+'</span>'
+					+'<span style="float:right">'
+						+'<i18n_custom></i18n_custom>'
+					+'</span>'
+				+'</div> <!--page-header-->'
+			+'</div> <!--header-->'
+			+'<div class="content">'
+				+'<div class="col-md-10">'
+				+'<form class="form-horizontal">'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2" for="authToken">Authorization Token</label>'
+						+'<div class="col-sm-10">'
+							+'<input type="text" class="form-control" v-model="witDeployment.value" id="authToken" placeholder="Authorization Token">'
+						+'</div>'
+					+'</div>'
+					+'<div class="form-group">'
+						+'<div class="col-sm-offset-2 col-sm-10">'
+							+'<button type="button" class="btn btn-default" v-on:click="deploy">Deploy</button>'
+						+'</div>'
+					+'</div>'
+				+'</form>'
+			+'</div>'
+			+'</div> <!--content-->'
+		+'</div> <!--container-->',
+		data :	function () {
+			return {witDeployment : {value : ""}}
+		},
+		methods :{
+			deploy:function(){
+				console.log(this.witDeployment.value);
+				Vue.http.post(contextPath+'/secure/api/witaiDeploy/post',{witDeployment : this.witDeployment.value},function(resp){
+				});
+			}
+		},
+		mounted : function(){
+
+			this.$nextTick(function () {
+				var witTemp = this.witDeployment;
+					Vue.http.get(contextPath+'/secure/api/witaiDeploy/get',function(resp){
+						witTemp.value = resp[0].defaultAuthorizationToken;
+					});
+		  })
+		}
+	
+});
+
 // Menu isimleri
 var vrouter = new VueRouter({
 	routes: [
 		{name: 'home', path: '/', component: container},
 		{name: 'answersContainer', path: '/answers', component: answersContainer},
 		{name: 'trainingContainer', path: '/training', component: trainingContainer},
-		{name: 'facebookContainer', path: '/facebookDeployment', component: facebookContainer}
+		{name: 'facebookContainer', path: '/facebookDeployment', component: facebookContainer},
+		{name: 'witContainer', path: '/witAuthorizationToken', component: witDeployContainer}
 	]
 });
 

@@ -353,6 +353,31 @@ public class NodeJsRestService {
         return result;
 	}
 	
+	@RequestMapping(value="/api/witaiDeploy/post",method = RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String witaiDeploy(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/witaiDeploy/post",HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value="/api/witaiDeploy/get",method = RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String getWitaiDeploy(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/witaiDeploy/get",HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+
+	
 	
 	private HttpEntity<Object> createEntityAndHeader(ModelEntity modelEntity) {
 		HttpHeaders headers = createJsonHeader();
