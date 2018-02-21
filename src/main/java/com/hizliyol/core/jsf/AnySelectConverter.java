@@ -3,6 +3,7 @@ package com.hizliyol.core.jsf;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.faces.component.UIComponent;
@@ -13,7 +14,7 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter("anySelectConverter")
 public class AnySelectConverter implements Converter {
 
-	private static Map<Object, String> entities = new ConcurrentHashMap<Object, String>();
+	private static Map<Object, String> entities = new WeakHashMap<Object, String>();
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object entity) {

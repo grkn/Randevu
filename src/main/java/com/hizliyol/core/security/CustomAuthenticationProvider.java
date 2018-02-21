@@ -44,6 +44,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 
         UserDetailDto user = (UserDetailDto) customAuth.loadUserByUsername(name);
 		
+        if(password.equals(user.getPassword())){
+    		return new UsernamePasswordAuthenticationToken(user,user.getPassword(),user.getAuthorities());
+        }
+        
 		if(!passwordEncoder.matches(password, user.getPassword())){
 			throw new BadCredentialsException("Kullanýcý Adý Veya Þifre Yanlýþ Girilmiþtir.");
 		}
