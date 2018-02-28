@@ -44,7 +44,8 @@ var messages = {
 			removeValidation  : "Remove",
 			addValidation : "Validate",
 			threshold : "Threshold",
-			responseList : "Fallback Response"
+			responseList : "Fallback Response",
+			success : "SUCCESS"
 		}
 	},
 	tr: {
@@ -92,7 +93,8 @@ var messages = {
 			removeValidation  : "Sil",
 			addValidation : "Onayla",
 			threshold : "Threshold",
-			responseList : "Fallback Cevap"
+			responseList : "Fallback Cevap",
+			success : "Ba\u015Far\u0131l\u0131"
 		}
 	}
 

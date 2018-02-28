@@ -58,34 +58,36 @@
         <security:csrf disabled="true"/>
     </security:http>
 
-
-    <http pattern="/secure/**"
+    <security:http pattern="/secure/**"
           create-session="stateless" entry-point-ref="oauthAuthenticationEntryPoint"
           use-expressions="true" xmlns="http://www.springframework.org/schema/security">
-        <anonymous enabled="false" />
-        <intercept-url pattern="/secure/users/post/**"
+        <security:anonymous enabled="false" />
+        <security:intercept-url pattern="/secure/users/post/**"
                        access="hasRole('ROLE_ROOT')"
                        method="POST" />
-        <intercept-url pattern="/secure/users/get/**"
+        <security:intercept-url pattern="/secure/users/get/**"
                        access="hasRole('ROLE_ROOT')"
                        method="GET" />
-        <intercept-url pattern="/secure/api/**"
+        <security:intercept-url pattern="/secure/api/**"
                        access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
                        method="GET" />
-		 <intercept-url pattern="/secure/api/**"
+		 <security:intercept-url pattern="/secure/api/**"
                        access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
                        method="POST" />
-        <intercept-url pattern="/secure/api/**"
+        <security:intercept-url pattern="/secure/api/**"
                        access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
                        method="DELETE" />
-        <intercept-url pattern="/nonsecure/*"
+        <security:intercept-url pattern="/nonsecure/**"
                        access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
                        method="POST" />
-        <intercept-url pattern="/**" access="denyAll()" />
-        <access-denied-handler ref="oauthAccessDeniedHandler" />
-        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+        <security:intercept-url pattern="/nonsecure/**"
+                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
+                       method="GET" />
+        <security:intercept-url pattern="/**" access="denyAll()" />
+        <security:access-denied-handler ref="oauthAccessDeniedHandler" />
+        <security:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <security:csrf disabled="true"/>
-    </http>
+    </security:http>
 
 
     <oauth:resource-server id="resourceServerFilter"
@@ -172,7 +174,7 @@
         <constructor-arg name="clientDetailsService" ref="clientDetails" />
     </bean>
 
-
+	<security:http security="none" pattern="/lib/**"/>
     <security:http security="none" pattern="/resources/*"/>
     <security:http security="none" pattern="/root/resources/*"/>
     <security:http security="none" pattern="/admin/resources/*"/>
@@ -182,13 +184,13 @@
 
     <security:http use-expressions="true"
                    create-session="always" authentication-manager-ref="authManager">
-        <security:csrf/>
+        <security:csrf disabled="true"/>
         <security:intercept-url pattern="/logout"
                                 access="permitAll"/>
 
         <security:intercept-url pattern="/login.xhtml"
                                 access="permitAll"/>
-        <security:intercept-url pattern="/nonsecure/admin/*"
+        <security:intercept-url pattern="/nonsecure/admin/**"
                                 access="hasAnyRole('ROLE_ADMIN','ROLE_ROOT')"/>
         <security:intercept-url pattern="/root/*"
                                 access="hasRole('ROLE_ROOT')"/>
@@ -197,10 +199,10 @@
         <security:logout logout-success-url="/login.xhtml?logout"
                          logout-url="/logout" invalidate-session="true"/>
         <security:form-login authentication-failure-url="/login.xhtml?error"
-                             authentication-success-forward-url="/nonsecure/admin" login-page="/login.xhtml"
-                             login-processing-url="/login" password-parameter="password" default-target-url="index.xhtml"
+                             authentication-success-forward-url="/nonsecure/admin/" login-page="/login.xhtml"
+                             login-processing-url="/nonsecure/admin/" password-parameter="password" default-target-url="index.xhtml"
                              username-parameter="username"/>
-
+		
     </security:http>
 
     <security:authentication-manager id="authManager">

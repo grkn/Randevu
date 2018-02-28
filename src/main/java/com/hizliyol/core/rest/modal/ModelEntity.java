@@ -16,6 +16,8 @@ public class ModelEntity {
 	private List<Attachment> attachments;
 	private FacebookDeployment facebookDeployment;
 	private String witDeployment;
+	private String emoji;
+	
 	
 	public String getValue() {
 		return value;
@@ -88,5 +90,11 @@ public class ModelEntity {
 	}
 	public void setWitDeployment(String witDeployment) {
 		this.witDeployment = witDeployment;
+	}
+	public String getEmoji() {
+		return emoji;
+	}
+	public void setEmoji(String emoji) {
+		this.emoji = emoji;
 	}
 }

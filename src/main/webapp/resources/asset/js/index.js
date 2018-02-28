@@ -32,7 +32,7 @@ Vue.component('intent',{
 									+'<h3> {{value}} </h3>'
 									+'<p><input type="text" v-model="sentence"></p>'
 									+'<p><label>{{$t("message.storedSentence")}} : </label>'
-									+'<div><select v-model="expression"><option v-for="exp in expressions">{{ exp }}</option></select></div>'
+									+'<div><select v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp.value }">{{ exp.display }}</option></select></div>'
 									+'</p>'
 									+'<p>'
 										+'<a class="btn btn-info" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
@@ -46,18 +46,22 @@ Vue.component('intent',{
 		addSentence : function(id){
 			console.log(id);
 			if(this.sentence.trim() != ""){
-					this.expressions.unshift(this.sentence);
+					this.expressions.unshift({display: this.sentence,value:this.sentence});
 					this.sentence = "";
-					Vue.http.post(contextPath+"/secure/api/post/intent/expressions", {value : this.value ,expressions:this.expressions}).then(function(resp){
+					var exps = [];
+					for(var i = 0 ; i < this.expressions.length;i++){
+						exps.push(this.expressions[i].value);
+					}
+					Vue.http.post(contextPath+"/secure/api/post/intent/expressions", {value : this.value ,expressions:exps}).then(function(resp){
 
 					});
 			}
 		},
 		removeSentece : function(id){
-			if(this.expression.trim() != ""){
+			if(this.expression.value.trim() != ""){
 				var index = this.expressions.indexOf(this.expression);
 				this.expressions.splice(index,1);
-				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression}).then(function(resp){
+				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression.value}).then(function(resp){
 
 				});
 			}
@@ -68,15 +72,27 @@ Vue.component('intent',{
 			});
 		}
 	},
+	
 	data :	function () {
-		return {sentence : "", expression : ""}
+		return {sentence : "", expression : {}}
 	}
 });
 
 // Intent row template
 Vue.component('row',{
 	template : '<div class="row"> <intent v-for="(intent,index) in array" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
-	props: ['array']
+	props: ['array'],
+	beforeMount : function(){
+		for(var j = 0 ; j < this.array.length; j++){
+			for(var i = 0 ; i < this.array[j].expressions.length;i++){
+				if(this.array[j].expressions[i].indexOf("<img") >= 0 && this.array[j].expressions[i].indexOf("alt") >= 0){
+					this.array[j].expressions[i] ={display:'emoji',value : this.array[j].expressions[i]} ;
+				}else{
+					this.array[j].expressions[i] ={display:this.array[j].expressions[i],value : this.array[j].expressions[i]} ;
+				}
+			}
+		}
+	},
 });
 
 // Intent Sayfasi
@@ -425,6 +441,83 @@ Vue.component('createQuickReply',{
 	methods : {
 		loadPopup : function(){
 				$("#myModalquickreply").modal();
+		}
+	}
+});
+
+//Quick Reply popup
+Vue.component('emojiPopup',{
+	template :'<div id="myModalEmoji" class="modal fade" role="dialog">'
+							+'<div class="modal-dialog">'
+						    +'<div class="modal-content">'
+						      +'<div class="modal-header">'
+						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+						        +'<h4 class="modal-title">Emoji</h4>'
+						      +'</div>'
+						      +'<div class="modal-body">'
+						      +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+								+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc" ><optgroup v-for="intentList in list">'
+									+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
+								+'</select>'
+								+'</div>'
+								+'<br/>'
+						      +'<div class="text-left">'
+					            +'<p class="lead emoji-picker-container">'
+					              +'<input type="text" class="form-control" name="input" placeholder="" style="border:none" data-emojiable="true">'
+					            +'</p>'
+								+'</div>'
+								+'</div><!--modal-body-->'
+						      +'<div class="modal-footer">'
+//						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
+						        +'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+						      +'</div>'
+						    +'</div><!--modal-content-->'
+						+'</div><!--modal-dialog-->'
+					+'</div><!--myModal-->',
+	props : ['entityList'],
+	methods : {
+		save : function(){
+			
+			Vue.http.post(contextPath+"/secure/api/view/create/emoji", {emoji : $(".emoji-wysiwyg-editor").html(), intent : this.selectedIntent}, function(resp){
+				window.location.reload();
+			});
+		},
+		selectedIntentFunc : function(){
+			
+			Vue.http.post(contextPath+"/secure/api/view/get/emoji", {intent : this.selectedIntent}, function(resp){
+				if(resp.type && resp.type == 'emoji'){
+					$(".emoji-wysiwyg-editor").html(resp.value);
+				}
+				
+			});
+		}
+	},
+	mounted : function(){
+		this.$nextTick(function () {
+			this.list = this.entityList;
+			window.emojiPicker = new EmojiPicker({
+	          emojiable_selector: '[data-emojiable=true]',
+	          assetsPath: '../../lib/img/',
+	          popupButtonClasses: 'fa fa-smile-o'
+	        });
+			window.emojiPicker.discover();
+  	})
+	},
+	data :	function () {
+		return {list :[], selectedIntent:""}
+	}
+});
+
+//Emoji 
+Vue.component('createEmoji',{
+	template :'<div style="display:inline-block; padding-right:1%;">'
+							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">Emoji</button>'
+							+'<emojiPopup v-bind:entityList="entityList"></emojiPopup>'
+						+'</div>',
+	props : ['entityList'],
+	methods : {
+		loadPopup : function(){
+				$("#myModalEmoji").modal();
 		}
 	}
 });
@@ -784,7 +877,7 @@ Vue.component('answers',{
 						  	+'<div class="caption">'
 									+'<h3> {{value}} </h3>'
 									+'<p><input type="text" v-model="sentence.value"></p>'
-									+'<p><label>{{$t("message.savedAnswer")}} : {{sentence.default}}</label></p>'
+									+'<p><label>{{$t("message.savedAnswer")}} : <span v-html="sentence.default"></span></label></p>'
 									+'<p>'
 										+'<a class="btn btn-info" role="button" v-on:click="removeAnswer(value)">{{$t("message.remove")}}</a>'
 										+'<a class="btn btn-default" role="button" v-on:click="addAnswer(value)">{{$t("message.add")}}</a>'
@@ -818,10 +911,12 @@ Vue.component('answers',{
 			var sentence = this.sentence
 			Vue.http.get(contextPath+"/secure/api/get/meaningful/sentence", {"intent" : this.value.toString()}).then(function(resp){
 					if(resp.data.resp != "NOT_FOUND"){
-						if(resp.data.type && resp.data.type != 'text'){
-							sentence.default = resp.data.type;
-						}else{
+						if(resp.data.type && resp.data.type == 'text'){
 							sentence.default = resp.data.value;
+						}else if(resp.data.type && resp.data.type == 'emoji'){
+							sentence.default = resp.data.value;
+						}else{
+							sentence.default = resp.data.type;
 						}
 					}
 			});
@@ -870,6 +965,7 @@ var answersContainer = Vue.component("answersContainer",{
 								+'<createListTemplate v-bind:entityList="this.original"></createListTemplate>'
 								+'<createGenericButtons v-bind:entityList="this.original"></createGenericButtons>'
 								+'<createAttachment v-bind:entityList="this.original"></createAttachment>'
+								+'<createEmoji v-bind:entityList="this.original"></createEmoji>'
 							+'</div>'
 							+'<div class="col-md-2">'
 								+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
@@ -1052,7 +1148,7 @@ Vue.component('training',{
 	template :'<div class="row"><div class="col-md-12">'
 							+'<div class="thumbnail">'
 						  	+'<div class="caption">'
-									+'<h3> {{array.message.text}}</h3>'
+									+'<h3  v-html="array.message.text">{{}}</h3>'
 									+'<p>'
 									+'<select v-model="selectedIntent" >'
 										+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option>'
@@ -1155,7 +1251,8 @@ var facebookContainer = Vue.component("facebookContainer",{
 								+'</div>'
 								+'<div class="form-group">'
 									+'<div class="col-sm-offset-2 col-sm-10">'
-										+'<button type="button" class="btn btn-default" v-on:click="deploy">Deploy</button>'
+									+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
+									+'<button type="button" class="btn btn-default" v-on:click="deploy">Deploy</button>'
 									+'</div>'
 								+'</div>'
 							+'</form>'
@@ -1164,7 +1261,9 @@ var facebookContainer = Vue.component("facebookContainer",{
 					+'</div> <!--container-->',
 	methods : {
 			deploy : function(){
+				var tempIsDeployed = this.isDeployed;
 				Vue.http.post(contextPath+'/secure/api/facebook/post',{facebookDeployment : this.facebookDeployment.values},function(resp){
+					tempIsDeployed.value = true;
 				});
 			}
 	},
@@ -1178,7 +1277,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 	  })
 	},
 	data :	function () {
-		return {facebookDeployment : {values : {}}}
+		return {facebookDeployment : {values : {}},isDeployed : {value : false}}
 	}
 });
 
@@ -1215,6 +1314,7 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 					+'</div>'
 					+'<div class="form-group">'
 						+'<div class="col-sm-offset-2 col-sm-10">'
+							+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
 							+'<button type="button" class="btn btn-default" v-on:click="deploy">Deploy</button>'
 						+'</div>'
 					+'</div>'
@@ -1223,12 +1323,14 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data :	function () {
-			return {witDeployment : {value : ""}}
+			return {witDeployment : {value : ""},isDeployed : {value : false}}
 		},
 		methods :{
 			deploy:function(){
 				console.log(this.witDeployment.value);
+				var tempIdDeployed = this.isDeployed;
 				Vue.http.post(contextPath+'/secure/api/witaiDeploy/post',{witDeployment : this.witDeployment.value},function(resp){
+					tempIdDeployed.value = true;
 				});
 			}
 		},

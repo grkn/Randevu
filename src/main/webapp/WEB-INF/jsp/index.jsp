@@ -19,7 +19,8 @@
 		 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.1.13/vue-resource.min.js"></script>
 
 		 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="${pageContext.servletContext.contextPath}/lib/css/emoji.css" rel="stylesheet">
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
@@ -30,15 +31,19 @@
 			var contextPath = "${pageContext.servletContext.contextPath}";
 			localStorage.setItem('id_token', "${authToken}");
 		</script>
-
+		
 	</head>
 	<body>
 		
 		<div id="app">
 				<router-view></router-view>
 		</div>
-
+		<script src="${pageContext.servletContext.contextPath}/lib/js/config.js"></script>
+		<script src="${pageContext.servletContext.contextPath}/lib/js/util.js"></script>
+		<script src="${pageContext.servletContext.contextPath}/lib/js/jquery.emojiarea.js"></script>
+		<script src="${pageContext.servletContext.contextPath}/lib/js/emoji-picker.js"></script>
 		<script src="${pageContext.servletContext.contextPath}/resources/asset/js/messages.js"></script>
 		<script src="${pageContext.servletContext.contextPath}/resources/asset/js/index.js"></script>
+		
 	</body>
 </html>
