@@ -45,7 +45,8 @@ var messages = {
 			addValidation : "Validate",
 			threshold : "Threshold",
 			responseList : "Fallback Response",
-			success : "SUCCESS"
+			success : "SUCCESS",
+			emojiPopupError : "Only one emoji is permitted"
 		}
 	},
 	tr: {
@@ -94,7 +95,8 @@ var messages = {
 			addValidation : "Onayla",
 			threshold : "Threshold",
 			responseList : "Fallback Cevap",
-			success : "Ba\u015Far\u0131l\u0131"
+			success : "Ba\u015Far\u0131l\u0131",
+			emojiPopupError : "Sadece bir emoji se\u00E7ebilirsiniz"
 		}
 	}
 

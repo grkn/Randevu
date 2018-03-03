@@ -17,6 +17,8 @@ public class ModelEntity {
 	private FacebookDeployment facebookDeployment;
 	private String witDeployment;
 	private String emoji;
+	private EmojiModal source;
+	private EmojiModal target;
 	
 	
 	public String getValue() {
@@ -97,4 +99,17 @@ public class ModelEntity {
 	public void setEmoji(String emoji) {
 		this.emoji = emoji;
 	}
+	public EmojiModal getSource() {
+		return source;
+	}
+	public void setSource(EmojiModal source) {
+		this.source = source;
+	}
+	public EmojiModal getTarget() {
+		return target;
+	}
+	public void setTarget(EmojiModal target) {
+		this.target = target;
+	}
+	
 }

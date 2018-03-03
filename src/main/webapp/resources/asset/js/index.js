@@ -107,6 +107,7 @@ var container = Vue.component('container',{
 									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
+									+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
@@ -947,6 +948,7 @@ var answersContainer = Vue.component("answersContainer",{
 									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
+									+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
@@ -1073,6 +1075,7 @@ var trainingContainer = Vue.component("trainingContainer",{
 									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
+									+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
@@ -1205,6 +1208,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
+									+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 								+'</span>'
@@ -1292,6 +1296,7 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 						+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
 						+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
 						+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
 						+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
 						+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
 					+'</span>'
@@ -1346,6 +1351,187 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 	
 });
 
+
+Vue.component('emoji_popup_user',{
+	template :'<div id="emojiModalUser" class="modal fade" role="dialog">'
+							+'<div class="modal-dialog">'
+						    +'<div class="modal-content">'
+						      +'<div class="modal-header">'
+						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+						        +'<h4 class="modal-title">User Emoji</h4>'
+						      +'</div>'
+						      +'<div class="modal-body">'
+						      +'<div class="text-left" id="emojiPopupSelectUser">'
+					            +'<p class="lead emoji-picker-container">'
+					            +'<span v-if="errorMessage">{{$t("message.emojiPopupError")}}</span>'
+					              +'<input type="text"  class="form-control" name="input" placeholder="" style="border:none" data-emojiable="true">'
+					            +'</p>'
+								+'</div>'
+						      +'</div><!--modal-body-->'
+						      +'<div class="modal-footer">'
+						      	+'<button type="button" class="btn btn-default" v-on:click="selectItem()">{{$t("message.save")}}</button>'
+						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
+						      +'</div>'
+						    +'</div><!--modal-content-->'
+						+'</div><!--modal-dialog-->'
+					+'</div><!--myModal-->',
+	props : ['emojiList','selectedItem'],
+	methods : {
+		selectItem : function(){
+			var emojiHtml = $("#emojiPopupSelectUser .emoji-wysiwyg-editor").html();
+			if(!emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g) || emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g).length > 1){
+				this.errorMessage = true;
+			}else{
+				if(emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g)){
+					var matched = emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g);
+					var obj = {text : $(matched[0]).attr("alt"),image : matched[0]}
+					this.$emit('clicked', obj);
+				}
+			}
+			
+		},
+		save : function(){
+			this.target.image = this.selectedText + " " + this.target.image;
+			Vue.http.post(contextPath+'/secure/api/save/emoji/relation',{source : this.selectedItem, target : this.target},function(resp){
+				
+			});
+			this.target = null;
+		}
+	},
+	mounted : function(){
+	},
+	data :	function () {
+		return{target : null,selectedText : "",errorMessage : false}
+	}
+});
+
+
+Vue.component('emoji_popup_bot',{
+	template :'<div id="emojiModalBOT" class="modal fade" role="dialog">'
+							+'<div class="modal-dialog">'
+						    +'<div class="modal-content">'
+						      +'<div class="modal-header">'
+						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+						        +'<h4 class="modal-title">BOT Emoji</h4>'
+						      +'</div>'
+						      +'<div class="modal-body">'
+						      +'<div class="text-left" id="emojiPopupSelect">'
+					            +'<p class="lead emoji-picker-container">'
+					            +'<span v-if="errorMessage">{{$t("message.emojiPopupError")}}</span>'
+					              +'<input type="text"  class="form-control" name="input" placeholder="" style="border:none" data-emojiable="true">'
+					            +'</p>'
+								+'</div>'
+						      +'</div><!--modal-body-->'
+						      +'<div class="modal-footer">'
+						      	+'<button type="button" class="btn btn-default" v-on:click="selectItem()">{{$t("message.save")}}</button>'
+						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
+						      +'</div>'
+						    +'</div><!--modal-content-->'
+						+'</div><!--modal-dialog-->'
+					+'</div><!--myModal-->',
+	props : ['emojiList','selectedItem'],
+	methods : {
+		selectItem : function(){	
+	
+			var emojiHtml = $("#emojiPopupSelect .emoji-wysiwyg-editor").html();
+			if(emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g) && emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g).length > 1){
+				this.errorMessage = true;
+			}else{
+				if(emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g)){
+					var matched = emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g);
+					var obj = {text : $(matched[0]).attr("alt"),image : matched[0]}
+					this.$emit('clicked', obj);
+				}
+				
+			}
+			
+		},
+		save : function(){
+			
+		}
+	},
+	mounted : function(){
+		this.$nextTick(function () {
+			window.emojiPicker = new EmojiPicker({
+	          emojiable_selector: '[data-emojiable=true]',
+	          assetsPath: '../../lib/img/',
+	          popupButtonClasses: 'fa fa-smile-o'
+	        });
+			window.emojiPicker.discover();
+		});
+	},
+	data :	function () {
+		return{target : null,selectedText : "",errorMessage : false}
+	}
+});
+
+
+var emojiContainer = Vue.component('emojiContainer', {
+	template : '<div class="container">'
+		+'<div class="header">'
+		+'<div class="page-header">'
+					+'<div style="text-align:center">'
+						+'<h1>Emoji</h1>'
+					+'</div>'
+					+'<span>'
+						+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
+						+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
+					+'</span>'
+					+'<span style="float:right;margin-left: 20px;">'
+					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+				+'</span>'
+					+'<span style="float:right">'
+						+'<i18n_custom></i18n_custom>'
+					+'</span>'
+				+'</div> <!--page-header-->'
+			+'</div> <!--header-->'
+			+'<div class="content">'
+				+'<button type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalUser\')">User Emoji</button>'
+				+'<button type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalBOT\')">BOT Emoji</button>'
+				+'<emoji_popup_user v-bind:emojiList="emojiList" v-bind:selectedItem="selectedEmojiUser" v-on:clicked=setUserEmoji></emoji_popup_user>'
+				+'<emoji_popup_bot v-bind:emojiList="emojiList" v-bind:selectedItem="selectedEmojiBOT" v-on:clicked=setBotEmoji></emoji_popup_bot>'
+				+ '<span v-html="selectedEmojiUser.image"></span> -- <span v-html="selectedEmojiBOT.image"></span>'
+				+'<button type="button" class="btn btn-info" v-on:click="save()">Kaydet</button>'
+				+ '<div class="table-responsive"><table class="table"><thead><tr><th>User Emoji</th><th>Bot Reply</th></tr></thead><tbody><tr v-for="relation in emojiRelation.value"><td v-html="relation.source.image"></td><td v-html="relation.target.image"></td></tr></tbody></table></div>'
+			+'</div> <!--content-->'
+		+'</div> <!--container-->',
+		data :	function () {
+			return {emojiList : {value : {}},selectedEmojiUser :{},selectedEmojiBOT :{},emojiRelation : {value : {}}}
+		},
+		methods :{
+			showEmojiPopup : function(modal){
+				$("#"+modal).modal();
+			},
+			setUserEmoji(item){
+				this.selectedEmojiUser = item;
+			},
+			setBotEmoji(item){
+				this.selectedEmojiBOT = item;
+			}
+			,
+			save(){
+				Vue.http.post(contextPath+'/secure/api/save/emoji/relation',{source : this.selectedEmojiUser, target : this.selectedEmojiBOT},function(resp){
+					
+				});
+			}
+		},
+		mounted : function(){
+			var emoji = this.emojiList;
+			Vue.http.get(contextPath+'/secure/api/mongo/emoji/get',function(resp){
+				emoji.value = resp;
+			});
+			var emojiRelation = this.emojiRelation;
+			Vue.http.get(contextPath+'/secure/api/mongo/emojiRelation/get',function(resp){
+				emojiRelation.value = resp;
+			});
+		}
+});
+
+
 // Menu isimleri
 var vrouter = new VueRouter({
 	routes: [
@@ -1353,7 +1539,8 @@ var vrouter = new VueRouter({
 		{name: 'answersContainer', path: '/answers', component: answersContainer},
 		{name: 'trainingContainer', path: '/training', component: trainingContainer},
 		{name: 'facebookContainer', path: '/facebookDeployment', component: facebookContainer},
-		{name: 'witContainer', path: '/witAuthorizationToken', component: witDeployContainer}
+		{name: 'witContainer', path: '/witAuthorizationToken', component: witDeployContainer},
+		{name: 'emojiContainer', path: '/emojiDefinition', component: emojiContainer}
 	]
 });
 

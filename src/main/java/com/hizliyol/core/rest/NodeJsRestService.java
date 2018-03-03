@@ -376,6 +376,19 @@ public class NodeJsRestService {
         
         return result;
 	}
+	
+	@RequestMapping(value="/api/mongo/emoji/get",method = RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String getEmojiFromMongoDb(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/emoji/get",HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
 
 	@RequestMapping(value="/api/view/create/emoji",method = RequestMethod.POST,produces="application/json;charset=utf-8")
 	public String createEmoji(@RequestBody ModelEntity modelEntity){
@@ -400,6 +413,31 @@ public class NodeJsRestService {
         
         return result;
 	}
+	
+	@RequestMapping(value="/api/save/emoji/relation",method = RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String setEmojiRelation(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/save/emoji/relation",HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value="/api/mongo/emojiRelation/get",method = RequestMethod.GET,produces="application/json;charset=utf-8")
+	public String getEmojiRelation(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/emojiRelation/get",HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
 	
 	private HttpEntity<Object> createEntityAndHeader(ModelEntity modelEntity) {
 		HttpHeaders headers = createJsonHeader();
