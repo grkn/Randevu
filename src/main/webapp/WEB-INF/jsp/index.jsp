@@ -38,6 +38,9 @@
 		<div id="app">
 				<router-view></router-view>
 		</div>
+		<script type="text/javascript">
+			Vue.http.headers.common['Authorization'] = "Bearer "+localStorage.getItem('id_token');
+		</script>
 		<script src="${pageContext.servletContext.contextPath}/lib/js/config.js"></script>
 		<script src="${pageContext.servletContext.contextPath}/lib/js/util.js"></script>
 		<script src="${pageContext.servletContext.contextPath}/lib/js/jquery.emojiarea.js"></script>

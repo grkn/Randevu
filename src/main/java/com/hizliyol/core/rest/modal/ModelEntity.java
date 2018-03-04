@@ -19,7 +19,8 @@ public class ModelEntity {
 	private String emoji;
 	private EmojiModal source;
 	private EmojiModal target;
-	
+	private String text;
+	private String subject;
 	
 	public String getValue() {
 		return value;
@@ -110,6 +111,18 @@ public class ModelEntity {
 	}
 	public void setTarget(EmojiModal target) {
 		this.target = target;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 	
 }

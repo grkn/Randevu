@@ -26,7 +26,7 @@ var messages = {
 			save : "Save",
 			close : "Close",
 			removeButton : "Remove Button",
-			remove : "Remove",
+
 			addCarousel: "Add Slider",
 			removeCarousel: "Remove Slider",
 			addQuickReply: "Add QuickReply",
@@ -46,7 +46,23 @@ var messages = {
 			threshold : "Threshold",
 			responseList : "Fallback Response",
 			success : "SUCCESS",
-			emojiPopupError : "Only one emoji is permitted"
+			facebookPage: "Facebook Deployment Page",
+			facebook	: "Facebook",
+			witaiPage: "Wit.ai Deployment Page",
+			witai : "wit.ai",
+			emojiPopupError : "Only one emoji is permitted",
+			emojiPage: "Emoji Page",
+			emoji : "Emoji",			
+			userEmoji :"User Emoji",
+			botEmoji :"Bot Emoji",
+			botReply: "Bot Reply",
+			rootPanel : "Root Panel",
+			carousel : "Carousel",
+			quickReply: "Quick Reply",
+			listTemplate: "List Template",
+			genericButtons : "Generic Buttons",
+			attachment : "Attachment",
+			subject : "Subject"
 		}
 	},
 	tr: {
@@ -55,7 +71,7 @@ var messages = {
 		  english : 'Ingilizce',
 		  turkish : 'T\u00FCrk\u00E7e',
 		  add : 'Ekle',
-		  remove : '\u00C7\u0131kar',
+		  remove : 'Sil',
 		  search : 'Ara',
 		  home : 'Intent',
 		  header : 'Intent Sayfas\u0131',
@@ -76,7 +92,7 @@ var messages = {
 			save : "Kaydet",
 			close : "Kapat",
 			removeButton : "Buton Kald\u0131r",
-			remove : "Kald\u0131r",
+
 			addCarousel: "Slider Ekle",
 			removeCarousel: "Slider Kald\u0131r",
 			addQuickReply: "Quick Reply Ekle",
@@ -96,7 +112,24 @@ var messages = {
 			threshold : "Threshold",
 			responseList : "Fallback Cevap",
 			success : "Ba\u015Far\u0131l\u0131",
-			emojiPopupError : "Sadece bir emoji se\u00E7ebilirsiniz"
+			facebookPage: "Facebook Deployment Sayfas\u0131",
+			facebook	: "Facebook",
+			witaiPage: "Wit.ai Deployment Sayfas\u0131",
+			witai : "wit.ai",
+			emojiPopupError : "Sadece bir emoji se\u00E7ebilirsiniz",
+			emojiPage: "Emoji Sayfas\u0131",
+			emoji : "Emoji",
+			userEmoji :"Kullanıcı Emoji",
+			botEmoji :"Bot Emoji",
+			botReply: "Bot Cevabı",
+			rootPanel : "Root Panel",
+			carousel : "Carousel",
+			quickReply: "Quick Reply",
+			listTemplate: "List Template",
+			genericButtons : "Generic Buttons",
+			attachment : "Attachment",
+			subject : "Konu"
+			
 		}
 	}
 

@@ -438,6 +438,30 @@ public class NodeJsRestService {
         return result;
 	}
 	
+
+	@RequestMapping(value="/api/delete/emoji/relation",method = RequestMethod.DELETE,produces="application/json;charset=utf-8")
+	public String deleteEmoji(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/delete/emoji/relation",HttpMethod.DELETE, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value="/api/mongo/post/subject",method = RequestMethod.POST,produces="application/json;charset=utf-8")
+	public String createSubject(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/post/subject",HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
 	
 	private HttpEntity<Object> createEntityAndHeader(ModelEntity modelEntity) {
 		HttpHeaders headers = createJsonHeader();

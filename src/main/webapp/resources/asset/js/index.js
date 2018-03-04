@@ -15,6 +15,19 @@ Vue.component('i18n_custom',{
 });
 
 
+Vue.component("routerLinkComponent",{
+	template : '<span>'
+				+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
+				+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
+				+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
+				+'<router-link :to="{ name: \'emojiContainer\'}">{{$t("message.emoji")}}</router-link>&nbsp;&nbsp;'
+				+'<router-link :to="{ name: \'facebookContainer\'}">{{$t("message.facebook")}}</router-link>&nbsp;&nbsp;'
+				+'<router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link>&nbsp;&nbsp;'
+				+'<router-link :to="{ name: \'subjectContainer\'}">{{$t("message.subject")}}</router-link>&nbsp;&nbsp;'
+			+'</span>'
+}); 
+
+
 if(!window.localStorage.getItem("lang"))
 		window.localStorage.setItem("lang", "tr");
 
@@ -103,16 +116,9 @@ var container = Vue.component('container',{
 								+'<div style="text-align:center">'
 									+'<h1>{{$t("message.header")}}</h1>'
 								+'</div>'
-								+'<span>'
-									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
-								+'</span>'
+								+'<routerLinkComponent></routerLinkComponent>'
 								+'<span style="float:right;margin-left: 20px;">'
-								+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+								+'<a target="_blank" href="./root/adminUser.xhtml">{{$t("message.rootPanel")}}</a>'
 							+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
@@ -125,6 +131,8 @@ var container = Vue.component('container',{
 								+'<label>{{$t("message.search")}}</label><input type="text" v-model="searchText" v-on:keyup="search"/>'
 								+'<div style="float:right;"><label>{{$t("message.createLabel")}} :</label>&nbsp;'
 									+'<input type="text" v-model="intentName"/>&nbsp;&nbsp;'
+									+'<label>{{$t("message.subject")}} :</label>&nbsp;&nbsp;'
+									+'<input type="text" v-model="subject"/>&nbsp;&nbsp;'
 									+'<button type="button" class="btn btn-info" v-on:click="createIntent">{{$t("message.create")}}</button>'
 								+'</div>'
 							+'</div>'
@@ -142,7 +150,7 @@ var container = Vue.component('container',{
 		},
 		createIntent : function(){
 			if(this.intentName.trim() != ""){
-					Vue.http.post(contextPath+"/secure/api/create/intent", {value : this.intentName }).then(function(resp){
+					Vue.http.post(contextPath+"/secure/api/create/intent", {value : this.intentName,subject : this.subject}).then(function(resp){
 							window.location.reload();
 					});
 			}
@@ -224,7 +232,7 @@ var container = Vue.component('container',{
 	},
 	data :	function () {
 		return {intentList :[], original :[],
-		searchText : "", intentName : ""}
+		searchText : "", intentName : "",subject : ""}
 	}
 });
 
@@ -235,17 +243,15 @@ Vue.component('carousel_popup',{
 						    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">Carousel</h4>'
+						        +'<h4 class="modal-title">{{$t("message.carousel")}}</h4>'
 						      +'</div>'
-						      +'<div class="modal-body">'
-						        +'<div>'
-											+'<ul>'
-												+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
-													+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
-												+'</select>'
-											+'</ul>'
-										+'</div>'
-										+'<div>'
+						      +'<div class="modal-body">'			      
+						      		+'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+										+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
+											+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
+										+'</select>'
+									+'</div>'
+								+'<div>'
 											+'<button style="float:right" class="btn btn-info" v-on:click="removeInputFields()">{{$t("message.removeCarousel")}}</button>'
 											+'<button style="float:right" class="btn btn-info" v-on:click="incrementInputFields()">{{$t("message.addCarousel")}}</button>'
 											+'<div v-for="car in carousel">'
@@ -269,7 +275,6 @@ Vue.component('carousel_popup',{
 										+'</div><!-- -->'
 									+'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
-						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
 										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
@@ -299,7 +304,7 @@ Vue.component('carousel_popup',{
 		},
 		save : function(){
 			Vue.http.post(contextPath+"/secure/api/view/create/carousel", {obj : this.carousel, intent : this.selectedIntent}, function(resp){
-
+				$("#myModal").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
@@ -334,7 +339,7 @@ Vue.component('carousel_popup',{
 // Add carousel
 Vue.component('createCarousel',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">Carousel</button>'
+							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.carousel")}}</button>'
 							+'<carousel_popup v-bind:entityList="entityList"></carousel_popup>'
 						+'</div>',
 	props : ['entityList'],
@@ -352,7 +357,7 @@ Vue.component('quickreply_popup',{
 						    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">Quick Reply</h4>'
+						        +'<h4 class="modal-title">{{$t("message.quickReply")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
 										+'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
@@ -380,7 +385,6 @@ Vue.component('quickreply_popup',{
 										+'</div><!-- -->'
 									+'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
-						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
 										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
@@ -400,7 +404,7 @@ Vue.component('quickreply_popup',{
 		},
 		save : function(){
 			Vue.http.post(contextPath+"/secure/api/view/create/quickReply", {quickReply : this.quickReply, intent : this.selectedIntent}, function(resp){
-
+				$("#myModalquickreply").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
@@ -435,7 +439,7 @@ Vue.component('quickreply_popup',{
 // Add quick reply
 Vue.component('createQuickReply',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">Quick Reply</button>'
+							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.quickReply")}}</button>'
 							+'<quickreply_popup v-bind:entityList="entityList"></quickreply_popup>'
 						+'</div>',
 	props : ['entityList'],
@@ -446,82 +450,6 @@ Vue.component('createQuickReply',{
 	}
 });
 
-//Quick Reply popup
-Vue.component('emojiPopup',{
-	template :'<div id="myModalEmoji" class="modal fade" role="dialog">'
-							+'<div class="modal-dialog">'
-						    +'<div class="modal-content">'
-						      +'<div class="modal-header">'
-						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">Emoji</h4>'
-						      +'</div>'
-						      +'<div class="modal-body">'
-						      +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
-								+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc" ><optgroup v-for="intentList in list">'
-									+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
-								+'</select>'
-								+'</div>'
-								+'<br/>'
-						      +'<div class="text-left">'
-					            +'<p class="lead emoji-picker-container">'
-					              +'<input type="text" class="form-control" name="input" placeholder="" style="border:none" data-emojiable="true">'
-					            +'</p>'
-								+'</div>'
-								+'</div><!--modal-body-->'
-						      +'<div class="modal-footer">'
-//						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
-						        +'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
-						      +'</div>'
-						    +'</div><!--modal-content-->'
-						+'</div><!--modal-dialog-->'
-					+'</div><!--myModal-->',
-	props : ['entityList'],
-	methods : {
-		save : function(){
-			
-			Vue.http.post(contextPath+"/secure/api/view/create/emoji", {emoji : $(".emoji-wysiwyg-editor").html(), intent : this.selectedIntent}, function(resp){
-				window.location.reload();
-			});
-		},
-		selectedIntentFunc : function(){
-			
-			Vue.http.post(contextPath+"/secure/api/view/get/emoji", {intent : this.selectedIntent}, function(resp){
-				if(resp.type && resp.type == 'emoji'){
-					$(".emoji-wysiwyg-editor").html(resp.value);
-				}
-				
-			});
-		}
-	},
-	mounted : function(){
-		this.$nextTick(function () {
-			this.list = this.entityList;
-			window.emojiPicker = new EmojiPicker({
-	          emojiable_selector: '[data-emojiable=true]',
-	          assetsPath: '../../lib/img/',
-	          popupButtonClasses: 'fa fa-smile-o'
-	        });
-			window.emojiPicker.discover();
-  	})
-	},
-	data :	function () {
-		return {list :[], selectedIntent:""}
-	}
-});
-
-//Emoji 
-Vue.component('createEmoji',{
-	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">Emoji</button>'
-							+'<emojiPopup v-bind:entityList="entityList"></emojiPopup>'
-						+'</div>',
-	props : ['entityList'],
-	methods : {
-		loadPopup : function(){
-				$("#myModalEmoji").modal();
-		}
-	}
-});
 
 // list Template popup
 Vue.component('listTemplate_popup',{
@@ -530,7 +458,7 @@ Vue.component('listTemplate_popup',{
 						    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">List Template</h4>'
+						        +'<h4 class="modal-title">{{$t("message.listTemplate")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
 						        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
@@ -568,8 +496,7 @@ Vue.component('listTemplate_popup',{
 										+'</div><!-- -->'
 									+'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
-						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
-										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+								+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
 						+'</div><!--modal-dialog-->'
@@ -598,7 +525,7 @@ Vue.component('listTemplate_popup',{
 		},
 		save : function(){
 			Vue.http.post(contextPath+"/secure/api/view/create/listTemplate", {listTemplate : this.listTemplate, intent : this.selectedIntent}, function(resp){
-
+				$("#myModalListTemplate").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
@@ -637,7 +564,7 @@ Vue.component('listTemplate_popup',{
 // Add list Template
 Vue.component('createListTemplate',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">List Template</button>'
+							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.listTemplate")}}</button>'
 							+'<listTemplate_popup v-bind:entityList="entityList"></listTemplate_popup>'
 						+'</div>',
 	props : ['entityList'],
@@ -655,7 +582,7 @@ Vue.component('generic_buttons_popup',{
 						    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">Generic Buttons</h4>'
+						        +'<h4 class="modal-title">{{$t("message.genericButtons")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
 						        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
@@ -684,7 +611,6 @@ Vue.component('generic_buttons_popup',{
 										+'</div><!-- -->'
 									+'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
-						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
 										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
@@ -714,6 +640,7 @@ Vue.component('generic_buttons_popup',{
 		},
 		save : function(){
 			Vue.http.post(contextPath+"/secure/api/view/create/genericButtons", {genericButtons : this.genericButtons, intent : this.selectedIntent}, function(resp){
+				$("#myModalGenericButtons").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
@@ -748,7 +675,7 @@ Vue.component('generic_buttons_popup',{
 // Add Generic Buttons
 Vue.component('createGenericButtons',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">Generic Buttons</button>'
+							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.genericButtons")}}</button>'
 							+'<generic_buttons_popup v-bind:entityList="entityList"></generic_buttons_popup>'
 						+'</div>',
 	props : ['entityList'],
@@ -766,7 +693,7 @@ Vue.component('attachment_popup',{
 						    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">Attachment</h4>'
+						        +'<h4 class="modal-title">{{$t("message.attachment")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
 						        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
@@ -795,7 +722,6 @@ Vue.component('attachment_popup',{
 										+'</div><!-- -->'
 									+'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
-						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
 										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
@@ -825,7 +751,7 @@ Vue.component('attachment_popup',{
 		},
 		save : function(){
 			Vue.http.post(contextPath+"/secure/api/view/create/attachment", {attachments : this.genericButtons, intent : this.selectedIntent}, function(resp){
-
+				$("#myModalAttachment").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
@@ -860,7 +786,7 @@ Vue.component('attachment_popup',{
 // Add Attachment
 Vue.component('createAttachment',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">Attachment</button>'
+							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.attachment")}}</button>'
 							+'<attachment_popup v-bind:entityList="entityList"></attachment_popup>'
 						+'</div>',
 	props : ['entityList'],
@@ -944,16 +870,9 @@ var answersContainer = Vue.component("answersContainer",{
 								+'<div style="text-align:center">'
 									+'<h1>{{$t("message.answerPage")}}</h1>'
 								+'</div>'
-								+'<span>'
-									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
-								+'</span>'
+								+'<routerLinkComponent></routerLinkComponent>'
 								+'<span style="float:right;margin-left: 20px;">'
-								+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+								+'<a target="_blank" href="./root/adminUser.xhtml">{{$t("message.rootPanel")}}</a>'
 							+'</span>'
 								+'<span style="float:right">'
 									+'<i18n_custom></i18n_custom>'
@@ -967,7 +886,6 @@ var answersContainer = Vue.component("answersContainer",{
 								+'<createListTemplate v-bind:entityList="this.original"></createListTemplate>'
 								+'<createGenericButtons v-bind:entityList="this.original"></createGenericButtons>'
 								+'<createAttachment v-bind:entityList="this.original"></createAttachment>'
-								+'<createEmoji v-bind:entityList="this.original"></createEmoji>'
 							+'</div>'
 							+'<div class="col-md-2">'
 								+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
@@ -1071,14 +989,7 @@ var trainingContainer = Vue.component("trainingContainer",{
 								+'<div style="text-align:center">'
 									+'<h1>{{$t("message.trainingPage")}}</h1>'
 								+'</div>'
-								+'<span>'
-									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
-								+'</span>'
+								+'<routerLinkComponent></routerLinkComponent>'
 								+'<span style="float:right;margin-left: 20px;">'
 								+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 							+'</span>'
@@ -1160,7 +1071,7 @@ Vue.component('training',{
 									+'</p>'
 									+'<p>'
 										+'<a class="btn btn-info" role="button" v-on:click="deleteMessage">{{$t("message.removeValidation")}}</a>'
-										+'<a class="btn btn-default" role="button"  v-on:click="validate">{{$t("message.addValidation")}}</a>'
+										+'<a class="btn btn-default" role="button" v-on:click="validate">{{$t("message.addValidation")}}</a>'
 									+'</p>'
 							  +'</div>'
 							+'</div>'
@@ -1197,21 +1108,15 @@ Vue.component('training',{
 	}
 });
 
+// facebook sayfasi
 var facebookContainer = Vue.component("facebookContainer",{
 	template:'<div class="container">'
 						+'<div class="header">'
 							+'<div class="page-header">'
 								+'<div style="text-align:center">'
-									+'<h1>Facebook Deployment</h1>'
+									+'<h1>{{$t("message.facebookPage")}}</h1>'
 								+'</div>'
-								+'<span>'
-									+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
-									+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
-								+'</span>'
+								+'<routerLinkComponent></routerLinkComponent>'
 								+'<span style="float:right;margin-left: 20px;">'
 									+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 								+'</span>'
@@ -1285,21 +1190,15 @@ var facebookContainer = Vue.component("facebookContainer",{
 	}
 });
 
+// witai sayfasi
 var witDeployContainer = Vue.component("witDeployContainer",{
 	template : '<div class="container">'
 		+'<div class="header">'
 		+'<div class="page-header">'
 					+'<div style="text-align:center">'
-						+'<h1>Witai Deployment</h1>'
+						+'<h1>{{$t("message.witaiPage")}}</h1>'
 					+'</div>'
-					+'<span>'
-						+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
-					+'</span>'
+					+'<routerLinkComponent></routerLinkComponent>'
 					+'<span style="float:right;margin-left: 20px;">'
 					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 				+'</span>'
@@ -1351,14 +1250,14 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 	
 });
 
-
+// emoji user popup
 Vue.component('emoji_popup_user',{
 	template :'<div id="emojiModalUser" class="modal fade" role="dialog">'
 							+'<div class="modal-dialog">'
 						    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">User Emoji</h4>'
+						        +'<h4 class="modal-title">{{$t("message.userEmoji")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
 						      +'<div class="text-left" id="emojiPopupSelectUser">'
@@ -1370,7 +1269,6 @@ Vue.component('emoji_popup_user',{
 						      +'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
 						      	+'<button type="button" class="btn btn-default" v-on:click="selectItem()">{{$t("message.save")}}</button>'
-						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
 						+'</div><!--modal-dialog-->'
@@ -1385,34 +1283,33 @@ Vue.component('emoji_popup_user',{
 				if(emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g)){
 					var matched = emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g);
 					var obj = {text : $(matched[0]).attr("alt"),image : matched[0]}
+					$("#emojiModalUser").modal('hide');
 					this.$emit('clicked', obj);
 				}
 			}
-			
-		},
-		save : function(){
-			this.target.image = this.selectedText + " " + this.target.image;
-			Vue.http.post(contextPath+'/secure/api/save/emoji/relation',{source : this.selectedItem, target : this.target},function(resp){
-				
-			});
-			this.target = null;
+			$("#emojiPopupSelectUser .emoji-wysiwyg-editor").html('');
 		}
 	},
 	mounted : function(){
+		this.$nextTick(function () {
+			$('#emojiModalUser').on('hidden.bs.modal', function () {
+				$("#emojiPopupSelectUser .emoji-wysiwyg-editor").html('');
+			})
+		});
 	},
 	data :	function () {
 		return{target : null,selectedText : "",errorMessage : false}
 	}
 });
 
-
+// emoji bot popup
 Vue.component('emoji_popup_bot',{
 	template :'<div id="emojiModalBOT" class="modal fade" role="dialog">'
 							+'<div class="modal-dialog">'
 						    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">BOT Emoji</h4>'
+						        +'<h4 class="modal-title">{{$t("message.botEmoji")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
 						      +'<div class="text-left" id="emojiPopupSelect">'
@@ -1424,7 +1321,6 @@ Vue.component('emoji_popup_bot',{
 						      +'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
 						      	+'<button type="button" class="btn btn-default" v-on:click="selectItem()">{{$t("message.save")}}</button>'
-						        +'<button type="button" class="btn btn-default" data-dismiss="modal">{{$t("message.close")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
 						+'</div><!--modal-dialog-->'
@@ -1439,14 +1335,17 @@ Vue.component('emoji_popup_bot',{
 			}else{
 				if(emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g)){
 					var matched = emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g);
-					var obj = {text : $(matched[0]).attr("alt"),image : matched[0]}
+					var obj = {text : $(matched[0]).attr("alt"),image : emojiHtml}
+					$("#emojiModalBOT").modal('hide');
+					this.$emit('clicked', obj);
+				}else{
+					var obj = {text : emojiHtml ,image : emojiHtml}
+					$("#emojiModalBOT").modal('hide');
 					this.$emit('clicked', obj);
 				}
 				
 			}
-			
-		},
-		save : function(){
+			$("#emojiPopupSelect .emoji-wysiwyg-editor").html('');
 			
 		}
 	},
@@ -1458,6 +1357,10 @@ Vue.component('emoji_popup_bot',{
 	          popupButtonClasses: 'fa fa-smile-o'
 	        });
 			window.emojiPicker.discover();
+			
+			$('#emojiModalBOT').on('hidden.bs.modal', function () {
+				$("#emojiPopupSelect .emoji-wysiwyg-editor").html('');
+			})
 		});
 	},
 	data :	function () {
@@ -1466,21 +1369,15 @@ Vue.component('emoji_popup_bot',{
 });
 
 
+// emoji sayfasi
 var emojiContainer = Vue.component('emojiContainer', {
 	template : '<div class="container">'
 		+'<div class="header">'
 		+'<div class="page-header">'
 					+'<div style="text-align:center">'
-						+'<h1>Emoji</h1>'
+						+'<h1>{{$t("message.emojiPage")}}</h1>'
 					+'</div>'
-					+'<span>'
-						+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'emojiContainer\'}">Emoji</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'facebookContainer\'}">Facebook</router-link>&nbsp;&nbsp;'
-						+'<router-link :to="{ name: \'witContainer\'}">wit.ai</router-link>&nbsp;&nbsp;'
-					+'</span>'
+					+'<routerLinkComponent></routerLinkComponent>'
 					+'<span style="float:right;margin-left: 20px;">'
 					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 				+'</span>'
@@ -1490,13 +1387,20 @@ var emojiContainer = Vue.component('emojiContainer', {
 				+'</div> <!--page-header-->'
 			+'</div> <!--header-->'
 			+'<div class="content">'
-				+'<button type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalUser\')">User Emoji</button>'
-				+'<button type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalBOT\')">BOT Emoji</button>'
+				+'<table class="table"><tbody><tr><td>'
+				+'<button type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalUser\')">{{$t("message.userEmoji")}}</button>'
+				+ '</td><td>'
+				+'<button type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalBOT\')">{{$t("message.botEmoji")}}</button>'
+				+'</td><td>'
+				+'<span v-html="selectedEmojiUser.image"></span> -- <span v-html="selectedEmojiBOT.image"></span>'
+				+'</td><td>'
+				+'<button type="button" class="btn btn-info" v-on:click="save()">{{$t("message.save")}}</button>'
+				+'</td></tr></tbody></table>'
 				+'<emoji_popup_user v-bind:emojiList="emojiList" v-bind:selectedItem="selectedEmojiUser" v-on:clicked=setUserEmoji></emoji_popup_user>'
 				+'<emoji_popup_bot v-bind:emojiList="emojiList" v-bind:selectedItem="selectedEmojiBOT" v-on:clicked=setBotEmoji></emoji_popup_bot>'
-				+ '<span v-html="selectedEmojiUser.image"></span> -- <span v-html="selectedEmojiBOT.image"></span>'
-				+'<button type="button" class="btn btn-info" v-on:click="save()">Kaydet</button>'
-				+ '<div class="table-responsive"><table class="table"><thead><tr><th>User Emoji</th><th>Bot Reply</th></tr></thead><tbody><tr v-for="relation in emojiRelation.value"><td v-html="relation.source.image"></td><td v-html="relation.target.image"></td></tr></tbody></table></div>'
+				+ '<div class="table-responsive"><table class="table"><thead><tr><th>{{$t("message.userEmoji")}}</th><th>{{$t("message.botReply")}}</th></tr></thead><tbody><tr v-for="relation in emojiRelation.value"><td v-html="relation.source.image"></td><td v-html="relation.target.image"></td><td>'
+				+ '<button type="button" class="btn btn-info" v-on:click="deleteEmoji(relation.source)">{{$t("message.remove")}}</button>'
+				+'</td></tr></tbody></table></div>'
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data :	function () {
@@ -1514,9 +1418,17 @@ var emojiContainer = Vue.component('emojiContainer', {
 			}
 			,
 			save(){
+				if(this.selectedEmojiUser.image && this.selectedEmojiBOT.image)
 				Vue.http.post(contextPath+'/secure/api/save/emoji/relation',{source : this.selectedEmojiUser, target : this.selectedEmojiBOT},function(resp){
-					
-				});
+					window.location.reload();
+				});				
+			},
+			deleteEmoji(source){
+				if(source){
+					Vue.http.delete(contextPath+'/secure/api/delete/emoji/relation',{text : source.text},function(resp){
+						window.location.reload();
+					});	
+				}
 			}
 		},
 		mounted : function(){
@@ -1531,7 +1443,48 @@ var emojiContainer = Vue.component('emojiContainer', {
 		}
 });
 
-
+var subjectContainer = Vue.component("subjectContainer",{
+	template : '<div class="container">'
+		+'<div class="header">'
+		+'<div class="page-header">'
+					+'<div style="text-align:center">'
+						+'<h1>{{$t("message.subject")}}</h1>'
+					+'</div>'
+					+'<routerLinkComponent></routerLinkComponent>'
+					+'<span style="float:right;margin-left: 20px;">'
+					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+				+'</span>'
+					+'<span style="float:right">'
+						+'<i18n_custom></i18n_custom>'
+					+'</span>'
+				+'</div> <!--page-header-->'
+			+'</div> <!--header-->'
+			+'<div class="content">'
+			+'<form class="form-horizontal">'
+				+'<div class="form-group">'
+					+'<label class="control-label col-sm-2" for="subject">{{$t("message.subject")}}</label>'
+					+'<div class="col-sm-10">'
+						+'<input type="text" class="form-control" v-model="subject" id="subject" >'
+					+'</div>'
+				+'</div>'
+				+'<div class="form-group">'
+				+ '<button type="button" style="float:right" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+				+'</div>'
+			+'</form>'
+			+'</div> <!--content-->'
+		+'</div> <!--container-->',
+		data : function(){
+			return {subject : ""};
+		},
+		methods : {
+			save : function(){
+				Vue.http.post(contextPath+'/secure/api/mongo/post/subject',{subject: this.subject},function(resp){
+					window.location.reload();
+				});	
+			}
+		}
+	
+});
 // Menu isimleri
 var vrouter = new VueRouter({
 	routes: [
@@ -1540,7 +1493,8 @@ var vrouter = new VueRouter({
 		{name: 'trainingContainer', path: '/training', component: trainingContainer},
 		{name: 'facebookContainer', path: '/facebookDeployment', component: facebookContainer},
 		{name: 'witContainer', path: '/witAuthorizationToken', component: witDeployContainer},
-		{name: 'emojiContainer', path: '/emojiDefinition', component: emojiContainer}
+		{name: 'emojiContainer', path: '/emojiDefinition', component: emojiContainer},
+		{name: 'subjectContainer', path: '/subjectDefinition', component: subjectContainer}
 	]
 });
 
@@ -1558,4 +1512,3 @@ var vue = new Vue({
   i18n : i18n
 });
 
-Vue.http.headers.common['Authorization'] = "Bearer "+localStorage.getItem('id_token');
