@@ -45,27 +45,32 @@ Vue.component('intent',{
 									+'<h3> {{value}} </h3>'
 									+'<p><input type="text" v-model="sentence"></p>'
 									+'<p><label>{{$t("message.storedSentence")}} : </label>'
-									+'<div><select v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp.value }">{{ exp.display }}</option></select></div>'
+									+'<div><select v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp }">{{ exp }}</option></select></div>'
+									
 									+'</p>'
 									+'<p>'
 										+'<a class="btn btn-info" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
 										+'<a class="btn btn-default" role="button" v-on:click="addSentence(value)">{{$t("message.add")}}</a>'
 									+'</p>'
+									+'<div><select v-model="subject"><option v-for="sub in subjectArray" v-bind:value="{ value: sub }">{{ sub.subject}}</option></select></div>'
+									+'<p>'
+										+'<a class="btn btn-info" role="button" v-on:click="removeSubject">{{$t("message.remove")}}</a>'
+										+'<a class="btn btn-default" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
+									+'</p>'
 							  +'</div>'
 							+'</div>'
 				  	+'</div>',
-	props: ['value', 'index', 'expressions'],
+	props: ['value', 'index', 'expressions','subjectArray'],
 	methods : {
 		addSentence : function(id){
-			console.log(id);
 			if(this.sentence.trim() != ""){
-					this.expressions.unshift({display: this.sentence,value:this.sentence});
+					this.expressions.unshift(this.sentence);
 					this.sentence = "";
 					var exps = [];
 					for(var i = 0; i < this.expressions.length; i++){
-						exps.push(this.expressions[i].value);
+						exps.push(this.expressions[i]);
 					}
-					Vue.http.post(contextPath+"/secure/api/post/intent/expressions", {value : this.value ,expressions:exps}).then(function(resp){
+					Vue.http.post(contextPath + "/secure/api/post/intent/expressions", {value : this.value , expressions:exps}).then(function(resp){
 
 					});
 			}
@@ -74,7 +79,7 @@ Vue.component('intent',{
 			if(this.expression.value.trim() != ""){
 				var index = this.expressions.indexOf(this.expression);
 				this.expressions.splice(index,1);
-				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression.value}).then(function(resp){
+				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression}).then(function(resp){
 
 				});
 			}
@@ -83,29 +88,37 @@ Vue.component('intent',{
 			Vue.http.delete(contextPath+"/secure/api/delete/intent", {value : this.value}).then(function(resp){
 				window.location.reload();
 			});
+		},
+		saveSubject : function(){
+			if(this.subject && this.subject.value && this.subject.value.subject)
+			Vue.http.post(contextPath + "/secure/api/mongo/post/subjectRelation", {subject : this.subject.value.subject , intent : this.value}).then(function(resp){
+			});
+		},
+		removeSubject : function(){
+			if(this.subject && this.subject.value && this.subject.value.subject)
+			Vue.http.delete(contextPath+"/secure/api/mongo/delete/subjectRelation", {subject : this.subject.value.subject, intent : this.value}).then(function(resp){
+			});
 		}
+	}
+	,
+	mounted : function(){
+		this.$nextTick(function () {
+			var subject = this.subject;
+			Vue.http.get(contextPath + "/secure/api/mongo/get/subject/"+this.value).then(function(resp){
+				subject = resp.data[0];
+			});
+	  });
 	},
-	
 	data :	function () {
-		return {sentence : "", expression : {}}
+		return {sentence : "", expression : {},subject : {}}
 	}
 });
 
 // Intent row template
 Vue.component('row',{
-	template : '<div class="row"> <intent v-for="(intent,index) in array" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
-	props: ['array'],
-	beforeMount : function(){
-		for(var j = 0; j < this.array.length; j++){
-			for(var i = 0; i < this.array[j].expressions.length; i++){
-				if(this.array[j].expressions[i].indexOf("<img") >= 0 && this.array[j].expressions[i].indexOf("alt") >= 0){
-					this.array[j].expressions[i] = {display:'emoji', value : this.array[j].expressions[i]} ;
-				}else{
-					this.array[j].expressions[i] = {display:this.array[j].expressions[i], value : this.array[j].expressions[i]} ;
-				}
-			}
-		}
-	},
+	template : '<div class="row"> <intent v-for="(intent,index) in array" v-bind:subjectArray="subjectArray" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
+	props: ['array','subjectArray']
+	
 });
 
 // Intent Sayfasi
@@ -132,7 +145,7 @@ var container = Vue.component('container',{
 								+'<div style="float:right;"><label>{{$t("message.createLabel")}} :</label>&nbsp;'
 									+'<input type="text" v-model="intentName"/>&nbsp;&nbsp;'
 									+'<label>{{$t("message.subject")}} :</label>&nbsp;&nbsp;'
-									+'<input type="text" v-model="subject"/>&nbsp;&nbsp;'
+									+'<select v-model="subject"><option v-for="subject in subjectList.value">{{subject.subject}}</option></select>&nbsp;&nbsp;'
 									+'<button type="button" class="btn btn-info" v-on:click="createIntent">{{$t("message.create")}}</button>'
 								+'</div>'
 							+'</div>'
@@ -140,7 +153,7 @@ var container = Vue.component('container',{
 								+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
 							+'</div>'
 							+'<div class="col-md-10">'
-								+'<row v-for="intentArray in this.intentList" v-bind:array="intentArray"></row>'
+								+'<row v-for="intentArray in this.intentList" v-bind:array="intentArray" v-bind:subjectArray="subjectList.value"></row>'
 						+'</div>'
 					+'</div> <!--content-->'
 				+'</div> <!--container-->',
@@ -223,16 +236,21 @@ var container = Vue.component('container',{
 					}
 					func();
 			});
+			
 		}
 	},
 	mounted : function(){
 		this.$nextTick(function () {
 			this.mountFunc(this.intentList, this.immutableObjectToOriginal);
+			var subjectList = this.subjectList;
+			Vue.http.get(contextPath + "/secure/api/mongo/get/subjects").then(function(resp){
+				 subjectList.value = resp.data;
+			});
 	  });
 	},
 	data :	function () {
 		return {intentList :[], original :[],
-		searchText : "", intentName : "", subject : ""}
+		searchText : "", intentName : "", subject : "",subjectList : {value : []}}
 	}
 });
 
@@ -1467,21 +1485,34 @@ var subjectContainer = Vue.component("subjectContainer",{
 						+'<input type="text" class="form-control" v-model="subject" id="subject" >'
 					+'</div>'
 				+'</div>'
-				+'<div class="form-group">'
 				+ '<button type="button" style="float:right" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+				+'<table class="table"><thead><tr><th>{{$t("message.subject")}}</th></tr></thead>'
+				+'<tbody><tr v-for="subject in subjectList.value"><td>{{subject.subject}}</td><td><a class="btn btn-info" role="button" v-on:click="deleteFunc(subject.subject)">{{$t("message.remove")}}</a><td></tr></tbody></table>'
+				+'<div class="form-group">'
 				+'</div>'
 			+'</form>'
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data : function(){
-			return {subject : ""};
+			return {subject : "",subjectList : {value : {}}};
 		},
 		methods : {
 			save : function(){
 				Vue.http.post(contextPath + '/secure/api/mongo/post/subject', {subject: this.subject}, function(resp){
 					window.location.reload();
 				});	
+			},
+			deleteFunc : function(sbjct){
+				Vue.http.delete(contextPath + '/secure/api/mongo/delete/subject', {subject: sbjct}, function(resp){
+					window.location.reload();
+				});	
 			}
+		},
+		mounted : function(){
+			var subjectList = this.subjectList;
+			Vue.http.get(contextPath + '/secure/api/mongo/get/subjects',function(resp){
+				subjectList.value = resp;
+			});
 		}
 	
 });

@@ -458,6 +458,68 @@ public class NodeJsRestService {
         return result;
 	}
 	
+	@RequestMapping(value = "/api/mongo/get/subjects",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+	public String getSubjects(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/get/subjects", HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+
+	@RequestMapping(value = "/api/mongo/delete/subject", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
+	public String deleteSubject(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/delete/subject", HttpMethod.DELETE, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value = "/api/mongo/post/subjectRelation", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public String createSubjectRelation(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/post/subjectRelation", HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value = "/api/mongo/delete/subjectRelation", method = RequestMethod.DELETE, produces = "application/json;charset=utf-8")
+	public String deleteSubjectRelation(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/delete/subjectRelation", HttpMethod.DELETE, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	
+	@RequestMapping(value = "/api/mongo/get/subject/{intentName}",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+	public String getSubjectByPathVariable(@PathVariable String intentName){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		ModelEntity modelEntity = new ModelEntity();
+		modelEntity.setIntent(intentName);
+		HttpEntity<Object> entity = new HttpEntity<>(modelEntity,createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/mongo/get/subject", HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
 	private HttpEntity<Object> createEntityAndHeader(ModelEntity modelEntity) {
 		HttpHeaders headers = createJsonHeader();
         
