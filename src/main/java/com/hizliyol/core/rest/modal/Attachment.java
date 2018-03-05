@@ -3,6 +3,7 @@ package com.hizliyol.core.rest.modal;
 import java.util.List;
 
 public class Attachment {
+	
 	private String text;
 	private List<Button> buttons;
 
@@ -21,4 +22,5 @@ public class Attachment {
 	public void setButtons(List<Button> buttons) {
 		this.buttons = buttons;
 	}
+	
 }

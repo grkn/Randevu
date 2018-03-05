@@ -9,7 +9,6 @@ public abstract class BaseService<T,E extends CrudRepository<T, Integer>> {
 
 	private Object instance;
 
-
 	public BaseService(Object obj) {
 		instance = obj;
 	}

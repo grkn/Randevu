@@ -2,47 +2,35 @@
 	width:100%;
 	text-align:center;
 }
-
 .content-container {
 	width: 100%;
 	text-align: center
 }
-
 .content-container .content{
 	width: 80%;
     left: 10%;
     position: relative;
 	text-align: center;
 }
-
 .messages-container{
 	width: 100%;
 	text-align:center;
 }
-
 .messages-container .messages{
 	width: 80%;
     left: 10%;
     position: relative;
     text-align: center;
 }
-
-
-
 .ui-widget {
    font-size: 12px !important;
 }
-
-
 .ui-panelgrid{
 	border:  none !important;
 }
-
 .ui-panelgrid tr{
 	border:  none !important;
 }
-
-
 .ui-panelgrid tr td{
 	border:  none !important;
 }

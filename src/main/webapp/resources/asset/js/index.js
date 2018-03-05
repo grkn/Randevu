@@ -19,11 +19,11 @@ Vue.component("routerLinkComponent",{
 	template : '<span>'
 				+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
 				+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
+				+'<router-link :to="{ name: \'subjectContainer\'}">{{$t("message.subject")}}</router-link>&nbsp;&nbsp;'
 				+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
 				+'<router-link :to="{ name: \'emojiContainer\'}">{{$t("message.emoji")}}</router-link>&nbsp;&nbsp;'
 				+'<router-link :to="{ name: \'facebookContainer\'}">{{$t("message.facebook")}}</router-link>&nbsp;&nbsp;'
 				+'<router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link>&nbsp;&nbsp;'
-				+'<router-link :to="{ name: \'subjectContainer\'}">{{$t("message.subject")}}</router-link>&nbsp;&nbsp;'
 			+'</span>'
 }); 
 
@@ -62,7 +62,7 @@ Vue.component('intent',{
 					this.expressions.unshift({display: this.sentence,value:this.sentence});
 					this.sentence = "";
 					var exps = [];
-					for(var i = 0 ; i < this.expressions.length;i++){
+					for(var i = 0; i < this.expressions.length; i++){
 						exps.push(this.expressions[i].value);
 					}
 					Vue.http.post(contextPath+"/secure/api/post/intent/expressions", {value : this.value ,expressions:exps}).then(function(resp){
@@ -96,12 +96,12 @@ Vue.component('row',{
 	template : '<div class="row"> <intent v-for="(intent,index) in array" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
 	props: ['array'],
 	beforeMount : function(){
-		for(var j = 0 ; j < this.array.length; j++){
-			for(var i = 0 ; i < this.array[j].expressions.length;i++){
+		for(var j = 0; j < this.array.length; j++){
+			for(var i = 0; i < this.array[j].expressions.length; i++){
 				if(this.array[j].expressions[i].indexOf("<img") >= 0 && this.array[j].expressions[i].indexOf("alt") >= 0){
-					this.array[j].expressions[i] ={display:'emoji',value : this.array[j].expressions[i]} ;
+					this.array[j].expressions[i] = {display:'emoji', value : this.array[j].expressions[i]} ;
 				}else{
-					this.array[j].expressions[i] ={display:this.array[j].expressions[i],value : this.array[j].expressions[i]} ;
+					this.array[j].expressions[i] = {display:this.array[j].expressions[i], value : this.array[j].expressions[i]} ;
 				}
 			}
 		}
@@ -150,8 +150,8 @@ var container = Vue.component('container',{
 		},
 		createIntent : function(){
 			if(this.intentName.trim() != ""){
-					Vue.http.post(contextPath+"/secure/api/create/intent", {value : this.intentName,subject : this.subject}).then(function(resp){
-							window.location.reload();
+					Vue.http.post(contextPath + "/secure/api/create/intent", {value : this.intentName, subject : this.subject}).then(function(resp){
+						window.location.reload();
 					});
 			}
 		},
@@ -183,9 +183,9 @@ var container = Vue.component('container',{
 			}
 		},
 		immutableObjectToOriginal: function(){
-			for(var i = 0; i < this.intentList.length ;i++){
+			for(var i = 0; i < this.intentList.length; i++){
 				var mod3Array = [];
-				for(var j = 0; j < this.intentList[i].length;j++){
+				for(var j = 0; j < this.intentList[i].length; j++){
 					var obj = {};
 					for(var key in this.intentList[i][j]){
 						obj[key] = this.intentList[i][j][key];
@@ -197,9 +197,9 @@ var container = Vue.component('container',{
 		},
 		immutableObjectToEntity: function(){
 			this.intentList = [];
-			for(var i = 0; i < this.original.length ;i++){
+			for(var i = 0; i < this.original.length; i++){
 				var mod3Array = [];
-				for(var j = 0; j < this.original[i].length;j++){
+				for(var j = 0; j < this.original[i].length; j++){
 					var obj = {};
 					for(var key in this.original[i][j]){
 						obj[key] = this.original[i][j][key];
@@ -210,7 +210,7 @@ var container = Vue.component('container',{
 			}
 		},
 		mountFunc : function(iList,func){
-			Vue.http.get(contextPath+"/secure/api/get/witai/entities").then(function(resp){
+			Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
 				  var counter = 0;
 					var index = -1;
 					for(var i = 0; i < resp.data.values.length; i++){
@@ -232,7 +232,7 @@ var container = Vue.component('container',{
 	},
 	data :	function () {
 		return {intentList :[], original :[],
-		searchText : "", intentName : "",subject : ""}
+		searchText : "", intentName : "", subject : ""}
 	}
 });
 
@@ -284,7 +284,7 @@ Vue.component('carousel_popup',{
 	methods : {
 		incrementInputFields : function(){
 			if(this.carousel.length < 4){
-					this.carousel.push({buttons:[{}]});
+					this.carousel.push({buttons : [{}]});
 			}
 		},
 		removeInputFields : function(){
@@ -303,13 +303,13 @@ Vue.component('carousel_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/carousel", {obj : this.carousel, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/create/carousel", {obj : this.carousel, intent : this.selectedIntent}, function(resp){
 				$("#myModal").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
 			var carouselTemp = this.carousel;
-			Vue.http.post(contextPath+"/secure/api/view/get/carousel", {intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/get/carousel", {intent : this.selectedIntent}, function(resp){
 				if(resp.type && resp.type == 'carousel'){
 					while(0 < carouselTemp.length){
 						carouselTemp.splice(0, 1);
@@ -321,7 +321,7 @@ Vue.component('carousel_popup',{
 					while(0 < carouselTemp.length){
 						carouselTemp.splice(0, 1);
 					}
-					carouselTemp.push({buttons:[{}]});
+					carouselTemp.push({buttons : [{}]});
 				}
 			});
 		}
@@ -332,7 +332,7 @@ Vue.component('carousel_popup',{
   	})
 	},
 	data :	function () {
-		return {list :[], selectedIntent:"", carousel:[{buttons:[{}]}]}
+		return {list : [], selectedIntent : "", carousel : [{buttons : [{}]}]}
 	}
 });
 
@@ -403,13 +403,13 @@ Vue.component('quickreply_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/quickReply", {quickReply : this.quickReply, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/create/quickReply", {quickReply : this.quickReply, intent : this.selectedIntent}, function(resp){
 				$("#myModalquickreply").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
 			var quickReplyTemp = this.quickReply;
-			Vue.http.post(contextPath+"/secure/api/view/get/quickReply", {intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/get/quickReply", {intent : this.selectedIntent}, function(resp){
 				if(resp.type && resp.type == 'quickReply'){
 					while(0 < quickReplyTemp.length){
 						quickReplyTemp.splice(0, 1);
@@ -432,7 +432,7 @@ Vue.component('quickreply_popup',{
   	})
 	},
 	data :	function () {
-		return {list :[], selectedIntent:"", quickReply:[{buttons:[{}]}]}
+		return {list : [], selectedIntent : "", quickReply : [{buttons : [{}]}]}
 	}
 });
 
@@ -524,13 +524,13 @@ Vue.component('listTemplate_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/listTemplate", {listTemplate : this.listTemplate, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/create/listTemplate", {listTemplate : this.listTemplate, intent : this.selectedIntent}, function(resp){
 				$("#myModalListTemplate").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
 			var listTemplate = this.listTemplate;
-			Vue.http.post(contextPath+"/secure/api/view/get/listTemplate", {intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/get/listTemplate", {intent : this.selectedIntent}, function(resp){
 				if(resp.type && resp.type == 'listTemplate'){
 					while(0 < listTemplate.list.length){
 						listTemplate.list.splice(0, 1);
@@ -544,7 +544,7 @@ Vue.component('listTemplate_popup',{
 					while(0 < listTemplate.list.length){
 						listTemplate.list.splice(0, 1);
 					}
-					listTemplate.list.push({buttons:[{}]});
+					listTemplate.list.push({buttons : [{}]});
 					listTemplate.viewMoreButtonUrl = "";
 					listTemplate.viewMoreButtonName = "";
 				}
@@ -557,7 +557,7 @@ Vue.component('listTemplate_popup',{
   	})
 	},
 	data :	function () {
-		return {list :[], selectedIntent:"", listTemplate:{list : [{buttons:[{}]}]}}
+		return {list : [], selectedIntent : "", listTemplate : {list : [{buttons : [{}]}]}}
 	}
 });
 
@@ -620,7 +620,7 @@ Vue.component('generic_buttons_popup',{
 	methods : {
 		incrementInputFields : function(){
 			if(this.genericButtons.length < 4){
-					this.genericButtons.push({buttons:[{}]});
+					this.genericButtons.push({buttons : [{}]});
 			}
 		},
 		removeInputFields : function(){
@@ -639,13 +639,13 @@ Vue.component('generic_buttons_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/genericButtons", {genericButtons : this.genericButtons, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/create/genericButtons", {genericButtons : this.genericButtons, intent : this.selectedIntent}, function(resp){
 				$("#myModalGenericButtons").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
 			var genericButtons = this.genericButtons;
-			Vue.http.post(contextPath+"/secure/api/view/get/genericButtons", {intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/get/genericButtons", {intent : this.selectedIntent}, function(resp){
 				if(resp.type && resp.type == 'genericButtons'){
 					while(0 < genericButtons.length){
 						genericButtons.splice(0, 1);
@@ -657,7 +657,7 @@ Vue.component('generic_buttons_popup',{
 					while(0 < genericButtons.length){
 						genericButtons.splice(0, 1);
 					}
-					genericButtons.push({buttons:[{}]});
+					genericButtons.push({buttons : [{}]});
 				}
 			});
 		}
@@ -668,7 +668,7 @@ Vue.component('generic_buttons_popup',{
   	})
 	},
 	data :	function () {
-		return {list :[], selectedIntent:"", genericButtons:[{buttons:[{}]}]}
+		return {list : [], selectedIntent : "", genericButtons : [{buttons : [{}]}]}
 	}
 });
 
@@ -731,7 +731,7 @@ Vue.component('attachment_popup',{
 	methods : {
 		incrementInputFields : function(){
 			if(this.genericButtons.length < 4){
-					this.genericButtons.push({buttons:[{}]});
+					this.genericButtons.push({buttons : [{}]});
 			}
 		},
 		removeInputFields : function(){
@@ -750,13 +750,13 @@ Vue.component('attachment_popup',{
 			}
 		},
 		save : function(){
-			Vue.http.post(contextPath+"/secure/api/view/create/attachment", {attachments : this.genericButtons, intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/create/attachment", {attachments : this.genericButtons, intent : this.selectedIntent}, function(resp){
 				$("#myModalAttachment").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
 			var genericButtons = this.genericButtons;
-			Vue.http.post(contextPath+"/secure/api/view/get/attachment", {intent : this.selectedIntent}, function(resp){
+			Vue.http.post(contextPath + "/secure/api/view/get/attachment", {intent : this.selectedIntent}, function(resp){
 				if(resp.type && resp.type == 'attachment'){
 					while(0 < genericButtons.length){
 						genericButtons.splice(0, 1);
@@ -779,7 +779,7 @@ Vue.component('attachment_popup',{
   	})
 	},
 	data :	function () {
-		return {list :[], selectedIntent:"", genericButtons:[{buttons:[{}]}]}
+		return {list : [], selectedIntent : "", genericButtons : [{buttons : [{}]}]}
 	}
 });
 
@@ -817,7 +817,7 @@ Vue.component('answers',{
 		addAnswer : function(id){
 			if(this.sentence.value.trim() != ""){
 				var sentence = this.sentence;
-				Vue.http.post(contextPath+"/secure/api/send/meaningful/sentence", {intent : this.value, message:this.sentence.value}).then(function(resp){
+				Vue.http.post(contextPath + "/secure/api/send/meaningful/sentence", {intent : this.value, message : this.sentence.value}).then(function(resp){
 						sentence.default = sentence.value;
 						sentence.value = "";
 				});
@@ -826,7 +826,7 @@ Vue.component('answers',{
 		removeAnswer : function(id){
 			if(this.sentence.default.trim() != ""){
 				var sentence = this.sentence;
-				Vue.http.delete(contextPath+"/secure/api/delete/meaningful/sentence", {intent : this.value, message:this.sentence.default}).then(function(resp){
+				Vue.http.delete(contextPath + "/secure/api/delete/meaningful/sentence", {intent : this.value, message : this.sentence.default}).then(function(resp){
 						sentence.default = "";
 						sentence.value = "";
 				});
@@ -836,7 +836,7 @@ Vue.component('answers',{
 	mounted : function(){
 		this.$nextTick(function () {
 			var sentence = this.sentence
-			Vue.http.get(contextPath+"/secure/api/get/meaningful/sentence", {"intent" : this.value.toString()}).then(function(resp){
+			Vue.http.get(contextPath + "/secure/api/get/meaningful/sentence", {"intent" : this.value.toString()}).then(function(resp){
 					if(resp.data.resp != "NOT_FOUND"){
 						if(resp.data.type && resp.data.type == 'text'){
 							sentence.default = resp.data.value;
@@ -956,7 +956,7 @@ var answersContainer = Vue.component("answersContainer",{
 			}
 		},
 		mountFunc : function(iList,func){
-			Vue.http.get(contextPath+"/secure/api/get/witai/entities").then(function(resp){
+			Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
 				  var counter = 0;
 					var index = -1;
 					for(var i = 0; i < resp.data.values.length; i++){
@@ -977,7 +977,7 @@ var answersContainer = Vue.component("answersContainer",{
 	  })
 	},
 	data :	function () {
-		return {intentList :[], original :[],	searchText : ""}
+		return {intentList : [], original : [], searchText : ""}
 	}
 });
 
@@ -1016,23 +1016,23 @@ var trainingContainer = Vue.component("trainingContainer",{
 					+'</div> <!--container-->',
 	methods : {
 		changeThreshold : function(){
-			Vue.http.get(contextPath+"/secure/api/change/threshold?threshold="+this.threshold.val).then(function(resp){
+			Vue.http.get(contextPath + "/secure/api/change/threshold?threshold=" + this.threshold.val).then(function(resp){
 			});
 		},
 		addDefaultResponse : function(){
 			this.responseList.push(this.response);
-			Vue.http.get(contextPath+"/secure/api/add/responseList?response="+this.response).then(function(resp){
+			Vue.http.get(contextPath + "/secure/api/add/responseList?response=" + this.response).then(function(resp){
 			});
 		},
 		deleteDefaultMessage : function(){
 			if(this.selectedResponse.trim() != ""){
 				this.responseList.splice(this.responseList.indexOf(this.selectedResponse),1);
-				Vue.http.delete(contextPath+"/secure/api/delete/responseList?response="+this.selectedResponse).then(function(resp){
+				Vue.http.delete(contextPath + "/secure/api/delete/responseList?response=" + this.selectedResponse).then(function(resp){
 				});
 			}
 		},
 		mountFunc : function(iList){
-				Vue.http.get(contextPath+"/secure/api/mongo/findByLimitTen/training_messages").then(function(resp){
+				Vue.http.get(contextPath + "/secure/api/mongo/findByLimitTen/training_messages").then(function(resp){
 						for(var i = 0; i < resp.data.length; i ++){
 							iList.push(resp.data[i]);
 						}
@@ -1043,9 +1043,9 @@ var trainingContainer = Vue.component("trainingContainer",{
 		this.$nextTick(function () {
 			var thresholdTemp = this.threshold;
 			var responseListTemp = this.responseList;
-			Vue.http.get(contextPath+"/secure/api/get/threshold/").then(function(resp){
+			Vue.http.get(contextPath + "/secure/api/get/threshold/").then(function(resp){
 					thresholdTemp.val =resp.data[0].threshold;
-					for(var i=0 ; i < resp.data[0].responseList.length;i++){
+					for(var i = 0; i < resp.data[0].responseList.length; i++){
 						responseListTemp.push(resp.data[0].responseList[i]);
 					}
 			});
@@ -1053,7 +1053,7 @@ var trainingContainer = Vue.component("trainingContainer",{
 	  })
 	},
 	data :	function () {
-		return {validateTextList :[],	threshold :{val : 0.7},responseList :[],response : "",selectedResponse : ""}
+		return {validateTextList :[], threshold : {val : 0.7}, responseList : [],response : "", selectedResponse : ""}
 	}
 });
 
@@ -1080,12 +1080,12 @@ Vue.component('training',{
 	props: ['array'],
 	methods : {
 		validate : function(){
-			Vue.http.post(contextPath+"/secure/api/witai/validate", {"intent" : this.selectedIntent, "message" : this.array.message.text}).then(function(resp){
+			Vue.http.post(contextPath + "/secure/api/witai/validate", {"intent" : this.selectedIntent, "message" : this.array.message.text}).then(function(resp){
 				window.location.reload();
 			});
 		},
 		deleteMessage : function(){
-			Vue.http.post(contextPath+"/secure/api/witai/delete", {"message" : this.array.message.text}).then(function(resp){
+			Vue.http.post(contextPath + "/secure/api/witai/delete", {"message" : this.array.message.text}).then(function(resp){
 				window.location.reload();
 			});
 		}
@@ -1096,7 +1096,7 @@ Vue.component('training',{
 			if(this.array.confidenceLevel)
 			this.array.confidenceLevel = Math.round(this.array.confidenceLevel * 1000) / 1000;
 				var intentListTemp = this.intentList;
-				Vue.http.get(contextPath+"/secure/api/get/witai/entities").then(function(resp){
+				Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
 						for(var i = 0; i < resp.data.values.length; i++){
 							intentListTemp.push(resp.data.values[i]);
 						}
@@ -1171,7 +1171,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 	methods : {
 			deploy : function(){
 				var tempIsDeployed = this.isDeployed;
-				Vue.http.post(contextPath+'/secure/api/facebook/post',{facebookDeployment : this.facebookDeployment.values},function(resp){
+				Vue.http.post(contextPath + '/secure/api/facebook/post', {facebookDeployment : this.facebookDeployment.values}, function(resp){
 					tempIsDeployed.value = true;
 				});
 			}
@@ -1180,13 +1180,13 @@ var facebookContainer = Vue.component("facebookContainer",{
 
 		this.$nextTick(function () {
 			var facebookTemp = this.facebookDeployment;
-				Vue.http.get(contextPath+'/secure/api/facebook/get',function(resp){
+				Vue.http.get(contextPath + '/secure/api/facebook/get', function(resp){
 					facebookTemp.values = resp[0].facebookDeployment;
 				});
 	  })
 	},
 	data :	function () {
-		return {facebookDeployment : {values : {}},isDeployed : {value : false}}
+		return {facebookDeployment : {values : {}}, isDeployed : {value : false}}
 	}
 });
 
@@ -1227,13 +1227,13 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data :	function () {
-			return {witDeployment : {value : ""},isDeployed : {value : false}}
+			return {witDeployment : {value : ""}, isDeployed : {value : false}}
 		},
 		methods :{
 			deploy:function(){
 				console.log(this.witDeployment.value);
 				var tempIdDeployed = this.isDeployed;
-				Vue.http.post(contextPath+'/secure/api/witaiDeploy/post',{witDeployment : this.witDeployment.value},function(resp){
+				Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : this.witDeployment.value}, function(resp){
 					tempIdDeployed.value = true;
 				});
 			}
@@ -1242,7 +1242,7 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 
 			this.$nextTick(function () {
 				var witTemp = this.witDeployment;
-					Vue.http.get(contextPath+'/secure/api/witaiDeploy/get',function(resp){
+					Vue.http.get(contextPath + '/secure/api/witaiDeploy/get', function(resp){
 						witTemp.value = resp[0].defaultAuthorizationToken;
 					});
 		  })
@@ -1282,7 +1282,7 @@ Vue.component('emoji_popup_user',{
 			}else{
 				if(emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g)){
 					var matched = emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g);
-					var obj = {text : $(matched[0]).attr("alt"),image : matched[0]}
+					var obj = {text : $(matched[0]).attr("alt"), image : matched[0]}
 					$("#emojiModalUser").modal('hide');
 					this.$emit('clicked', obj);
 				}
@@ -1298,7 +1298,7 @@ Vue.component('emoji_popup_user',{
 		});
 	},
 	data :	function () {
-		return{target : null,selectedText : "",errorMessage : false}
+		return{target : null, selectedText : "", errorMessage : false}
 	}
 });
 
@@ -1325,7 +1325,7 @@ Vue.component('emoji_popup_bot',{
 						    +'</div><!--modal-content-->'
 						+'</div><!--modal-dialog-->'
 					+'</div><!--myModal-->',
-	props : ['emojiList','selectedItem'],
+	props : ['emojiList', 'selectedItem'],
 	methods : {
 		selectItem : function(){	
 	
@@ -1335,11 +1335,11 @@ Vue.component('emoji_popup_bot',{
 			}else{
 				if(emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g)){
 					var matched = emojiHtml.match(/(<img\s[^>]*?src\s*=\s*['\"]([^'\"]*?)['\"][^>]*?>)/g);
-					var obj = {text : $(matched[0]).attr("alt"),image : emojiHtml}
+					var obj = {text : $(matched[0]).attr("alt"), image : emojiHtml}
 					$("#emojiModalBOT").modal('hide');
 					this.$emit('clicked', obj);
 				}else{
-					var obj = {text : emojiHtml ,image : emojiHtml}
+					var obj = {text : emojiHtml, image : emojiHtml}
 					$("#emojiModalBOT").modal('hide');
 					this.$emit('clicked', obj);
 				}
@@ -1352,9 +1352,9 @@ Vue.component('emoji_popup_bot',{
 	mounted : function(){
 		this.$nextTick(function () {
 			window.emojiPicker = new EmojiPicker({
-	          emojiable_selector: '[data-emojiable=true]',
-	          assetsPath: '../../lib/img/',
-	          popupButtonClasses: 'fa fa-smile-o'
+	          emojiable_selector : '[data-emojiable=true]',
+	          assetsPath : '../../lib/img/',
+	          popupButtonClasses : 'fa fa-smile-o'
 	        });
 			window.emojiPicker.discover();
 			
@@ -1364,7 +1364,7 @@ Vue.component('emoji_popup_bot',{
 		});
 	},
 	data :	function () {
-		return{target : null,selectedText : "",errorMessage : false}
+		return{target : null, selectedText : "", errorMessage : false}
 	}
 });
 
@@ -1404,11 +1404,11 @@ var emojiContainer = Vue.component('emojiContainer', {
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data :	function () {
-			return {emojiList : {value : {}},selectedEmojiUser :{},selectedEmojiBOT :{},emojiRelation : {value : {}}}
+			return {emojiList : {value : {}}, selectedEmojiUser : {}, selectedEmojiBOT : {}, emojiRelation : {value : {}}}
 		},
 		methods :{
 			showEmojiPopup : function(modal){
-				$("#"+modal).modal();
+				$("#" + modal).modal();
 			},
 			setUserEmoji(item){
 				this.selectedEmojiUser = item;
@@ -1419,13 +1419,13 @@ var emojiContainer = Vue.component('emojiContainer', {
 			,
 			save(){
 				if(this.selectedEmojiUser.image && this.selectedEmojiBOT.image)
-				Vue.http.post(contextPath+'/secure/api/save/emoji/relation',{source : this.selectedEmojiUser, target : this.selectedEmojiBOT},function(resp){
+				Vue.http.post(contextPath + '/secure/api/save/emoji/relation', {source : this.selectedEmojiUser, target : this.selectedEmojiBOT}, function(resp){
 					window.location.reload();
 				});				
 			},
 			deleteEmoji(source){
 				if(source){
-					Vue.http.delete(contextPath+'/secure/api/delete/emoji/relation',{text : source.text},function(resp){
+					Vue.http.delete(contextPath + '/secure/api/delete/emoji/relation', {text : source.text}, function(resp){
 						window.location.reload();
 					});	
 				}
@@ -1433,11 +1433,11 @@ var emojiContainer = Vue.component('emojiContainer', {
 		},
 		mounted : function(){
 			var emoji = this.emojiList;
-			Vue.http.get(contextPath+'/secure/api/mongo/emoji/get',function(resp){
+			Vue.http.get(contextPath + '/secure/api/mongo/emoji/get', function(resp){
 				emoji.value = resp;
 			});
 			var emojiRelation = this.emojiRelation;
-			Vue.http.get(contextPath+'/secure/api/mongo/emojiRelation/get',function(resp){
+			Vue.http.get(contextPath + '/secure/api/mongo/emojiRelation/get', function(resp){
 				emojiRelation.value = resp;
 			});
 		}
@@ -1478,7 +1478,7 @@ var subjectContainer = Vue.component("subjectContainer",{
 		},
 		methods : {
 			save : function(){
-				Vue.http.post(contextPath+'/secure/api/mongo/post/subject',{subject: this.subject},function(resp){
+				Vue.http.post(contextPath + '/secure/api/mongo/post/subject', {subject: this.subject}, function(resp){
 					window.location.reload();
 				});	
 			}

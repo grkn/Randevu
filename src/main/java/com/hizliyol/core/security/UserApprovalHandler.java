@@ -9,9 +9,7 @@ import org.springframework.security.oauth2.provider.approval.ApprovalStoreUserAp
 
 import java.util.Collection;
 
-/**
- * Created by bilge_gilleez on 16.01.2018.
- */
+
 public class UserApprovalHandler extends ApprovalStoreUserApprovalHandler {
 
     private boolean useApprovalStore = true;

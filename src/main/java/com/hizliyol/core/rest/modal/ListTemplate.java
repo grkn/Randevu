@@ -26,6 +26,5 @@ public class ListTemplate {
 	public void setList(List<ListTemplateItem> list) {
 		this.list = list;
 	}
-	
-	
+		
 }

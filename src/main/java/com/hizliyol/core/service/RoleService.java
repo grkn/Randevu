@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by bilge_gilleez on 17.01.2018.
- */
 @Service
 @Transactional("transactionManager")
 public class RoleService {
@@ -37,7 +34,6 @@ public class RoleService {
     @Autowired
     private AuthorizationDataDao authorizationDataDao;
 
-
     public List<Role> getRoleList(){
         return roleDao.queryRoles();
     }
@@ -47,7 +43,6 @@ public class RoleService {
         authorizationDataDao.findAll().forEach(auhorization -> hashSet.add(auhorization));
         return new ArrayList<>(hashSet);
     }
-
 
     public void insert(Role role){
         roleDataDao.save(role);
@@ -67,4 +62,5 @@ public class RoleService {
     public List<Role> getLazily(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         return roleDao.getLazily(first,pageSize,sortField,sortOrder,filters);
     }
+    
 }

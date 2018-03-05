@@ -8,10 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by bilge_gilleez on 18.01.2018.
- */
 @Service
 @org.springframework.transaction.annotation.Transactional
 public class AuthService {

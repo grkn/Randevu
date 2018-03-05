@@ -19,7 +19,7 @@ import com.hizliyol.core.domain.UserDetailDto;
 import org.springframework.security.core.userdetails.User;
 
 @Component
-@Scope(scopeName = "session",value="session",proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(scopeName = "session", value="session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionBean {
 	
 	private List<GrantedAuthority> list;

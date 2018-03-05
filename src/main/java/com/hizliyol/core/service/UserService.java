@@ -61,9 +61,7 @@ public class UserService extends BaseService<RandevuUser,UserDataDao>{
 		if(!CollectionUtils.isEmpty(user.getRoleSet()))
 		userRoleDao.saveUserRole(resultUser);
 		
-		
 		ClientDetails clientDetailsEntity = new ClientDetails() {
-			
 			@Override
 			public boolean isSecretRequired() {
 				return true;
@@ -169,4 +167,5 @@ public class UserService extends BaseService<RandevuUser,UserDataDao>{
 	public void delete(RandevuUser user) {
 		userDataDao.delete(user);
 	}
+	
 }

@@ -21,13 +21,13 @@ public class HomePageRestController {
 	private SessionBean sessionBean;
 	
 
-	@RequestMapping(value="/admin",method = RequestMethod.POST,produces="text/html")
+	@RequestMapping(value = "/admin", method = RequestMethod.POST, produces = "text/html")
 	public ModelAndView getAdminPage(HttpServletRequest request){
 		Map<String,String> authToken = new HashMap<>() ;
 		
 		String req =request.getRequestURL().toString().replaceAll(request.getRequestURI(), "");
-		req = req + "/"+request.getContextPath();
-		authToken.put("authToken",Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(),sessionBean.getUserDetailDto().getUsername(),sessionBean.getUserDetailDto().getPassword(), sessionBean.getUserDetailDto().getUsername(),sessionBean.getUserDetailDto().getPassword()));
+		req = req + "/" + request.getContextPath();
+		authToken.put("authToken", Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(), sessionBean.getUserDetailDto().getUsername(), sessionBean.getUserDetailDto().getPassword(), sessionBean.getUserDetailDto().getUsername(), sessionBean.getUserDetailDto().getPassword()));
 		
 		return new ModelAndView("index", authToken);
 	}
