@@ -52,7 +52,7 @@ Vue.component('intent',{
 										+'<a class="btn btn-info" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
 										+'<a class="btn btn-default" role="button" v-on:click="addSentence(value)">{{$t("message.add")}}</a>'
 									+'</p>'
-									+'<div><select v-model="subject"><option v-for="sub in subjectArray" v-bind:value="{ value: sub }">{{ sub.subject}}</option></select></div>'
+									+'<div><select v-model="subject.subject"><option v-for="sub in subjectArray" v-bind:value="sub.subject">{{ sub.subject}}</option></select></div>'
 									+'<p>'
 										+'<a class="btn btn-info" role="button" v-on:click="removeSubject">{{$t("message.remove")}}</a>'
 										+'<a class="btn btn-default" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
@@ -77,10 +77,9 @@ Vue.component('intent',{
 		},
 		removeSentece : function(id){
 			if(this.expression.value.trim() != ""){
-				var index = this.expressions.indexOf(this.expression);
+				var index = this.expressions.indexOf(this.expression.value);
 				this.expressions.splice(index,1);
-				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression}).then(function(resp){
-
+				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression.value}).then(function(resp){
 				});
 			}
 		},
@@ -90,13 +89,15 @@ Vue.component('intent',{
 			});
 		},
 		saveSubject : function(){
-			if(this.subject && this.subject.value && this.subject.value.subject)
-			Vue.http.post(contextPath + "/secure/api/mongo/post/subjectRelation", {subject : this.subject.value.subject , intent : this.value}).then(function(resp){
+			if(this.subject && this.subject.subject)
+			Vue.http.post(contextPath + "/secure/api/mongo/post/subjectRelation", {subject : this.subject.subject , intent : this.value}).then(function(resp){
+				window.location.reload();
 			});
 		},
 		removeSubject : function(){
-			if(this.subject && this.subject.value && this.subject.value.subject)
-			Vue.http.delete(contextPath+"/secure/api/mongo/delete/subjectRelation", {subject : this.subject.value.subject, intent : this.value}).then(function(resp){
+			if(this.subject && this.subject.subject)
+			Vue.http.delete(contextPath+"/secure/api/mongo/delete/subjectRelation", {subject : this.subject.subject, intent : this.value}).then(function(resp){
+				window.location.reload();
 			});
 		}
 	}
@@ -105,12 +106,15 @@ Vue.component('intent',{
 		this.$nextTick(function () {
 			var subject = this.subject;
 			Vue.http.get(contextPath + "/secure/api/mongo/get/subject/"+this.value).then(function(resp){
-				subject = resp.data[0];
+				if(resp.data[0]){
+					subject.subject = resp.data[0].subject;
+					subject.intent = resp.data[0].intent;
+				}
 			});
 	  });
 	},
 	data :	function () {
-		return {sentence : "", expression : {},subject : {}}
+		return {sentence : "", expression : {},subject : {subject : "",intent : ""}}
 	}
 });
 
