@@ -21,6 +21,7 @@ public class ModelEntity {
 	private EmojiModal target;
 	private String text;
 	private String subject;
+	private WitaiApp application;
 	
 	public String getValue() {
 		return value;
@@ -123,6 +124,12 @@ public class ModelEntity {
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+	public WitaiApp getApplication() {
+		return application;
+	}
+	public void setApplication(WitaiApp application) {
+		this.application = application;
 	}
 	
 }

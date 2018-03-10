@@ -46,16 +46,17 @@ Vue.component('intent',{
 									+'<p><input type="text" v-model="sentence"></p>'
 									+'<p><label>{{$t("message.storedSentence")}} : </label>'
 									+'<div><select v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp }">{{ exp }}</option></select></div>'
-									
 									+'</p>'
 									+'<p>'
-										+'<a class="btn btn-info" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
-										+'<a class="btn btn-default" role="button" v-on:click="addSentence(value)">{{$t("message.add")}}</a>'
+										+'<a class="btn btn-default" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
+										+'<a class="btn btn-info" role="button" v-on:click="addSentence(value)">{{$t("message.save")}}</a>'
 									+'</p>'
+									+'<p><label>{{$t("message.subject")}} : </label>'
 									+'<div><select v-model="subject.subject"><option v-for="sub in subjectArray" v-bind:value="sub.subject">{{ sub.subject}}</option></select></div>'
+									+'</p>'
 									+'<p>'
-										+'<a class="btn btn-info" role="button" v-on:click="removeSubject">{{$t("message.remove")}}</a>'
-										+'<a class="btn btn-default" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
+										+'<a class="btn btn-default" role="button" v-on:click="removeSubject">{{$t("message.remove")}}</a>'
+										+'<a class="btn btn-info" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
 									+'</p>'
 							  +'</div>'
 							+'</div>'
@@ -114,7 +115,7 @@ Vue.component('intent',{
 	  });
 	},
 	data :	function () {
-		return {sentence : "", expression : {},subject : {subject : "",intent : ""}}
+		return {sentence : "", expression : {}, subject : {subject : "", intent : ""}}
 	}
 });
 
@@ -828,8 +829,8 @@ Vue.component('answers',{
 									+'<p><input type="text" v-model="sentence.value"></p>'
 									+'<p><label>{{$t("message.savedAnswer")}} : <span v-html="sentence.default"></span></label></p>'
 									+'<p>'
-										+'<a class="btn btn-info" role="button" v-on:click="removeAnswer(value)">{{$t("message.remove")}}</a>'
-										+'<a class="btn btn-default" role="button" v-on:click="addAnswer(value)">{{$t("message.add")}}</a>'
+										+'<a class="btn btn-default" role="button" v-on:click="removeAnswer(value)">{{$t("message.remove")}}</a>'
+										+'<a class="btn btn-info" role="button" v-on:click="addAnswer(value)">{{$t("message.save")}}</a>'
 									+'</p>'
 							  +'</div>'
 							+'</div>'
@@ -1027,7 +1028,7 @@ var trainingContainer = Vue.component("trainingContainer",{
 								+'<option value="0.8">0.8</option><option value="0.9">0.9</option>'
 								+'</select>'
 								+'&nbsp;&nbsp;&nbsp;<label>{{$t("message.responseList")}}</label>&nbsp;&nbsp;<input type="text" v-model="response"/>'
-								+'&nbsp;&nbsp;<button type="button" class="btn btn-info" v-on:click="addDefaultResponse">{{$t("message.add")}}</button>'
+								+'&nbsp;&nbsp;<button type="button" class="btn btn-info" v-on:click="addDefaultResponse">{{$t("message.save")}}</button>'
 								+'&nbsp;&nbsp;<select v-model="selectedResponse"><option v-for="resp in responseList" v-bind:value="resp">{{resp}}</option></select>'
 								+'&nbsp;&nbsp;<button type="button" class="btn btn-info" v-on:click="deleteDefaultMessage">{{$t("message.remove")}}</button>'
 								+'</div>'
@@ -1245,18 +1246,62 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 						+'</div>'
 					+'</div>'
 				+'</form>'
+				
+				+'<form class="form-horizontal">'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2" >Application Name</label>'
+						+'<div class="col-sm-10">'
+							+'<input type="text" class="form-control" v-model="app.name" placeholder="App Name">'
+						+'</div>'
+					+'</div>'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2" >Application Language</label>'
+						+'<div class="col-sm-10">'
+							+'<select v-model="app.language"><option value="tr">TR</option><option value="en">EN</option></select>'
+						+'</div>'
+					+'</div>'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2" >Application Description</label>'
+						+'<div class="col-sm-10">'
+							+'<input type="text" class="form-control" v-model="app.description" placeholder="App Description">'
+						+'</div>'
+					+'</div>'
+					+'<div class="form-group">'
+						+'<div class="col-sm-offset-2 col-sm-10">'
+							+'<button type="button" class="btn btn-default" v-on:click="create">Create</button>'
+						+'</div>'
+					+'</div>'
+				+'</form>'
 			+'</div>'
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data :	function () {
-			return {witDeployment : {value : ""}, isDeployed : {value : false}}
+			return {witDeployment : {value : ""}, isDeployed : {value : false},app : {}}
 		},
 		methods :{
 			deploy:function(){
-				console.log(this.witDeployment.value);
 				var tempIdDeployed = this.isDeployed;
 				Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : this.witDeployment.value}, function(resp){
 					tempIdDeployed.value = true;
+				});
+			},
+			create : function(){
+				this.app.prvt = "true";
+				Vue.http.post(contextPath + '/secure/api/witaiCreateApp/post', {application : this.app}, function(resp){
+					if(resp.errors){
+						var lang = window.localStorage.getItem('lang');
+						if(lang == "tr" && resp.errors[0].indexOf("already taken, please choose another one") > 0){
+							alert("Bu isim daha önce alınmıştır. Lütfen yeni bir isim giriniz.");
+						}else{
+							alert(resp.errors);
+						}
+						
+					}else{
+						Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : resp.access_token}, function(resp){
+							window.location.reload();
+						});
+					}
+					
 				});
 			}
 		},
@@ -1290,7 +1335,7 @@ Vue.component('emoji_popup_user',{
 								+'</div>'
 						      +'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
-						      	+'<button type="button" class="btn btn-default" v-on:click="selectItem()">{{$t("message.save")}}</button>'
+						      	+'<button type="button" class="btn btn-info" v-on:click="selectItem()">{{$t("message.save")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
 						+'</div><!--modal-dialog-->'
@@ -1342,7 +1387,7 @@ Vue.component('emoji_popup_bot',{
 								+'</div>'
 						      +'</div><!--modal-body-->'
 						      +'<div class="modal-footer">'
-						      	+'<button type="button" class="btn btn-default" v-on:click="selectItem()">{{$t("message.save")}}</button>'
+						      	+'<button type="button" class="btn btn-info" v-on:click="selectItem()">{{$t("message.save")}}</button>'
 						      +'</div>'
 						    +'</div><!--modal-content-->'
 						+'</div><!--modal-dialog-->'

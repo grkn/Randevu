@@ -520,6 +520,20 @@ public class NodeJsRestService {
         return result;
 	}
 	
+	
+	
+	@RequestMapping(value = "/api/witaiCreateApp/post", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public String createWitaiApp(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/witaiCreateApp/post", HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
 	private HttpEntity<Object> createEntityAndHeader(ModelEntity modelEntity) {
 		HttpHeaders headers = createJsonHeader();
         
