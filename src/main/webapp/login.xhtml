@@ -6,30 +6,28 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-
-<h:head>
-</h:head>
-<h:body>
-	<div style="text-align:center">
-		<p:fieldset legend="Giriş" style="display:inline-block">
-			<form action="${request.contextPath}/nonsecure/admin/" method="post" style="text-align:center">
-				<table style="width:100%">
-					<tr>
-						<td  style="text-align: right;width: 50%;"><h:outputLabel value="Kullanıcı Adı" /></td>
-						<td style="text-align: left;width: 50%;"><input type="text" name="username"/></td>
-					</tr>	
-					<tr>
-						<td style="text-align: right;width: 50%;"><h:outputLabel value="Şifre" /></td>
-						<td style="text-align: left;width: 50%;"><input type="password" name="password"/></td>			
-					</tr>
-					<tr>
-						<td colspan="2" style="text-align:center"><input type="submit" value="Giriş"/></td>
-					</tr>
-				</table>
-				
+	<h:head>
+	</h:head>
+	<h:body>
+		<div style="text-align:center">
+			<p:fieldset legend="Giriş" style="display:inline-block">
+				<form action="${request.contextPath}/nonsecure/admin/" method="post" style="text-align:center">
+					<table style="width:100%">
+						<tr>
+							<td  style="text-align: right;width: 50%;"><h:outputLabel value="Kullanıcı Adı" /></td>
+							<td style="text-align: left;width: 50%;"><input type="text" name="username"/></td>
+						</tr>	
+						<tr>
+							<td style="text-align: right;width: 50%;"><h:outputLabel value="Şifre" /></td>
+							<td style="text-align: left;width: 50%;"><input type="password" name="password"/></td>			
+						</tr>
+						<tr>
+							<td colspan="2" style="text-align:center"><input type="submit" value="Giriş"/></td>
+						</tr>
+					</table>
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-			</form>
-		</p:fieldset>
-	</div>
-</h:body>
+				</form>
+			</p:fieldset>
+		</div>
+	</h:body>
 </html>

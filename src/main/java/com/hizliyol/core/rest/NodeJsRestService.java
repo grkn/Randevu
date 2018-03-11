@@ -18,8 +18,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hizliyol.core.rest.modal.ModelEntity;
 
-
-
 @RestController
 public class NodeJsRestService {
 

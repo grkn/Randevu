@@ -14,7 +14,6 @@ Vue.component('i18n_custom',{
 	}
 });
 
-
 Vue.component("routerLinkComponent",{
 	template : '<span>'
 				+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
@@ -36,273 +35,55 @@ var i18n = new VueI18n({
   messages:messages // set locale messages
 });
 
-// Intent silme, cumle ekleme, cumle silme
-Vue.component('intent',{
-	template :'<div class="col-sm-6 col-md-4">'
-							+'<div class="thumbnail">'
-							  +'<div class="caption">'
-									+'<div><span style="float:right;cursor:pointer;" v-on:click="removeIntent">X</span></div>'
-									+'<h3> {{value}} </h3>'
-									+'<p><input type="text" v-model="sentence"></p>'
-									+'<p><label>{{$t("message.storedSentence")}} : </label>'
-									+'<div><select v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp }">{{ exp }}</option></select></div>'
-									+'</p>'
-									+'<p>'
-										+'<a class="btn btn-default" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
-										+'<a class="btn btn-info" role="button" v-on:click="addSentence(value)">{{$t("message.save")}}</a>'
-									+'</p>'
-									+'<p><label>{{$t("message.subject")}} : </label>'
-									+'<div><select v-model="subject.subject"><option v-for="sub in subjectArray" v-bind:value="sub.subject">{{ sub.subject}}</option></select></div>'
-									+'</p>'
-									+'<p>'
-										+'<a class="btn btn-default" role="button" v-on:click="removeSubject">{{$t("message.remove")}}</a>'
-										+'<a class="btn btn-info" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
-									+'</p>'
-							  +'</div>'
-							+'</div>'
-				  	+'</div>',
-	props: ['value', 'index', 'expressions','subjectArray'],
-	methods : {
-		addSentence : function(id){
-			if(this.sentence.trim() != ""){
-					this.expressions.unshift(this.sentence);
-					this.sentence = "";
-					var exps = [];
-					for(var i = 0; i < this.expressions.length; i++){
-						exps.push(this.expressions[i]);
-					}
-					Vue.http.post(contextPath + "/secure/api/post/intent/expressions", {value : this.value , expressions:exps}).then(function(resp){
-
-					});
-			}
-		},
-		removeSentece : function(id){
-			if(this.expression.value.trim() != ""){
-				var index = this.expressions.indexOf(this.expression.value);
-				this.expressions.splice(index,1);
-				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression.value}).then(function(resp){
-				});
-			}
-		},
-		removeIntent : function(){
-			Vue.http.delete(contextPath+"/secure/api/delete/intent", {value : this.value}).then(function(resp){
-				window.location.reload();
-			});
-		},
-		saveSubject : function(){
-			if(this.subject && this.subject.subject)
-			Vue.http.post(contextPath + "/secure/api/mongo/post/subjectRelation", {subject : this.subject.subject , intent : this.value}).then(function(resp){
-				window.location.reload();
-			});
-		},
-		removeSubject : function(){
-			if(this.subject && this.subject.subject)
-			Vue.http.delete(contextPath+"/secure/api/mongo/delete/subjectRelation", {subject : this.subject.subject, intent : this.value}).then(function(resp){
-				window.location.reload();
-			});
-		}
-	}
-	,
-	mounted : function(){
-		this.$nextTick(function () {
-			var subject = this.subject;
-			Vue.http.get(contextPath + "/secure/api/mongo/get/subject/"+this.value).then(function(resp){
-				if(resp.data[0]){
-					subject.subject = resp.data[0].subject;
-					subject.intent = resp.data[0].intent;
-				}
-			});
-	  });
-	},
-	data :	function () {
-		return {sentence : "", expression : {}, subject : {subject : "", intent : ""}}
-	}
-});
-
-// Intent row template
-Vue.component('row',{
-	template : '<div class="row"> <intent v-for="(intent,index) in array" v-bind:subjectArray="subjectArray" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
-	props: ['array','subjectArray']
-	
-});
-
-// Intent Sayfasi
-var container = Vue.component('container',{
-	template:'<div class="container">'
-						+'<div class="header">'
-							+'<div class="page-header">'
-								+'<div style="text-align:center">'
-									+'<h1>{{$t("message.header")}}</h1>'
-								+'</div>'
-								+'<routerLinkComponent></routerLinkComponent>'
-								+'<span style="float:right;margin-left: 20px;">'
-								+'<a target="_blank" href="./root/adminUser.xhtml">{{$t("message.rootPanel")}}</a>'
-							+'</span>'
-								+'<span style="float:right">'
-									+'<i18n_custom></i18n_custom>'
-								+'</span>'
-								
-							+'</div> <!--page-header-->'
-						+'</div> <!--header-->'
-						+'<div class="content">'
-							+'<div style="margin-left:20%;width:80%;margin-bottom:4%">'
-								+'<label>{{$t("message.search")}}</label><input type="text" v-model="searchText" v-on:keyup="search"/>'
-								+'<div style="float:right;"><label>{{$t("message.createLabel")}} :</label>&nbsp;'
-									+'<input type="text" v-model="intentName"/>&nbsp;&nbsp;'
-									+'<label>{{$t("message.subject")}} :</label>&nbsp;&nbsp;'
-									+'<select v-model="subject"><option v-for="subject in subjectList.value">{{subject.subject}}</option></select>&nbsp;&nbsp;'
-									+'<button type="button" class="btn btn-info" v-on:click="createIntent">{{$t("message.create")}}</button>'
-								+'</div>'
-							+'</div>'
-							+'<div class="col-md-2">'
-								+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
-							+'</div>'
-							+'<div class="col-md-10">'
-								+'<row v-for="intentArray in this.intentList" v-bind:array="intentArray" v-bind:subjectArray="subjectList.value"></row>'
-						+'</div>'
-					+'</div> <!--content-->'
-				+'</div> <!--container-->',
-	methods : {
-		showOnlyThisItem : function(intent){
-			this.intentList = [[intent]];
-		},
-		createIntent : function(){
-			if(this.intentName.trim() != ""){
-					Vue.http.post(contextPath + "/secure/api/create/intent", {value : this.intentName, subject : this.subject}).then(function(resp){
-						window.location.reload();
-					});
-			}
-		},
-		search : function(){
-			if(this.searchText.trim() == ""){
-				this.immutableObjectToEntity();
-				return;
-			}
-			this.immutableObjectToEntity();
-			for(var i = 0; i < this.original.length; i++){
-				for(var j = 0; j < this.original[i].length; j++){
-					if(this.original[i][j].value.toLocaleUpperCase().indexOf(this.searchText.toLocaleUpperCase()) < 0){
-						var k = 0;
-						for(k = 0; k < this.intentList.length; k++){
-							var z = 0;
-							var flag = false;
-							for(z = 0; z < this.intentList[k].length; z++){
-								if(this.intentList[k][z].value == this.original[i][j].value){
-									flag = true;
-									break;
-								}
-							}
-							if(flag){
-								this.intentList[k].splice(z,1);
-							}
-						}
-					}
-				}
-			}
-		},
-		immutableObjectToOriginal: function(){
-			for(var i = 0; i < this.intentList.length; i++){
-				var mod3Array = [];
-				for(var j = 0; j < this.intentList[i].length; j++){
-					var obj = {};
-					for(var key in this.intentList[i][j]){
-						obj[key] = this.intentList[i][j][key];
-					}
-					mod3Array = mod3Array.concat(obj);
-				}
-				this.original.push(mod3Array);
-			}
-		},
-		immutableObjectToEntity: function(){
-			this.intentList = [];
-			for(var i = 0; i < this.original.length; i++){
-				var mod3Array = [];
-				for(var j = 0; j < this.original[i].length; j++){
-					var obj = {};
-					for(var key in this.original[i][j]){
-						obj[key] = this.original[i][j][key];
-					}
-					mod3Array = mod3Array.concat(obj);
-				}
-				this.intentList.push(mod3Array);
-			}
-		},
-		mountFunc : function(iList,func){
-			Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
-				  var counter = 0;
-					var index = -1;
-					for(var i = 0; i < resp.data.values.length; i++){
-						if(counter % 3 == 0){
-							index++;
-							iList[index] = [];
-						}
-						iList[index].push(resp.data.values[i]);
-						counter++;
-					}
-					func();
-			});
-			
-		}
-	},
-	mounted : function(){
-		this.$nextTick(function () {
-			this.mountFunc(this.intentList, this.immutableObjectToOriginal);
-			var subjectList = this.subjectList;
-			Vue.http.get(contextPath + "/secure/api/mongo/get/subjects").then(function(resp){
-				 subjectList.value = resp.data;
-			});
-	  });
-	},
-	data :	function () {
-		return {intentList :[], original :[],
-		searchText : "", intentName : "", subject : "",subjectList : {value : []}}
-	}
-});
 
 // Carousel popup
 Vue.component('carousel_popup',{
 	template :'<div id="myModal" class="modal fade" role="dialog">'
-							+'<div class="modal-dialog">'
-						    +'<div class="modal-content">'
-						      +'<div class="modal-header">'
-						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">{{$t("message.carousel")}}</h4>'
-						      +'</div>'
-						      +'<div class="modal-body">'			      
-						      		+'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
-										+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
-											+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
-										+'</select>'
-									+'</div>'
-								+'<div>'
-											+'<button style="float:right" class="btn btn-info" v-on:click="removeInputFields()">{{$t("message.removeCarousel")}}</button>'
-											+'<button style="float:right" class="btn btn-info" v-on:click="incrementInputFields()">{{$t("message.addCarousel")}}</button>'
-											+'<div v-for="car in carousel">'
-												+'<table style="width:100%">'
-													+'<tr><td><label>{{$t("message.image_url")}}</label></td><td><input type="text" v-model="car.imgUrl"/></td></tr>'
-													+'<tr><td><label>{{$t("message.title")}}</label></td><td><input type="text" v-model="car.title"/></td></tr>'
-													+'<tr><td><label>{{$t("message.subtitle")}}</label></td><td><input type="text" v-model="car.subtitle"/></td></tr>'
-												+'</table>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="removeButtons(car)">{{$t("message.removeButton")}}</button>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="incrementButtons(car)">{{$t("message.addButton")}}</button>'
-												+'<div v-for="button in car.buttons">'
-													+'<table style="width:100%">'
-														+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
-														+'<tr><td><label>{{$t("message.name")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
-														+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
-													+'</table>'
-													+'<hr/>'
-												+'</div><!--button in-->'
-												+'<hr/>'
-											+'</div><!--car in-->'
-										+'</div><!-- -->'
-									+'</div><!--modal-body-->'
-						      +'<div class="modal-footer">'
-										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
-						      +'</div>'
-						    +'</div><!--modal-content-->'
-						+'</div><!--modal-dialog-->'
-					+'</div><!--myModal-->',
+				+'<div class="modal-dialog">'
+				    +'<div class="modal-content">'
+				      +'<div class="modal-header">'
+				        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+				        +'<h4 class="modal-title">{{$t("message.carousel")}}</h4>'
+				      +'</div>'
+				      +'<div class="modal-body">'			      
+			      		+'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+							+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
+								+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
+							+'</select>'
+						+'</div>'
+						+'<br/>'
+						+'<div>'
+							+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeInputFields()">{{$t("message.removeCarousel")}}</button>'
+							+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementInputFields()">{{$t("message.addCarousel")}}</button>'	
+							+'<br/><br/>'
+							+'<div v-for="car in carousel">'
+								+'<table style="width:100%;">'
+									+'<tr><td><label>{{$t("message.image_url")}}</label></td><td><input type="text" v-model="car.imgUrl"/></td></tr>'
+									+'<tr><td><label>{{$t("message.title")}}</label></td><td><input type="text" v-model="car.title"/></td></tr>'
+									+'<tr><td><label>{{$t("message.subtitle")}}</label></td><td><input type="text" v-model="car.subtitle"/></td></tr>'
+								+'</table>'
+								+'<br/>'
+								+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(car)">{{$t("message.removeButton")}}</button>'
+								+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementButtons(car)">{{$t("message.addButton")}}</button>'
+								+'<br/><br/>'
+								+'<div v-for="button in car.buttons">'
+									+'<table style="width:100%">'
+										+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
+										+'<tr><td><label>{{$t("message.bName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+										+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
+									+'</table>'
+									+'<br/>'
+								+'</div><!--button in-->'
+								+'<hr/>'
+							+'</div><!--car in-->'
+						+'</div>'
+					  +'</div><!--modal-body-->'
+					  +'<div class="modal-footer" style="border-top:0;">'
+					   		+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+				      +'</div>'
+				    +'</div><!--modal-content-->'
+				+'</div><!--modal-dialog-->'
+			+'</div><!--myModal-->',
 	props : ['entityList'],
 	methods : {
 		incrementInputFields : function(){
@@ -362,9 +143,9 @@ Vue.component('carousel_popup',{
 // Add carousel
 Vue.component('createCarousel',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.carousel")}}</button>'
-							+'<carousel_popup v-bind:entityList="entityList"></carousel_popup>'
-						+'</div>',
+					+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.carousel")}}</button>'
+					+'<carousel_popup v-bind:entityList="entityList"></carousel_popup>'
+				+'</div>',
 	props : ['entityList'],
 	methods : {
 		loadPopup : function(){
@@ -373,157 +154,59 @@ Vue.component('createCarousel',{
 	}
 });
 
-// Quick Reply popup
-Vue.component('quickreply_popup',{
-	template :'<div id="myModalquickreply" class="modal fade" role="dialog">'
-							+'<div class="modal-dialog">'
-						    +'<div class="modal-content">'
-						      +'<div class="modal-header">'
-						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">{{$t("message.quickReply")}}</h4>'
-						      +'</div>'
-						      +'<div class="modal-body">'
-										+'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
-											 +'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
-												 +'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
-											 +'</select>'
-									 +'</div>'
-									 +'<br/>'
-										+'<div>'
-											+'<div v-for="qReply in quickReply">'
-												+'<table style="width:100%">'
-													+'<tr><td><label>{{$t("message.content")}}</label></td><td><textarea v-model="qReply.text"/></td></tr>'
-												+'</table>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="removeButtons(qReply)">{{$t("message.removeButton")}}</button>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="incrementButtons(qReply)">{{$t("message.addButton")}}</button>'
-												+'<div v-for="button in qReply.buttons">'
-													+'<table style="width:100%">'
-														+'<tr><td><label>{{$t("message.name")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
-														+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
-													+'</table>'
-													+'<hr/>'
-												+'</div><!--button in-->'
-												+'<hr/>'
-											+'</div><!--qReply in-->'
-										+'</div><!-- -->'
-									+'</div><!--modal-body-->'
-						      +'<div class="modal-footer">'
-										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
-						      +'</div>'
-						    +'</div><!--modal-content-->'
-						+'</div><!--modal-dialog-->'
-					+'</div><!--myModal-->',
-	props : ['entityList'],
-	methods : {
-		incrementButtons : function(quickReply){
-			if(quickReply.buttons.length < 5){
-				quickReply.buttons.push({});
-			}
-		},
-		removeButtons : function(quickReply){
-			if(quickReply.buttons.length > 1){
-				quickReply.buttons.splice(quickReply.buttons.length -1, 1)
-			}
-		},
-		save : function(){
-			Vue.http.post(contextPath + "/secure/api/view/create/quickReply", {quickReply : this.quickReply, intent : this.selectedIntent}, function(resp){
-				$("#myModalquickreply").modal('hide');
-			});
-		},
-		selectedIntentFunc : function(){
-			var quickReplyTemp = this.quickReply;
-			Vue.http.post(contextPath + "/secure/api/view/get/quickReply", {intent : this.selectedIntent}, function(resp){
-				if(resp.type && resp.type == 'quickReply'){
-					while(0 < quickReplyTemp.length){
-						quickReplyTemp.splice(0, 1);
-					}
-					for(var i = 0; i < resp.value.length; i++){
-						quickReplyTemp.push(resp.value[i]);
-					}
-				}else{
-					while(0 < quickReplyTemp.length){
-						quickReplyTemp.splice(0, 1);
-					}
-					quickReplyTemp.push({buttons:[{}]});
-				}
-			});
-		}
-	},
-	mounted : function(){
-		this.$nextTick(function () {
-			this.list = this.entityList;
-  	})
-	},
-	data :	function () {
-		return {list : [], selectedIntent : "", quickReply : [{buttons : [{}]}]}
-	}
-});
-
-// Add quick reply
-Vue.component('createQuickReply',{
-	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.quickReply")}}</button>'
-							+'<quickreply_popup v-bind:entityList="entityList"></quickreply_popup>'
-						+'</div>',
-	props : ['entityList'],
-	methods : {
-		loadPopup : function(){
-				$("#myModalquickreply").modal();
-		}
-	}
-});
-
 
 // list Template popup
 Vue.component('listTemplate_popup',{
 	template :'<div id="myModalListTemplate" class="modal fade" role="dialog">'
-							+'<div class="modal-dialog">'
-						    +'<div class="modal-content">'
+					+'<div class="modal-dialog">'
+					    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
 						        +'<h4 class="modal-title">{{$t("message.listTemplate")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
-						        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
-												+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
-													+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
-												+'</select>'
-										+'</div>'
-										+'<br/>'
-										+'<div>'
+							        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+										+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
+											+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
+										+'</select>'
+									+'</div>'
+									+'<br/>'
+									+'<div>'
 										+'<table style="width:100%">'
 											+'<tr><td><label>{{$t("message.viewMoreButtonUrl")}}</label></td><td><input type="text" v-model="listTemplate.viewMoreButtonUrl"/></td></tr>'
 											+'<tr><td><label>{{$t("message.viewMoreButtonName")}}</label></td><td><input type="text" v-model="listTemplate.viewMoreButtonName"/></td></tr>'
+											+'<br/>'
 										+'</table>'
-											+'<button style="float:right" class="btn btn-info" v-on:click="removeInputFields()">{{$t("message.removeListItem")}}</button>'
-											+'<button style="float:right" class="btn btn-info" v-on:click="incrementInputFields()">{{$t("message.addListItem")}}</button>'
+											+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeInputFields()">{{$t("message.removeListItem")}}</button>'
+											+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementInputFields()">{{$t("message.addListItem")}}</button>'
+											+'<br/><br/>'
 											+'<div v-for="listTemp in listTemplate.list">'
 												+'<table style="width:100%">'
+													+'<tr><td><label>{{$t("message.image_url")}}</label></td><td><input type="text" v-model="listTemp.imgUrl"/></td></tr>'
 													+'<tr><td><label>{{$t("message.title")}}</label></td><td><input type="text" v-model="listTemp.title"/></td></tr>'
 													+'<tr><td><label>{{$t("message.subtitle")}}</label></td><td><input type="text" v-model="listTemp.subTitle"/></td></tr>'
-													+'<tr><td><label>{{$t("message.image_url")}}</label></td><td><input type="text" v-model="listTemp.imgUrl"/></td></tr>'
 												+'</table>'
-
-												+'<button style="float:right" class="btn btn-info" v-on:click="removeButtons(listTemp)">{{$t("message.removeButton")}}</button>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="incrementButtons(listTemp)">{{$t("message.addButton")}}</button>'
+												+'<!--<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(listTemp)">{{$t("message.removeButton")}}</button>-->'
+												+'<!--<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementButtons(listTemp)">{{$t("message.addButton")}}</button>-->'
 												+'<div v-for="button in listTemp.buttons">'
+												+'<br/><br/>'
 													+'<table style="width:100%">'
-														+'<tr><td><label>{{$t("message.name")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
-														+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
 														+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
+														+'<tr><td><label>{{$t("message.bName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+														+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
 													+'</table>'
-													+'<hr/>'
+													+'<br/>'
 												+'</div><!--button in-->'
 												+'<hr/>'
-											+'</div><!--car in-->'
-										+'</div><!-- -->'
-									+'</div><!--modal-body-->'
-						      +'<div class="modal-footer">'
+											+'</div><!--listTemp in-->'
+									+'</div><!-- -->'
+							  +'</div><!--modal-body-->'
+						      +'<div class="modal-footer" style="border-top:0;">'
 								+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
 						      +'</div>'
-						    +'</div><!--modal-content-->'
-						+'</div><!--modal-dialog-->'
-					+'</div><!--myModal-->',
+					    +'</div><!--modal-content-->'
+					+'</div><!--modal-dialog-->'
+				+'</div><!--myModal-->',
 	props : ['entityList'],
 	methods : {
 		incrementInputFields : function(){
@@ -587,9 +270,9 @@ Vue.component('listTemplate_popup',{
 // Add list Template
 Vue.component('createListTemplate',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.listTemplate")}}</button>'
-							+'<listTemplate_popup v-bind:entityList="entityList"></listTemplate_popup>'
-						+'</div>',
+					+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.listTemplate")}}</button>'
+					+'<listTemplate_popup v-bind:entityList="entityList"></listTemplate_popup>'
+				+'</div>',
 	props : ['entityList'],
 	methods : {
 		loadPopup : function(){
@@ -598,47 +281,153 @@ Vue.component('createListTemplate',{
 	}
 });
 
+
+//Quick Reply popup
+Vue.component('quickreply_popup',{
+	template :'<div id="myModalquickreply" class="modal fade" role="dialog">'
+					+'<div class="modal-dialog">'
+					    +'<div class="modal-content">'
+					      +'<div class="modal-header">'
+					        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+					        +'<h4 class="modal-title">{{$t("message.quickReply")}}</h4>'
+					      +'</div>'
+					      +'<div class="modal-body">'
+								+'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+									 +'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
+										 +'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
+									 +'</select>'
+								 +'</div>'
+								 +'<br/>'
+								+'<div>'
+									+'<div v-for="qReply in quickReply">'
+										+'<table style="width:100%">'
+											+'<tr><td><label>{{$t("message.content")}}</label></td><td><input type="text" v-model="qReply.text"/></td></tr>'
+										+'</table>'
+										+'<br/>'
+										+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(qReply)">{{$t("message.removeButton")}}</button>'
+										+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementButtons(qReply)">{{$t("message.addButton")}}</button>'
+										+'<br/><br/>'
+										+'<div v-for="button in qReply.buttons">'
+											+'<table style="width:100%">'
+												+'<tr><td><label>{{$t("message.bName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+												+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
+											+'</table>'
+											+'<br/>'
+										+'</div><!--button in-->'
+										+'<hr/>'
+									+'</div><!--qReply in-->'
+								+'</div><!-- -->'
+						  +'</div><!--modal-body-->'
+					      +'<div class="modal-footer" style="border-top:0;">'
+								+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+					      +'</div>'
+					    +'</div><!--modal-content-->'
+				+'</div><!--modal-dialog-->'
+				+'</div><!--myModal-->',
+	props : ['entityList'],
+	methods : {
+		incrementButtons : function(quickReply){
+			if(quickReply.buttons.length < 5){
+				quickReply.buttons.push({});
+			}
+		},
+		removeButtons : function(quickReply){
+			if(quickReply.buttons.length > 1){
+				quickReply.buttons.splice(quickReply.buttons.length -1, 1)
+			}
+		},
+		save : function(){
+			Vue.http.post(contextPath + "/secure/api/view/create/quickReply", {quickReply : this.quickReply, intent : this.selectedIntent}, function(resp){
+				$("#myModalquickreply").modal('hide');
+			});
+		},
+		selectedIntentFunc : function(){
+			var quickReplyTemp = this.quickReply;
+			Vue.http.post(contextPath + "/secure/api/view/get/quickReply", {intent : this.selectedIntent}, function(resp){
+				if(resp.type && resp.type == 'quickReply'){
+					while(0 < quickReplyTemp.length){
+						quickReplyTemp.splice(0, 1);
+					}
+					for(var i = 0; i < resp.value.length; i++){
+						quickReplyTemp.push(resp.value[i]);
+					}
+				}else{
+					while(0 < quickReplyTemp.length){
+						quickReplyTemp.splice(0, 1);
+					}
+					quickReplyTemp.push({buttons:[{}]});
+				}
+			});
+		}
+	},
+	mounted : function(){
+		this.$nextTick(function () {
+			this.list = this.entityList;
+	})
+	},
+	data :	function () {
+		return {list : [], selectedIntent : "", quickReply : [{buttons : [{}]}]}
+	}
+});
+
+//Add quick reply
+Vue.component('createQuickReply',{
+	template :'<div style="display:inline-block; padding-right:1%;">'
+				+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.quickReply")}}</button>'
+				+'<quickreply_popup v-bind:entityList="entityList"></quickreply_popup>'
+			+'</div>',
+	props : ['entityList'],
+	methods : {
+		loadPopup : function(){
+				$("#myModalquickreply").modal();
+		}
+	}
+});
+
+
 // Generic Buttons popup
 Vue.component('generic_buttons_popup',{
 	template :'<div id="myModalGenericButtons" class="modal fade" role="dialog">'
-							+'<div class="modal-dialog">'
-						    +'<div class="modal-content">'
-						      +'<div class="modal-header">'
-						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
-						        +'<h4 class="modal-title">{{$t("message.genericButtons")}}</h4>'
-						      +'</div>'
-						      +'<div class="modal-body">'
-						        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
-												+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
-													+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
-												+'</select>'
-										+'</div>'
+					+'<div class="modal-dialog">'
+					    +'<div class="modal-content">'
+					      +'<div class="modal-header">'
+					        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+					        +'<h4 class="modal-title">{{$t("message.genericButtons")}}</h4>'
+					      +'</div>'
+					      +'<div class="modal-body">'
+					        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+								+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
+									+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
+								+'</select>'
+							+'</div>'
+							+'<br/>'
+							+'<div>'
+								+'<div v-for="gButtons in genericButtons">'
+									+'<table style="width:100%">'
+										+'<tr><td><label>{{$t("message.content")}}</label></td><td><input type="text" v-model="gButtons.text"/></td></tr>'
+									+'</table>'
+									+'<br/>'
+									+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(gButtons)">{{$t("message.removeButton")}}</button>'
+									+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementButtons(gButtons)">{{$t("message.addButton")}}</button>'
+									+'<br/><br/>'
+									+'<div v-for="button in gButtons.buttons">'
+										+'<table style="width:100%">'
+											+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
+											+'<tr><td><label>{{$t("message.bName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+											+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
+										+'</table>'
 										+'<br/>'
-										+'<div>'
-											+'<div v-for="gButtons in genericButtons">'
-												+'<table style="width:100%">'
-													+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="gButtons.text"/></td></tr>'
-												+'</table>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="removeButtons(gButtons)">{{$t("message.removeButton")}}</button>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="incrementButtons(gButtons)">{{$t("message.addButton")}}</button>'
-												+'<div v-for="button in gButtons.buttons">'
-													+'<table style="width:100%">'
-														+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
-														+'<tr><td><label>{{$t("message.name")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
-														+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
-													+'</table>'
-													+'<hr/>'
-												+'</div><!--button in-->'
-												+'<hr/>'
-											+'</div><!--gButtons in-->'
-										+'</div><!-- -->'
-									+'</div><!--modal-body-->'
-						      +'<div class="modal-footer">'
-										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
-						      +'</div>'
-						    +'</div><!--modal-content-->'
-						+'</div><!--modal-dialog-->'
-					+'</div><!--myModal-->',
+									+'</div><!--button in-->'
+									+'<hr/>'
+								+'</div><!--gButtons in-->'
+							+'</div><!-- -->'
+						  +'</div><!--modal-body-->'
+					      +'<div class="modal-footer" style="border-top:0;">'
+								+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+					      +'</div>'
+					    +'</div><!--modal-content-->'
+					+'</div><!--modal-dialog-->'
+				+'</div><!--myModal-->',
 	props : ['entityList'],
 	methods : {
 		incrementInputFields : function(){
@@ -698,9 +487,9 @@ Vue.component('generic_buttons_popup',{
 // Add Generic Buttons
 Vue.component('createGenericButtons',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.genericButtons")}}</button>'
-							+'<generic_buttons_popup v-bind:entityList="entityList"></generic_buttons_popup>'
-						+'</div>',
+				+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.genericButtons")}}</button>'
+				+'<generic_buttons_popup v-bind:entityList="entityList"></generic_buttons_popup>'
+			+'</div>',
 	props : ['entityList'],
 	methods : {
 		loadPopup : function(){
@@ -709,47 +498,50 @@ Vue.component('createGenericButtons',{
 	}
 });
 
+
 // Attachment popup
 Vue.component('attachment_popup',{
 	template :'<div id="myModalAttachment" class="modal fade" role="dialog">'
-							+'<div class="modal-dialog">'
-						    +'<div class="modal-content">'
+					+'<div class="modal-dialog">'
+					    +'<div class="modal-content">'
 						      +'<div class="modal-header">'
 						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
 						        +'<h4 class="modal-title">{{$t("message.attachment")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
 						        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
-												+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
-													+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
-												+'</select>'
-										+'</div>'
+										+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
+											+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
+										+'</select>'
+								+'</div>'
+								+'<br/>'
+								+'<div>'
+									+'<div v-for="atch in genericButtons">'
+										+'<table style="width:100%">'
+											+'<tr><td><label>{{$t("message.content")}}</label></td><td><input type="text" v-model="atch.text"/></td></tr>'
+										+'</table>'
 										+'<br/>'
-										+'<div>'
-											+'<div v-for="atch in genericButtons">'
-												+'<table style="width:100%">'
-													+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="atch.text"/></td></tr>'
-												+'</table>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="removeButtons(atch)">{{$t("message.removeAttachment")}}</button>'
-												+'<button style="float:right" class="btn btn-info" v-on:click="incrementButtons(atch)">{{$t("message.addAttachment")}}</button>'
-												+'<div v-for="button in atch.buttons">'
-													+'<table style="width:100%">'
-														+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
-														+'<tr><td><label>{{$t("message.name")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
-														+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
-													+'</table>'
-													+'<hr/>'
-												+'</div><!--button in-->'
-												+'<hr/>'
-											+'</div><!--atch in-->'
-										+'</div><!-- -->'
-									+'</div><!--modal-body-->'
-						      +'<div class="modal-footer">'
-										+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+										+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(atch)">{{$t("message.removeAttachment")}}</button>'
+										+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementButtons(atch)">{{$t("message.addAttachment")}}</button>'
+										+'<br/><br/>'
+										+'<div v-for="button in atch.buttons">'
+											+'<table style="width:100%">'
+												+'<tr><td><label>{{$t("message.fileURL")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
+												+'<tr><td><label>{{$t("message.fileName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+												+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
+											+'</table>'
+											+'<br/>'
+										+'</div><!--button in-->'
+										+'<hr/>'
+									+'</div><!--atch in-->'
+								+'</div><!-- -->'
+							  +'</div><!--modal-body-->'
+						      +'<div class="modal-footer" style="border-top:0;">'
+									+'<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
 						      +'</div>'
-						    +'</div><!--modal-content-->'
-						+'</div><!--modal-dialog-->'
-					+'</div><!--myModal-->',
+					    +'</div><!--modal-content-->'
+					+'</div><!--modal-dialog-->'
+				+'</div><!--myModal-->',
 	props : ['entityList'],
 	methods : {
 		incrementInputFields : function(){
@@ -809,9 +601,9 @@ Vue.component('attachment_popup',{
 // Add Attachment
 Vue.component('createAttachment',{
 	template :'<div style="display:inline-block; padding-right:1%;">'
-							+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.attachment")}}</button>'
-							+'<attachment_popup v-bind:entityList="entityList"></attachment_popup>'
-						+'</div>',
+				+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.attachment")}}</button>'
+				+'<attachment_popup v-bind:entityList="entityList"></attachment_popup>'
+			+'</div>',
 	props : ['entityList'],
 	methods : {
 		loadPopup : function(){
@@ -820,21 +612,246 @@ Vue.component('createAttachment',{
 	}
 });
 
-// Answers cevap ekleme
+
+//Intent silme, cumle ekleme, cumle silme
+Vue.component('intent',{
+	template :'<div class="col-sm-6 col-md-4">'
+				+'<div class="thumbnail">'
+					+'<div class="caption">'
+						+'<div><span style="float:right;cursor:pointer;" v-on:click="removeIntent">X</span></div>'
+						+'<h3> {{value}} </h3>'	
+						+'<hr/>'
+						+'<p><label>{{$t("message.storedSentence")}}</label>'
+							+'<select style="width:100%;height:25px;" v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp }">{{ exp }}</option></select>'
+						+'</p>'
+						+'<p><label>{{$t("message.enterSentence")}}</label>'
+						+'<input style="width:100%;height:25px;" type="text" v-model="sentence"></p>'						
+						+'<p>'
+							+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="addSentence(value)">{{$t("message.save")}}</a>'
+							+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
+						+'</p>'
+						+'<p><label>{{$t("message.subject")}}</label>'
+							+'<select style="width:100%;height:25px;" v-model="subject.subject"><option v-for="sub in subjectArray" v-bind:value="sub.subject">{{ sub.subject}}</option></select>'
+						+'</p>'
+						+'<p>'
+							+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
+							+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="removeSubject">{{$t("message.remove")}}</a>'
+						+'</p>'
+					+'</div>'
+				+'</div>'
+			+'</div>',
+	props: ['value', 'index', 'expressions','subjectArray'],
+	methods : {
+		addSentence : function(id){
+			if(this.sentence.trim() != ""){
+				this.expressions.unshift(this.sentence);
+				this.sentence = "";
+				var exps = [];
+				for(var i = 0; i < this.expressions.length; i++){
+					exps.push(this.expressions[i]);
+				}
+				Vue.http.post(contextPath + "/secure/api/post/intent/expressions", {value : this.value , expressions:exps}).then(function(resp){
+				});
+			}
+		},
+		removeSentece : function(id){
+			if(this.expression.value.trim() != ""){
+				var index = this.expressions.indexOf(this.expression.value);
+				this.expressions.splice(index,1);
+				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression.value}).then(function(resp){
+				});
+			}
+		},
+		removeIntent : function(){
+			Vue.http.delete(contextPath+"/secure/api/delete/intent", {value : this.value}).then(function(resp){
+				window.location.reload();
+			});
+		},
+		saveSubject : function(){
+			if(this.subject && this.subject.subject)
+			Vue.http.post(contextPath + "/secure/api/mongo/post/subjectRelation", {subject : this.subject.subject , intent : this.value}).then(function(resp){
+				window.location.reload();
+			});
+		},
+		removeSubject : function(){
+			if(this.subject && this.subject.subject)
+			Vue.http.delete(contextPath+"/secure/api/mongo/delete/subjectRelation", {subject : this.subject.subject, intent : this.value}).then(function(resp){
+				window.location.reload();
+			});
+		}
+	},
+	mounted : function(){
+		this.$nextTick(function () {
+			var subject = this.subject;
+			Vue.http.get(contextPath + "/secure/api/mongo/get/subject/"+this.value).then(function(resp){
+				if(resp.data[0]){
+					subject.subject = resp.data[0].subject;
+					subject.intent = resp.data[0].intent;
+				}
+			});
+	  });
+	},
+	data :	function () {
+		return {sentence : "", expression : {}, subject : {subject : "", intent : ""}}
+	}
+});
+
+//Intent row template
+Vue.component('row',{
+	template : '<div class="row"> <intent v-for="(intent,index) in array" v-bind:subjectArray="subjectArray" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
+	props: ['array','subjectArray']
+	
+});
+
+//Intent Sayfasi
+var container = Vue.component('container',{
+	template:'<div class="container">'
+					+'<div class="header">'
+						+'<div class="page-header">'
+							+'<div style="text-align:center">'
+								+'<h1>{{$t("message.header")}}</h1>'
+							+'</div>'
+							+'<routerLinkComponent></routerLinkComponent>'
+							+'<span style="float:right;margin-left:20px;">'
+								+'<a target="_blank" href="./root/adminUser.xhtml">{{$t("message.rootPanel")}}</a>'
+							+'</span>'
+							+'<span style="float:right;">'
+								+'<i18n_custom></i18n_custom>'
+							+'</span>'							
+						+'</div> <!--page-header-->'
+					+'</div> <!--header-->'
+					+'<div class="content">'
+						+'<div style="margin-left:20%;width:80%;margin-bottom:4%">'
+							+'<div><label>{{$t("message.createLabel")}} :</label>&nbsp;'
+								+'<input type="text" v-model="intentName"/>&nbsp;&nbsp;'
+								+'<label>{{$t("message.subject")}} :</label>&nbsp;&nbsp;'
+								+'<select v-model="subject"><option v-for="subject in subjectList.value">{{subject.subject}}</option></select>&nbsp;&nbsp;'
+								+'<button type="button" class="btn btn-info" v-on:click="createIntent">{{$t("message.create")}}</button>'
+								+'<div style="float:right;"><label>{{$t("message.search")}}&nbsp;&nbsp;</label><input type="text" v-model="searchText" v-on:keyup="search"/></div>'
+							+'</div>'
+						+'</div>'
+						+'<div class="col-md-2">'
+							+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
+						+'</div>'
+						+'<div class="col-md-10">'
+							+'<row v-for="intentArray in this.intentList" v-bind:array="intentArray" v-bind:subjectArray="subjectList.value"></row>'
+					+'</div>'
+				+'</div> <!--content-->'
+			+'</div> <!--container-->',
+	methods : {
+		showOnlyThisItem : function(intent){
+			this.intentList = [[intent]];
+		},
+		createIntent : function(){
+			if(this.intentName.trim() != ""){
+				Vue.http.post(contextPath + "/secure/api/create/intent", {value : this.intentName, subject : this.subject}).then(function(resp){
+					window.location.reload();
+				});
+			}
+		},
+		search : function(){
+			if(this.searchText.trim() == ""){
+				this.immutableObjectToEntity();
+				return;
+			}
+			this.immutableObjectToEntity();
+			for(var i = 0; i < this.original.length; i++){
+				for(var j = 0; j < this.original[i].length; j++){
+					if(this.original[i][j].value.toLocaleUpperCase().indexOf(this.searchText.toLocaleUpperCase()) < 0){
+						var k = 0;
+						for(k = 0; k < this.intentList.length; k++){
+							var z = 0;
+							var flag = false;
+							for(z = 0; z < this.intentList[k].length; z++){
+								if(this.intentList[k][z].value == this.original[i][j].value){
+									flag = true;
+									break;
+								}
+							}
+							if(flag){
+								this.intentList[k].splice(z,1);
+							}
+						}
+					}
+				}
+			}
+		},
+		immutableObjectToOriginal: function(){
+			for(var i = 0; i < this.intentList.length; i++){
+				var mod3Array = [];
+				for(var j = 0; j < this.intentList[i].length; j++){
+					var obj = {};
+					for(var key in this.intentList[i][j]){
+						obj[key] = this.intentList[i][j][key];
+					}
+					mod3Array = mod3Array.concat(obj);
+				}
+				this.original.push(mod3Array);
+			}
+		},
+		immutableObjectToEntity: function(){
+			this.intentList = [];
+			for(var i = 0; i < this.original.length; i++){
+				var mod3Array = [];
+				for(var j = 0; j < this.original[i].length; j++){
+					var obj = {};
+					for(var key in this.original[i][j]){
+						obj[key] = this.original[i][j][key];
+					}
+					mod3Array = mod3Array.concat(obj);
+				}
+				this.intentList.push(mod3Array);
+			}
+		},
+		mountFunc : function(iList,func){
+			Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
+			  var counter = 0;
+				var index = -1;
+				for(var i = 0; i < resp.data.values.length; i++){
+					if(counter % 3 == 0){
+						index++;
+						iList[index] = [];
+					}
+					iList[index].push(resp.data.values[i]);
+					counter++;
+				}
+				func();
+			});
+		}
+	},
+	mounted : function(){
+		this.$nextTick(function () {
+			this.mountFunc(this.intentList, this.immutableObjectToOriginal);
+			var subjectList = this.subjectList;
+			Vue.http.get(contextPath + "/secure/api/mongo/get/subjects").then(function(resp){
+				 subjectList.value = resp.data;
+			});
+	  });
+	},
+	data :	function () {
+		return {intentList :[], original :[],
+		searchText : "", intentName : "", subject : "", subjectList : {value : []}}
+	}
+});
+
+
+//Answers cevap ekleme
 Vue.component('answers',{
 	template :'<div class="col-sm-6 col-md-4">'
-							+'<div class="thumbnail">'
-						  	+'<div class="caption">'
-									+'<h3> {{value}} </h3>'
-									+'<p><input type="text" v-model="sentence.value"></p>'
-									+'<p><label>{{$t("message.savedAnswer")}} : <span v-html="sentence.default"></span></label></p>'
-									+'<p>'
-										+'<a class="btn btn-default" role="button" v-on:click="removeAnswer(value)">{{$t("message.remove")}}</a>'
-										+'<a class="btn btn-info" role="button" v-on:click="addAnswer(value)">{{$t("message.save")}}</a>'
-									+'</p>'
-							  +'</div>'
-							+'</div>'
-					  +'</div>',
+					+'<div class="thumbnail">'
+				  	+'<div class="caption">'
+							+'<h3> {{value}} </h3>'
+							+'<hr/>'
+							+'<p><label>{{$t("message.savedAnswer")}} </label>'
+							+'<input style="width:100%;height:25px;" type="text" v-model="sentence.value"></p>'
+							+'<label><span v-html="sentence.default"></span></label></p>'
+							+'<p>'
+								+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="addAnswer(value)">{{$t("message.save")}}</a>'
+								+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="removeAnswer(value)">{{$t("message.remove")}}</a>'
+							+'</p>'
+					  +'</div>'
+					+'</div>'
+			  +'</div>',
 	props: ['value', 'index', 'expressions'],
 	methods : {
 		addAnswer : function(id){
@@ -880,46 +897,46 @@ Vue.component('answers',{
 // Answers row template
 Vue.component('answersRow',{
 	template :'<div class="row">'
-							+'<answers v-for="(intent,index) in array" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></answers>'
-						+'</div>',
+					+'<answers v-for="(intent,index) in array" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></answers>'
+				+'</div>',
 	props: ['array']
 });
 
-// Answers - Cevaplar Sayfasi
+// Answers Sayfasi
 var answersContainer = Vue.component("answersContainer",{
 	template:'<div class="container">'
-						+'<div class="header">'
-							+'<div class="page-header">'
-								+'<div style="text-align:center">'
-									+'<h1>{{$t("message.answerPage")}}</h1>'
-								+'</div>'
-								+'<routerLinkComponent></routerLinkComponent>'
-								+'<span style="float:right;margin-left: 20px;">'
-								+'<a target="_blank" href="./root/adminUser.xhtml">{{$t("message.rootPanel")}}</a>'
-							+'</span>'
-								+'<span style="float:right">'
-									+'<i18n_custom></i18n_custom>'
-								+'</span>'				
-							+'</div> <!--page-header-->'
-						+'</div> <!--header-->'
-						+'<div class="content">'
-							+'<div style="margin-left:20%;width:80%;margin-bottom:4%">'
-								+'<createCarousel v-bind:entityList="this.original"></createCarousel>'
-								+'<createQuickReply v-bind:entityList="this.original"></createQuickReply>'
-								+'<createListTemplate v-bind:entityList="this.original"></createListTemplate>'
-								+'<createGenericButtons v-bind:entityList="this.original"></createGenericButtons>'
-								+'<createAttachment v-bind:entityList="this.original"></createAttachment>'
-							+'</div>'
-							+'<div class="col-md-2">'
-								+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
-							+'</div>'
-							+'<div class="col-md-10">'
-								+'<div><label>{{$t("message.search")}}</label><input type="text" v-model="searchText" v-on:keyup="search"/></div>'
-								+'<br/><br/>'
-								+'<answersRow v-for="intentArray in this.intentList" v-bind:array="intentArray"></answersRow>'
-							+'</div>'
-						+'</div> <!--content-->'
-					+'</div> <!--container-->',
+				+'<div class="header">'
+					+'<div class="page-header">'
+						+'<div style="text-align:center">'
+							+'<h1>{{$t("message.answerPage")}}</h1>'
+						+'</div>'
+						+'<routerLinkComponent></routerLinkComponent>'
+						+'<span style="float:right;margin-left:20px;">'
+						+'<a target="_blank" href="./root/adminUser.xhtml">{{$t("message.rootPanel")}}</a>'
+					+'</span>'
+						+'<span style="float:right;">'
+							+'<i18n_custom></i18n_custom>'
+						+'</span>'				
+					+'</div> <!--page-header-->'
+				+'</div> <!--header-->'
+				+'<div class="content">'
+					+'<div style="margin-left:20%;width:80%;margin-bottom:4%">'
+						+'<createCarousel v-bind:entityList="this.original"></createCarousel>'
+						+'<createQuickReply v-bind:entityList="this.original"></createQuickReply>'
+						+'<createListTemplate v-bind:entityList="this.original"></createListTemplate>'
+						+'<createGenericButtons v-bind:entityList="this.original"></createGenericButtons>'
+						+'<createAttachment v-bind:entityList="this.original"></createAttachment>'
+						+'<div style="float:right;"><label>{{$t("message.search")}}&nbsp;&nbsp;</label><input type="text" v-model="searchText" v-on:keyup="search"/></div>'
+					+'</div>'
+					+'<div class="col-md-2">'
+						+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
+					+'</div>'
+					+'<div class="col-md-10">'
+			
+						+'<answersRow v-for="intentArray in this.intentList" v-bind:array="intentArray"></answersRow>'
+					+'</div>'
+				+'</div> <!--content-->'
+			+'</div> <!--container-->',
 	methods : {
 		showOnlyThisItem : function(intent){
 			this.intentList = [[intent]];
@@ -1004,6 +1021,7 @@ var answersContainer = Vue.component("answersContainer",{
 	}
 });
 
+
 // Training sayfasi
 var trainingContainer = Vue.component("trainingContainer",{
 	template:'<div class="container">'
@@ -1013,10 +1031,10 @@ var trainingContainer = Vue.component("trainingContainer",{
 									+'<h1>{{$t("message.trainingPage")}}</h1>'
 								+'</div>'
 								+'<routerLinkComponent></routerLinkComponent>'
-								+'<span style="float:right;margin-left: 20px;">'
+								+'<span style="float:right;margin-left:20px;">'
 								+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 							+'</span>'
-								+'<span style="float:right">'
+								+'<span style="float:right;">'
 									+'<i18n_custom></i18n_custom>'
 								+'</span>'
 							+'</div> <!--page-header-->'
@@ -1080,244 +1098,72 @@ var trainingContainer = Vue.component("trainingContainer",{
 	}
 });
 
-// Training row içinde
-Vue.component('training',{
-	template :'<div class="row"><div class="col-md-12">'
-							+'<div class="thumbnail">'
-						  	+'<div class="caption">'
-									+'<h3  v-html="array.message.text">{{}}</h3>'
-									+'<p>'
-									+'<select v-model="selectedIntent" >'
-										+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option>'
-									+'</select>'
-									+'<span style="float:right">{{array.confidenceLevel}}</span>'
-									+'</p>'
-									+'<p>'
-										+'<a class="btn btn-info" role="button" v-on:click="deleteMessage">{{$t("message.removeValidation")}}</a>'
-										+'<a class="btn btn-default" role="button" v-on:click="validate">{{$t("message.addValidation")}}</a>'
-									+'</p>'
-							  +'</div>'
-							+'</div>'
-					  +'</div>'
-						+'</div>',
-	props: ['array'],
-	methods : {
-		validate : function(){
-			Vue.http.post(contextPath + "/secure/api/witai/validate", {"intent" : this.selectedIntent, "message" : this.array.message.text}).then(function(resp){
-				window.location.reload();
-			});
-		},
-		deleteMessage : function(){
-			Vue.http.post(contextPath + "/secure/api/witai/delete", {"message" : this.array.message.text}).then(function(resp){
-				window.location.reload();
-			});
-		}
-	},
-	mounted : function(){
-		this.$nextTick(function () {
-			this.selectedIntent = this.array.intentName;
-			if(this.array.confidenceLevel)
-			this.array.confidenceLevel = Math.round(this.array.confidenceLevel * 1000) / 1000;
-				var intentListTemp = this.intentList;
-				Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
-						for(var i = 0; i < resp.data.values.length; i++){
-							intentListTemp.push(resp.data.values[i]);
-						}
-				});
-	  });
-	},
-	data :	function () {
-		return {sentence : {value : ""}, selectedIntent : "", intentList : []}
-	}
-});
 
-// facebook sayfasi
-var facebookContainer = Vue.component("facebookContainer",{
-	template:'<div class="container">'
-						+'<div class="header">'
-							+'<div class="page-header">'
+// Subject sayfasi
+var subjectContainer = Vue.component("subjectContainer",{
+	template : '<div class="container">'
+					+'<div class="header">'
+						+'<div class="page-header">'
 								+'<div style="text-align:center">'
-									+'<h1>{{$t("message.facebookPage")}}</h1>'
+									+'<h1>{{$t("message.subject")}}</h1>'
 								+'</div>'
 								+'<routerLinkComponent></routerLinkComponent>'
-								+'<span style="float:right;margin-left: 20px;">'
+								+'<span style="float:right;margin-left:20px;">'
 									+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 								+'</span>'
-								+'<span style="float:right">'
+								+'<span style="float:right;">'
 									+'<i18n_custom></i18n_custom>'
 								+'</span>'
-							+'</div> <!--page-header-->'
-						+'</div> <!--header-->'
-						+'<div class="content">'
-							+'<div class="col-md-10">'
-							+'<form class="form-horizontal">'
-								+'<div class="form-group">'
-									+'<label class="control-label col-sm-2" for="pageId">Page Id:</label>'
-									+'<div class="col-sm-10">'
-										+'<input type="text" class="form-control" v-model="facebookDeployment.values.pageId" id="pageId" placeholder="Page Id">'
-									+'</div>'
+						+'</div> <!--page-header-->'
+					+'</div> <!--header-->'
+					+'<div class="content">'
+						+'<form class="form-horizontal">'
+							+'<div class="form-group">'
+								+'<label class="col-sm-2">{{$t("message.subject")}}</label>'
+								+'<div class="col-sm-4">'
+									+'<input type="text" class="form-control" v-model="subject" id="subject"/>'
 								+'</div>'
-								+'<div class="form-group">'
-									+'<label class="control-label col-sm-2" for="appSecret">App Secret:</label>'
-									+'<div class="col-sm-10">'
-										+'<input type="text" class="form-control" id="appSecret" v-model="facebookDeployment.values.appSecret" placeholder="App Secret">'
-									+'</div>'
-								+'</div>'
-								+'<div class="form-group">'
-									+'<label class="control-label col-sm-2" for="accessToken">Access Token:</label>'
-									+'<div class="col-sm-10">'
-										+'<input type="text" class="form-control" id="accessToken" placeholder="Access Token" v-model="facebookDeployment.values.accessToken">'
-									+'</div>'
-								+'</div>'
-								+'<div class="form-group">'
-									+'<label class="control-label col-sm-2" for="verifyToken">Verify Token:</label>'
-									+'<div class="col-sm-10">'
-										+'<input type="text" class="form-control" id="verifyToken" placeholder="Verify Token" v-model="facebookDeployment.values.verifyToken">'
-									+'</div>'
-								+'</div>'
-								+'<div class="form-group">'
-									+'<label class="control-label col-sm-2" for="appId">App Id:</label>'
-									+'<div class="col-sm-10">'
-										+'<input type="text" class="form-control" id="appId" placeholder="App Id" v-model="facebookDeployment.values.appId">'
-									+'</div>'
-								+'</div>'
-								+'<div class="form-group">'
-									+'<div class="col-sm-offset-2 col-sm-10">'
-									+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
-									+'<button type="button" class="btn btn-default" v-on:click="deploy">Deploy</button>'
-									+'</div>'
-								+'</div>'
-							+'</form>'
+								+ '<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
 							+'</div>'
-						+'</div> <!--content-->'
-					+'</div> <!--container-->',
-	methods : {
-			deploy : function(){
-				var tempIsDeployed = this.isDeployed;
-				Vue.http.post(contextPath + '/secure/api/facebook/post', {facebookDeployment : this.facebookDeployment.values}, function(resp){
-					tempIsDeployed.value = true;
-				});
-			}
-	},
-	mounted : function(){
-
-		this.$nextTick(function () {
-			var facebookTemp = this.facebookDeployment;
-				Vue.http.get(contextPath + '/secure/api/facebook/get', function(resp){
-					facebookTemp.values = resp[0].facebookDeployment;
-				});
-	  })
-	},
-	data :	function () {
-		return {facebookDeployment : {values : {}}, isDeployed : {value : false}}
-	}
-});
-
-// witai sayfasi
-var witDeployContainer = Vue.component("witDeployContainer",{
-	template : '<div class="container">'
-		+'<div class="header">'
-		+'<div class="page-header">'
-					+'<div style="text-align:center">'
-						+'<h1>{{$t("message.witaiPage")}}</h1>'
-					+'</div>'
-					+'<routerLinkComponent></routerLinkComponent>'
-					+'<span style="float:right;margin-left: 20px;">'
-					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
-				+'</span>'
-					+'<span style="float:right">'
-						+'<i18n_custom></i18n_custom>'
-					+'</span>'
-				+'</div> <!--page-header-->'
-			+'</div> <!--header-->'
-			+'<div class="content">'
-				+'<div class="col-md-10">'
-				+'<form class="form-horizontal">'
-					+'<div class="form-group">'
-						+'<label class="control-label col-sm-2" for="authToken">Authorization Token</label>'
-						+'<div class="col-sm-10">'
-							+'<input type="text" class="form-control" v-model="witDeployment.value" id="authToken" placeholder="Authorization Token">'
-						+'</div>'
-					+'</div>'
-					+'<div class="form-group">'
-						+'<div class="col-sm-offset-2 col-sm-10">'
-							+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
-							+'<button type="button" class="btn btn-default" v-on:click="deploy">Deploy</button>'
-						+'</div>'
-					+'</div>'
-				+'</form>'
-				
-				+'<form class="form-horizontal">'
-					+'<div class="form-group">'
-						+'<label class="control-label col-sm-2" >Application Name</label>'
-						+'<div class="col-sm-10">'
-							+'<input type="text" class="form-control" v-model="app.name" placeholder="App Name">'
-						+'</div>'
-					+'</div>'
-					+'<div class="form-group">'
-						+'<label class="control-label col-sm-2" >Application Language</label>'
-						+'<div class="col-sm-10">'
-							+'<select v-model="app.language"><option value="tr">TR</option><option value="en">EN</option></select>'
-						+'</div>'
-					+'</div>'
-					+'<div class="form-group">'
-						+'<label class="control-label col-sm-2" >Application Description</label>'
-						+'<div class="col-sm-10">'
-							+'<input type="text" class="form-control" v-model="app.description" placeholder="App Description">'
-						+'</div>'
-					+'</div>'
-					+'<div class="form-group">'
-						+'<div class="col-sm-offset-2 col-sm-10">'
-							+'<button type="button" class="btn btn-default" v-on:click="create">Create</button>'
-						+'</div>'
-					+'</div>'
-				+'</form>'
-			+'</div>'
-			+'</div> <!--content-->'
-		+'</div> <!--container-->',
-		data :	function () {
-			return {witDeployment : {value : ""}, isDeployed : {value : false},app : {}}
+							+'<br/><br/>'
+							+'<table class="table"><thead style="border-bottom: 2px solid #ddd">'
+								+'<tr><th style="border-bottom:0;">{{$t("message.subjects")}}</th></tr>'
+							+'</thead>'
+							+'<tbody><tr v-for="subject in subjectList.value">'
+								+'<td>{{subject.subject}}</td>'
+								+'<td><a class="btn btn-default" role="button" v-on:click="deleteFunc(subject.subject)">{{$t("message.remove")}}</a><td></tr>'
+							+'</tbody></table>'
+							+'<div class="form-group">'
+							+'</div>'
+						+'</form>'
+					+'</div> <!--content-->'
+				+'</div> <!--container-->',
+		data : function(){
+			return {subject : "",subjectList : {value : {}}};
 		},
-		methods :{
-			deploy:function(){
-				var tempIdDeployed = this.isDeployed;
-				Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : this.witDeployment.value}, function(resp){
-					tempIdDeployed.value = true;
-				});
+		methods : {
+			save : function(){
+				Vue.http.post(contextPath + '/secure/api/mongo/post/subject', {subject: this.subject}, function(resp){
+					window.location.reload();
+				});	
 			},
-			create : function(){
-				this.app.prvt = "true";
-				Vue.http.post(contextPath + '/secure/api/witaiCreateApp/post', {application : this.app}, function(resp){
-					if(resp.errors){
-						var lang = window.localStorage.getItem('lang');
-						if(lang == "tr" && resp.errors[0].indexOf("already taken, please choose another one") > 0){
-							alert("Bu isim daha önce alınmıştır. Lütfen yeni bir isim giriniz.");
-						}else{
-							alert(resp.errors);
-						}
-						
-					}else{
-						Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : resp.access_token}, function(resp){
-							window.location.reload();
-						});
-					}
-					
-				});
+			deleteFunc : function(sbjct){
+				Vue.http.delete(contextPath + '/secure/api/mongo/delete/subject', {subject: sbjct}, function(resp){
+					window.location.reload();
+				});	
 			}
 		},
 		mounted : function(){
-
-			this.$nextTick(function () {
-				var witTemp = this.witDeployment;
-					Vue.http.get(contextPath + '/secure/api/witaiDeploy/get', function(resp){
-						witTemp.value = resp[0].defaultAuthorizationToken;
-					});
-		  })
+			var subjectList = this.subjectList;
+			Vue.http.get(contextPath + '/secure/api/mongo/get/subjects',function(resp){
+				subjectList.value = resp;
+			});
 		}
 	
 });
 
-// emoji user popup
+
+// Emoji user popup
 Vue.component('emoji_popup_user',{
 	template :'<div id="emojiModalUser" class="modal fade" role="dialog">'
 							+'<div class="modal-dialog">'
@@ -1369,7 +1215,7 @@ Vue.component('emoji_popup_user',{
 	}
 });
 
-// emoji bot popup
+// Emoji bot popup
 Vue.component('emoji_popup_bot',{
 	template :'<div id="emojiModalBOT" class="modal fade" role="dialog">'
 							+'<div class="modal-dialog">'
@@ -1436,7 +1282,7 @@ Vue.component('emoji_popup_bot',{
 });
 
 
-// emoji sayfasi
+// Emoji sayfasi
 var emojiContainer = Vue.component('emojiContainer', {
 	template : '<div class="container">'
 		+'<div class="header">'
@@ -1445,28 +1291,34 @@ var emojiContainer = Vue.component('emojiContainer', {
 						+'<h1>{{$t("message.emojiPage")}}</h1>'
 					+'</div>'
 					+'<routerLinkComponent></routerLinkComponent>'
-					+'<span style="float:right;margin-left: 20px;">'
+					+'<span style="float:right;margin-left:20px;">'
 					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 				+'</span>'
-					+'<span style="float:right">'
+					+'<span style="float:right;">'
 						+'<i18n_custom></i18n_custom>'
 					+'</span>'
 				+'</div> <!--page-header-->'
 			+'</div> <!--header-->'
 			+'<div class="content">'
-				+'<table class="table"><tbody><tr><td>'
-				+'<button type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalUser\')">{{$t("message.userEmoji")}}</button>'
-				+ '</td><td>'
-				+'<button type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalBOT\')">{{$t("message.botEmoji")}}</button>'
-				+'</td><td>'
-				+'<span v-html="selectedEmojiUser.image"></span> -- <span v-html="selectedEmojiBOT.image"></span>'
-				+'</td><td>'
-				+'<button type="button" class="btn btn-info" v-on:click="save()">{{$t("message.save")}}</button>'
-				+'</td></tr></tbody></table>'
+				+'<table class="table"><tbody><tr>'
+				+'<td style="border-top:0;width:30%;">'
+					+'<button style="margin:3px;" type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalUser\')">{{$t("message.userEmoji")}}</button>'
+					+'<button style="margin:3px;" type="button" class="btn btn-info" v-on:click="showEmojiPopup(\'emojiModalBOT\')">{{$t("message.botEmoji")}}</button>'
+				+'</td>'
+				+'<td style="border-top:0;width:30%;">'
+					+'<span v-html="selectedEmojiUser.image"></span> -- <span v-html="selectedEmojiBOT.image"></span>'
+				+'</td>'
+				+'<td style="border-top:0;">'
+					+'<button type="button" class="btn btn-info" v-on:click="save()">{{$t("message.save")}}</button>'
+				+'</td>'
+				+'</tr></tbody></table>'
+				+'<br/><br/>'
 				+'<emoji_popup_user v-bind:emojiList="emojiList" v-bind:selectedItem="selectedEmojiUser" v-on:clicked=setUserEmoji></emoji_popup_user>'
 				+'<emoji_popup_bot v-bind:emojiList="emojiList" v-bind:selectedItem="selectedEmojiBOT" v-on:clicked=setBotEmoji></emoji_popup_bot>'
-				+ '<div class="table-responsive"><table class="table"><thead><tr><th>{{$t("message.userEmoji")}}</th><th>{{$t("message.botReply")}}</th></tr></thead><tbody><tr v-for="relation in emojiRelation.value"><td v-html="relation.source.image"></td><td v-html="relation.target.image"></td><td>'
-				+ '<button type="button" class="btn btn-info" v-on:click="deleteEmoji(relation.source)">{{$t("message.remove")}}</button>'
+				+ '<div class="table-responsive">'
+				+'<table class="table"><thead style="border-bottom: 2px solid #ddd">'				
+				+'<tr><th style="border-bottom:0;">{{$t("message.userEmoji")}}</th><th style="border-bottom:0;">{{$t("message.botReply")}}</th></tr></thead><tbody><tr v-for="relation in emojiRelation.value"><td v-html="relation.source.image"></td><td v-html="relation.target.image"></td><td>'
+				+ '<button type="button" class="btn btn-default" v-on:click="deleteEmoji(relation.source)">{{$t("message.remove")}}</button>'
 				+'</td></tr></tbody></table></div>'
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
@@ -1510,61 +1362,247 @@ var emojiContainer = Vue.component('emojiContainer', {
 		}
 });
 
-var subjectContainer = Vue.component("subjectContainer",{
+
+// Training sayfasi
+Vue.component('training',{
+	template :'<div class="row"><div class="col-md-12">'
+							+'<div class="thumbnail">'
+						  	+'<div class="caption">'
+									+'<h3  v-html="array.message.text">{{}}</h3>'
+									+'<p>'
+									+'<select v-model="selectedIntent" >'
+										+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option>'
+									+'</select>'
+									+'<span style="float:right;">{{array.confidenceLevel}}</span>'
+									+'</p>'
+									+'<p>'
+										+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="validate">{{$t("message.addValidation")}}</a>'
+										+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="deleteMessage">{{$t("message.removeValidation")}}</a>'
+									+'</p>'
+							  +'</div>'
+							+'</div>'
+					  +'</div>'
+						+'</div>',
+	props: ['array'],
+	methods : {
+		validate : function(){
+			Vue.http.post(contextPath + "/secure/api/witai/validate", {"intent" : this.selectedIntent, "message" : this.array.message.text}).then(function(resp){
+				window.location.reload();
+			});
+		},
+		deleteMessage : function(){
+			Vue.http.post(contextPath + "/secure/api/witai/delete", {"message" : this.array.message.text}).then(function(resp){
+				window.location.reload();
+			});
+		}
+	},
+	mounted : function(){
+		this.$nextTick(function () {
+			this.selectedIntent = this.array.intentName;
+			if(this.array.confidenceLevel)
+			this.array.confidenceLevel = Math.round(this.array.confidenceLevel * 1000) / 1000;
+				var intentListTemp = this.intentList;
+				Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
+						for(var i = 0; i < resp.data.values.length; i++){
+							intentListTemp.push(resp.data.values[i]);
+						}
+				});
+	  });
+	},
+	data :	function () {
+		return {sentence : {value : ""}, selectedIntent : "", intentList : []}
+	}
+});
+
+
+// facebook sayfasi
+var facebookContainer = Vue.component("facebookContainer",{
+	template:'<div class="container">'
+						+'<div class="header">'
+							+'<div class="page-header">'
+								+'<div style="text-align:center">'
+									+'<h1>{{$t("message.facebookPage")}}</h1>'
+								+'</div>'
+								+'<routerLinkComponent></routerLinkComponent>'
+								+'<span style="float:right;margin-left: 20px;">'
+									+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+								+'</span>'
+								+'<span style="float:right;">'
+									+'<i18n_custom></i18n_custom>'
+								+'</span>'
+							+'</div> <!--page-header-->'
+						+'</div> <!--header-->'
+						+'<div class="content">'
+							+'<div class="col-md-10">'
+							+'<form class="form-horizontal">'
+								+'<div class="form-group">'
+									+'<label class="control-label col-sm-2" for="pageId">Page Id:</label>'
+									+'<div class="col-sm-10">'
+										+'<input type="text" class="form-control" v-model="facebookDeployment.values.pageId" id="pageId" placeholder="Page Id">'
+									+'</div>'
+								+'</div>'
+								+'<div class="form-group">'
+									+'<label class="control-label col-sm-2" for="appSecret">App Secret:</label>'
+									+'<div class="col-sm-10">'
+										+'<input type="text" class="form-control" id="appSecret" v-model="facebookDeployment.values.appSecret" placeholder="App Secret">'
+									+'</div>'
+								+'</div>'
+								+'<div class="form-group">'
+									+'<label class="control-label col-sm-2" for="accessToken">Access Token:</label>'
+									+'<div class="col-sm-10">'
+										+'<input type="text" class="form-control" id="accessToken" placeholder="Access Token" v-model="facebookDeployment.values.accessToken">'
+									+'</div>'
+								+'</div>'
+								+'<div class="form-group">'
+									+'<label class="control-label col-sm-2" for="verifyToken">Verify Token:</label>'
+									+'<div class="col-sm-10">'
+										+'<input type="text" class="form-control" id="verifyToken" placeholder="Verify Token" v-model="facebookDeployment.values.verifyToken">'
+									+'</div>'
+								+'</div>'
+								+'<div class="form-group">'
+									+'<label class="control-label col-sm-2" for="appId">App Id:</label>'
+									+'<div class="col-sm-10">'
+										+'<input type="text" class="form-control" id="appId" placeholder="App Id" v-model="facebookDeployment.values.appId">'
+									+'</div>'
+								+'</div>'
+								+'<div class="form-group">'
+									+'<div class="col-sm-offset-2 col-sm-10">'
+									+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
+									+'<button type="button" class="btn btn-info" v-on:click="deploy">Deploy</button>'
+									+'</div>'
+								+'</div>'
+							+'</form>'
+							+'</div>'
+						+'</div> <!--content-->'
+					+'</div> <!--container-->',
+	methods : {
+			deploy : function(){
+				var tempIsDeployed = this.isDeployed;
+				Vue.http.post(contextPath + '/secure/api/facebook/post', {facebookDeployment : this.facebookDeployment.values}, function(resp){
+					tempIsDeployed.value = true;
+				});
+			}
+	},
+	mounted : function(){
+
+		this.$nextTick(function () {
+			var facebookTemp = this.facebookDeployment;
+				Vue.http.get(contextPath + '/secure/api/facebook/get', function(resp){
+					facebookTemp.values = resp[0].facebookDeployment;
+				});
+	  })
+	},
+	data :	function () {
+		return {facebookDeployment : {values : {}}, isDeployed : {value : false}}
+	}
+});
+
+
+// witai sayfasi
+var witDeployContainer = Vue.component("witDeployContainer",{
 	template : '<div class="container">'
 		+'<div class="header">'
 		+'<div class="page-header">'
 					+'<div style="text-align:center">'
-						+'<h1>{{$t("message.subject")}}</h1>'
+						+'<h1>{{$t("message.witaiPage")}}</h1>'
 					+'</div>'
 					+'<routerLinkComponent></routerLinkComponent>'
 					+'<span style="float:right;margin-left: 20px;">'
 					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
 				+'</span>'
-					+'<span style="float:right">'
+					+'<span style="float:right;">'
 						+'<i18n_custom></i18n_custom>'
 					+'</span>'
 				+'</div> <!--page-header-->'
 			+'</div> <!--header-->'
 			+'<div class="content">'
-			+'<form class="form-horizontal">'
-				+'<div class="form-group">'
-					+'<label class="control-label col-sm-2" for="subject">{{$t("message.subject")}}</label>'
-					+'<div class="col-sm-10">'
-						+'<input type="text" class="form-control" v-model="subject" id="subject" >'
+				+'<div class="col-md-10">'
+				+'<form class="form-horizontal">'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2" for="authToken">Authorization Token</label>'
+						+'<div class="col-sm-10">'
+							+'<input type="text" class="form-control" v-model="witDeployment.value" id="authToken" placeholder="Authorization Token">'
+						+'</div>'
 					+'</div>'
-				+'</div>'
-				+ '<button type="button" style="float:right" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
-				+'<table class="table"><thead><tr><th>{{$t("message.subject")}}</th></tr></thead>'
-				+'<tbody><tr v-for="subject in subjectList.value"><td>{{subject.subject}}</td><td><a class="btn btn-info" role="button" v-on:click="deleteFunc(subject.subject)">{{$t("message.remove")}}</a><td></tr></tbody></table>'
-				+'<div class="form-group">'
-				+'</div>'
-			+'</form>'
+					+'<div class="form-group">'
+						+'<div class="col-sm-offset-2 col-sm-10">'
+							+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
+							+'<button type="button" class="btn btn-info" v-on:click="deploy">Deploy</button>'
+						+'</div>'
+					+'</div>'
+				+'</form>'
+				+'<br/><hr/><br/>'
+				+'<form class="form-horizontal">'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2" >Application Name</label>'
+						+'<div class="col-sm-10">'
+							+'<input type="text" class="form-control" v-model="app.name" placeholder="App Name">'
+						+'</div>'
+					+'</div>'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2" >Application Language</label>'
+						+'<div class="col-sm-10">'
+							+'<select v-model="app.language"><option value="tr">TR</option><option value="en">EN</option><option value="fr">FR</option></select>'
+						+'</div>'
+					+'</div>'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2" >Application Description</label>'
+						+'<div class="col-sm-10">'
+							+'<input type="text" class="form-control" v-model="app.description" placeholder="App Description">'
+						+'</div>'
+					+'</div>'
+					+'<div class="form-group">'
+						+'<div class="col-sm-offset-2 col-sm-10">'
+							+'<button type="button" class="btn btn-info" v-on:click="create">Create</button>'
+						+'</div>'
+					+'</div>'
+				+'</form>'
+			+'</div>'
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
-		data : function(){
-			return {subject : "",subjectList : {value : {}}};
+		data :	function () {
+			return {witDeployment : {value : ""}, isDeployed : {value : false},app : {}}
 		},
-		methods : {
-			save : function(){
-				Vue.http.post(contextPath + '/secure/api/mongo/post/subject', {subject: this.subject}, function(resp){
-					window.location.reload();
-				});	
+		methods :{
+			deploy:function(){
+				var tempIdDeployed = this.isDeployed;
+				Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : this.witDeployment.value}, function(resp){
+					tempIdDeployed.value = true;
+				});
 			},
-			deleteFunc : function(sbjct){
-				Vue.http.delete(contextPath + '/secure/api/mongo/delete/subject', {subject: sbjct}, function(resp){
-					window.location.reload();
-				});	
+			create : function(){
+				this.app.prvt = "true";
+				Vue.http.post(contextPath + '/secure/api/witaiCreateApp/post', {application : this.app}, function(resp){
+					if(resp.errors){
+						var lang = window.localStorage.getItem('lang');
+						if(lang == "tr" && resp.errors[0].indexOf("already taken, please choose another one") > 0){
+							alert("Bu isim daha önce alınmıştır. Lütfen yeni bir isim giriniz.");
+						}else{
+							alert(resp.errors);
+						}
+						
+					}else{
+						Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : resp.access_token}, function(resp){
+							window.location.reload();
+						});
+					}
+					
+				});
 			}
 		},
 		mounted : function(){
-			var subjectList = this.subjectList;
-			Vue.http.get(contextPath + '/secure/api/mongo/get/subjects',function(resp){
-				subjectList.value = resp;
-			});
+
+			this.$nextTick(function () {
+				var witTemp = this.witDeployment;
+					Vue.http.get(contextPath + '/secure/api/witaiDeploy/get', function(resp){
+						witTemp.value = resp[0].defaultAuthorizationToken;
+					});
+		  })
 		}
 	
 });
+
+
 // Menu isimleri
 var vrouter = new VueRouter({
 	routes: [

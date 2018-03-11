@@ -3,7 +3,6 @@ package com.hizliyol.core.rest.modal;
 import java.util.List;
 
 public class ModelEntity {
-
 	private String value;
 	private List<String> expressions;
 	private String expression;
@@ -130,6 +129,5 @@ public class ModelEntity {
 	}
 	public void setApplication(WitaiApp application) {
 		this.application = application;
-	}
-	
+	}	
 }
