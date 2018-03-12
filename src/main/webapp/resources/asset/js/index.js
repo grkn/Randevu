@@ -15,15 +15,15 @@ Vue.component('i18n_custom',{
 });
 
 Vue.component("routerLinkComponent",{
-	template : '<span>'
-				+'<router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;'
-				+'<router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;'
-				+'<router-link :to="{ name: \'subjectContainer\'}">{{$t("message.subject")}}</router-link>&nbsp;&nbsp;'
-				+'<router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;'
-				+'<router-link :to="{ name: \'emojiContainer\'}">{{$t("message.emoji")}}</router-link>&nbsp;&nbsp;'
-				+'<router-link :to="{ name: \'facebookContainer\'}">{{$t("message.facebook")}}</router-link>&nbsp;&nbsp;'
-				+'<router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link>&nbsp;&nbsp;'
-			+'</span>'
+	template : '<div id="navbar"><div class="navbar-nav"><ul class="nav navbar-nav">'
+				+'<li><router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'subjectContainer\'}">{{$t("message.subject")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'emojiContainer\'}">{{$t("message.emoji")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'facebookContainer\'}">{{$t("message.facebook")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link>&nbsp;&nbsp;</li>'
+			+'</ul></div>'
 }); 
 
 
@@ -41,12 +41,12 @@ Vue.component('carousel_popup',{
 	template :'<div id="myModal" class="modal fade" role="dialog">'
 				+'<div class="modal-dialog">'
 				    +'<div class="modal-content">'
-				      +'<div class="modal-header">'
-				        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+				      +'<div class="modal-header fancyback">'
+				        +'<button type="button" class="close whitetxt" data-dismiss="modal">&times;</button>'
 				        +'<h4 class="modal-title">{{$t("message.carousel")}}</h4>'
 				      +'</div>'
 				      +'<div class="modal-body">'			      
-			      		+'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+			      		+'<div><span><b>{{$t("message.selectIntent")}}</b></span>&nbsp;&nbsp;'
 							+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
 								+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
 							+'</select>'
@@ -160,12 +160,12 @@ Vue.component('listTemplate_popup',{
 	template :'<div id="myModalListTemplate" class="modal fade" role="dialog">'
 					+'<div class="modal-dialog">'
 					    +'<div class="modal-content">'
-						      +'<div class="modal-header">'
-						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+						      +'<div class="modal-header fancyback">'
+						        +'<button type="button" class="close whitetxt" data-dismiss="modal">&times;</button>'
 						        +'<h4 class="modal-title">{{$t("message.listTemplate")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
-							        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+							        +'<div><span><b>{{$t("message.selectIntent")}}</b></span>&nbsp;&nbsp;'
 										+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
 											+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
 										+'</select>'
@@ -287,12 +287,12 @@ Vue.component('quickreply_popup',{
 	template :'<div id="myModalquickreply" class="modal fade" role="dialog">'
 					+'<div class="modal-dialog">'
 					    +'<div class="modal-content">'
-					      +'<div class="modal-header">'
-					        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+					      +'<div class="modal-header fancyback">'
+					        +'<button type="button" class="close whitetxt" data-dismiss="modal">&times;</button>'
 					        +'<h4 class="modal-title">{{$t("message.quickReply")}}</h4>'
 					      +'</div>'
 					      +'<div class="modal-body">'
-								+'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+								+'<div><span><b>{{$t("message.selectIntent")}}</b></span>&nbsp;&nbsp;'
 									 +'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
 										 +'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
 									 +'</select>'
@@ -390,12 +390,12 @@ Vue.component('generic_buttons_popup',{
 	template :'<div id="myModalGenericButtons" class="modal fade" role="dialog">'
 					+'<div class="modal-dialog">'
 					    +'<div class="modal-content">'
-					      +'<div class="modal-header">'
-					        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+					      +'<div class="modal-header fancyback">'
+					        +'<button type="button" class="close whitetxt" data-dismiss="modal">&times;</button>'
 					        +'<h4 class="modal-title">{{$t("message.genericButtons")}}</h4>'
 					      +'</div>'
 					      +'<div class="modal-body">'
-					        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+					        +'<div><span><b>{{$t("message.selectIntent")}}</b></span>&nbsp;&nbsp;'
 								+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
 									+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
 								+'</select>'
@@ -504,12 +504,12 @@ Vue.component('attachment_popup',{
 	template :'<div id="myModalAttachment" class="modal fade" role="dialog">'
 					+'<div class="modal-dialog">'
 					    +'<div class="modal-content">'
-						      +'<div class="modal-header">'
-						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+						      +'<div class="modal-header fancyback">'
+						        +'<button type="button" class="close whitetxt" data-dismiss="modal">&times;</button>'
 						        +'<h4 class="modal-title">{{$t("message.attachment")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
-						        +'<div><span>{{$t("message.selectIntent")}}</span>&nbsp;&nbsp;'
+						        +'<div><span><b>{{$t("message.selectIntent")}}</b></span>&nbsp;&nbsp;'
 										+'<select v-model="selectedIntent" v-on:change="selectedIntentFunc"><optgroup v-for="intentList in list">'
 											+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option></optgroup>'
 										+'</select>'
@@ -616,22 +616,22 @@ Vue.component('createAttachment',{
 //Intent silme, cumle ekleme, cumle silme
 Vue.component('intent',{
 	template :'<div class="col-sm-6 col-md-4">'
-				+'<div class="thumbnail">'
+				+'<div class="thumbnail niceMng">'
 					+'<div class="caption">'
 						+'<div><span style="float:right;cursor:pointer;" v-on:click="removeIntent">X</span></div>'
 						+'<h3> {{value}} </h3>'	
 						+'<hr/>'
 						+'<p><label>{{$t("message.storedSentence")}}</label>'
-							+'<select style="width:100%;height:25px;" v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp }">{{ exp }}</option></select>'
+							+'<select class="smallselect" v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp }">{{ exp }}</option></select>'
 						+'</p>'
 						+'<p><label>{{$t("message.enterSentence")}}</label>'
-						+'<input style="width:100%;height:25px;" type="text" v-model="sentence"></p>'						
+						+'<input class="smallinput" type="text" v-model="sentence"></p>'						
 						+'<p>'
 							+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="addSentence(value)">{{$t("message.save")}}</a>'
 							+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
 						+'</p>'
 						+'<p><label>{{$t("message.subject")}}</label>'
-							+'<select style="width:100%;height:25px;" v-model="subject.subject"><option v-for="sub in subjectArray" v-bind:value="sub.subject">{{ sub.subject}}</option></select>'
+							+'<select class="smallselect" v-model="subject.subject"><option v-for="sub in subjectArray" v-bind:value="sub.subject">{{ sub.subject}}</option></select>'
 						+'</p>'
 						+'<p>'
 							+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
@@ -658,12 +658,12 @@ Vue.component('intent',{
 			if(this.expression.value.trim() != ""){
 				var index = this.expressions.indexOf(this.expression.value);
 				this.expressions.splice(index,1);
-				Vue.http.delete(contextPath+"/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression.value}).then(function(resp){
+				Vue.http.delete(contextPath + "/secure/api/delete/intent/expressions", {value : this.value, expression : this.expression.value}).then(function(resp){
 				});
 			}
 		},
 		removeIntent : function(){
-			Vue.http.delete(contextPath+"/secure/api/delete/intent", {value : this.value}).then(function(resp){
+			Vue.http.delete(contextPath + "/secure/api/delete/intent", {value : this.value}).then(function(resp){
 				window.location.reload();
 			});
 		},
@@ -675,7 +675,7 @@ Vue.component('intent',{
 		},
 		removeSubject : function(){
 			if(this.subject && this.subject.subject)
-			Vue.http.delete(contextPath+"/secure/api/mongo/delete/subjectRelation", {subject : this.subject.subject, intent : this.value}).then(function(resp){
+			Vue.http.delete(contextPath + "/secure/api/mongo/delete/subjectRelation", {subject : this.subject.subject, intent : this.value}).then(function(resp){
 				window.location.reload();
 			});
 		}
@@ -698,7 +698,7 @@ Vue.component('intent',{
 
 //Intent row template
 Vue.component('row',{
-	template : '<div class="row"> <intent v-for="(intent,index) in array" v-bind:subjectArray="subjectArray" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
+	template : '<div class="row"><intent v-for="(intent,index) in array" v-bind:subjectArray="subjectArray" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
 	props: ['array','subjectArray']
 	
 });
@@ -708,29 +708,30 @@ var container = Vue.component('container',{
 	template:'<div class="container">'
 					+'<div class="header">'
 						+'<div class="page-header">'
-							+'<div style="text-align:center">'
+							+'<div class="headersp">'
 								+'<h1>{{$t("message.header")}}</h1>'
 							+'</div>'
 							+'<routerLinkComponent></routerLinkComponent>'
-							+'<span style="float:right;margin-left:20px;">'
-								+'<a target="_blank" href="./root/adminUser.xhtml">{{$t("message.rootPanel")}}</a>'
+							+'<span class="navbar-nav rootRight">'
+								+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
 							+'</span>'
-							+'<span style="float:right;">'
+							+'<span class="navbar-nav rootRight"">'
 								+'<i18n_custom></i18n_custom>'
 							+'</span>'							
 						+'</div> <!--page-header-->'
 					+'</div> <!--header-->'
 					+'<div class="content">'
+					+'<br/>'
 						+'<div style="margin-left:20%;width:80%;margin-bottom:4%">'
 							+'<div><label>{{$t("message.createLabel")}} :</label>&nbsp;'
 								+'<input type="text" v-model="intentName"/>&nbsp;&nbsp;'
 								+'<label>{{$t("message.subject")}} :</label>&nbsp;&nbsp;'
 								+'<select v-model="subject"><option v-for="subject in subjectList.value">{{subject.subject}}</option></select>&nbsp;&nbsp;'
 								+'<button type="button" class="btn btn-info" v-on:click="createIntent">{{$t("message.create")}}</button>'
-								+'<div style="float:right;"><label>{{$t("message.search")}}&nbsp;&nbsp;</label><input type="text" v-model="searchText" v-on:keyup="search"/></div>'
+								+'<div class="search"><label>{{$t("message.search")}}&nbsp;&nbsp;</label><input type="text" v-model="searchText" v-on:keyup="search"/></div>'
 							+'</div>'
 						+'</div>'
-						+'<div class="col-md-2">'
+						+'<div class="col-md-2 fancyLeftColumn">'
 							+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
 						+'</div>'
 						+'<div class="col-md-10">'
@@ -838,7 +839,7 @@ var container = Vue.component('container',{
 //Answers cevap ekleme
 Vue.component('answers',{
 	template :'<div class="col-sm-6 col-md-4">'
-					+'<div class="thumbnail">'
+					+'<div class="thumbnail niceMng">'
 				  	+'<div class="caption">'
 							+'<h3> {{value}} </h3>'
 							+'<hr/>'
@@ -907,32 +908,32 @@ var answersContainer = Vue.component("answersContainer",{
 	template:'<div class="container">'
 				+'<div class="header">'
 					+'<div class="page-header">'
-						+'<div style="text-align:center">'
+						+'<div class="headersp">'
 							+'<h1>{{$t("message.answerPage")}}</h1>'
 						+'</div>'
 						+'<routerLinkComponent></routerLinkComponent>'
-						+'<span style="float:right;margin-left:20px;">'
-						+'<a target="_blank" href="./root/adminUser.xhtml">{{$t("message.rootPanel")}}</a>'
-					+'</span>'
-						+'<span style="float:right;">'
+						+'<span class="navbar-nav rootRight">'
+							+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
+						+'</span>'
+						+'<span class="navbar-nav rootRight">'
 							+'<i18n_custom></i18n_custom>'
 						+'</span>'				
 					+'</div> <!--page-header-->'
 				+'</div> <!--header-->'
 				+'<div class="content">'
+				+'<br/>'
 					+'<div style="margin-left:20%;width:80%;margin-bottom:4%">'
 						+'<createCarousel v-bind:entityList="this.original"></createCarousel>'
-						+'<createQuickReply v-bind:entityList="this.original"></createQuickReply>'
 						+'<createListTemplate v-bind:entityList="this.original"></createListTemplate>'
+						+'<createQuickReply v-bind:entityList="this.original"></createQuickReply>'
 						+'<createGenericButtons v-bind:entityList="this.original"></createGenericButtons>'
 						+'<createAttachment v-bind:entityList="this.original"></createAttachment>'
-						+'<div style="float:right;"><label>{{$t("message.search")}}&nbsp;&nbsp;</label><input type="text" v-model="searchText" v-on:keyup="search"/></div>'
+						+'<div class="search"><label>{{$t("message.search")}}&nbsp;&nbsp;</label><input type="text" v-model="searchText" v-on:keyup="search"/></div>'
 					+'</div>'
-					+'<div class="col-md-2">'
+					+'<div class="col-md-2 fancyLeftColumn">'
 						+'<ul v-for="intent in this.original"><li v-for="i in intent"><span style="cursor:pointer;" v-on:click="showOnlyThisItem(i)">{{i.value}}</span></li></ul>'
 					+'</div>'
 					+'<div class="col-md-10">'
-			
 						+'<answersRow v-for="intentArray in this.intentList" v-bind:array="intentArray"></answersRow>'
 					+'</div>'
 				+'</div> <!--content-->'
@@ -1022,19 +1023,88 @@ var answersContainer = Vue.component("answersContainer",{
 });
 
 
+
+//Subject sayfasi
+var subjectContainer = Vue.component("subjectContainer",{
+	template : '<div class="container">'
+					+'<div class="header">'
+						+'<div class="page-header">'
+								+'<div class="headersp">'
+									+'<h1>{{$t("message.subjectPage")}}</h1>'
+								+'</div>'
+								+'<routerLinkComponent></routerLinkComponent>'
+								+'<span class="navbar-nav rootRight"">'
+									+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
+								+'</span>'
+								+'<span class="navbar-nav rootRight">'
+									+'<i18n_custom></i18n_custom>'
+								+'</span>'
+						+'</div> <!--page-header-->'
+					+'</div> <!--header-->'
+					+'<div class="content">'
+						+'<form class="form-horizontal">'
+							+'<div class="form-group">'
+								+'<label class="col-sm-2">{{$t("message.subject")}}</label>'
+								+'<div class="col-sm-4">'
+									+'<input type="text" class="form-control" v-model="subject" id="subject"/>'
+								+'</div>'
+								+ '<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+							+'</div>'
+							+'<br/><br/>'
+							+'<div class="table-responsive fancy">'
+							+'<table class="table">'
+								+'<thead><tr><th style="border-bottom:0;">{{$t("message.subjects")}}</th></tr></thead>'
+								+'<tbody>'
+									+'<tr v-for="subject in subjectList.value">'
+									+'<td>{{subject.subject}}</td>'
+									+'<td><a class="btn btn-default" role="button" v-on:click="deleteFunc(subject.subject)">{{$t("message.remove")}}</a></td>'
+									+'</tr>'
+								+'</tbody>'
+							+'</table>'
+							+'</div>'
+							+'<div class="form-group">'
+							+'</div>'
+						+'</form>'
+					+'</div> <!--content-->'
+				+'</div> <!--container-->',
+		data : function(){
+			return {subject : "",subjectList : {value : {}}};
+		},
+		methods : {
+			save : function(){
+				Vue.http.post(contextPath + '/secure/api/mongo/post/subject', {subject: this.subject}, function(resp){
+					window.location.reload();
+				});	
+			},
+			deleteFunc : function(sbjct){
+				Vue.http.delete(contextPath + '/secure/api/mongo/delete/subject', {subject: sbjct}, function(resp){
+					window.location.reload();
+				});	
+			}
+		},
+		mounted : function(){
+			var subjectList = this.subjectList;
+			Vue.http.get(contextPath + '/secure/api/mongo/get/subjects',function(resp){
+				subjectList.value = resp;
+			});
+		}
+	
+});
+
+
 // Training sayfasi
 var trainingContainer = Vue.component("trainingContainer",{
 	template:'<div class="container">'
 						+'<div class="header">'
 							+'<div class="page-header">'
-								+'<div style="text-align:center">'
+								+'<div class="headersp">'
 									+'<h1>{{$t("message.trainingPage")}}</h1>'
 								+'</div>'
 								+'<routerLinkComponent></routerLinkComponent>'
-								+'<span style="float:right;margin-left:20px;">'
-								+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
-							+'</span>'
-								+'<span style="float:right;">'
+								+'<span class="navbar-nav rootRight">'
+									+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
+								+'</span>'
+								+'<span class="navbar-nav rootRight">'
 									+'<i18n_custom></i18n_custom>'
 								+'</span>'
 							+'</div> <!--page-header-->'
@@ -1048,7 +1118,7 @@ var trainingContainer = Vue.component("trainingContainer",{
 								+'&nbsp;&nbsp;&nbsp;<label>{{$t("message.responseList")}}</label>&nbsp;&nbsp;<input type="text" v-model="response"/>'
 								+'&nbsp;&nbsp;<button type="button" class="btn btn-info" v-on:click="addDefaultResponse">{{$t("message.save")}}</button>'
 								+'&nbsp;&nbsp;<select v-model="selectedResponse"><option v-for="resp in responseList" v-bind:value="resp">{{resp}}</option></select>'
-								+'&nbsp;&nbsp;<button type="button" class="btn btn-info" v-on:click="deleteDefaultMessage">{{$t("message.remove")}}</button>'
+								+'&nbsp;&nbsp;<button type="button" class="btn btn-default" v-on:click="deleteDefaultMessage">{{$t("message.remove")}}</button>'
 								+'</div>'
 								+'<br/><br/>'
 								+'<training v-for="validateText in this.validateTextList" v-bind:array="validateText"></training>'
@@ -1099,67 +1169,55 @@ var trainingContainer = Vue.component("trainingContainer",{
 });
 
 
-// Subject sayfasi
-var subjectContainer = Vue.component("subjectContainer",{
-	template : '<div class="container">'
-					+'<div class="header">'
-						+'<div class="page-header">'
-								+'<div style="text-align:center">'
-									+'<h1>{{$t("message.subject")}}</h1>'
-								+'</div>'
-								+'<routerLinkComponent></routerLinkComponent>'
-								+'<span style="float:right;margin-left:20px;">'
-									+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
-								+'</span>'
-								+'<span style="float:right;">'
-									+'<i18n_custom></i18n_custom>'
-								+'</span>'
-						+'</div> <!--page-header-->'
-					+'</div> <!--header-->'
-					+'<div class="content">'
-						+'<form class="form-horizontal">'
-							+'<div class="form-group">'
-								+'<label class="col-sm-2">{{$t("message.subject")}}</label>'
-								+'<div class="col-sm-4">'
-									+'<input type="text" class="form-control" v-model="subject" id="subject"/>'
-								+'</div>'
-								+ '<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+//Training template
+Vue.component('training',{
+	template :'<div class="row"><div class="col-md-12">'
+							+'<div class="thumbnail niceMng">'
+						  	+'<div class="caption">'
+									+'<h3  v-html="array.message.text">{{}}</h3>'
+									+'<p>'
+									+'<select v-model="selectedIntent" >'
+										+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option>'
+									+'</select>'
+									+'<span style="float:right;">{{array.confidenceLevel}}</span>'
+									+'</p>'
+									+'<p>'
+										+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="validate">{{$t("message.addValidation")}}</a>'
+										+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="deleteMessage">{{$t("message.removeValidation")}}</a>'
+									+'</p>'
+							  +'</div>'
 							+'</div>'
-							+'<br/><br/>'
-							+'<table class="table"><thead style="border-bottom: 2px solid #ddd">'
-								+'<tr><th style="border-bottom:0;">{{$t("message.subjects")}}</th></tr>'
-							+'</thead>'
-							+'<tbody><tr v-for="subject in subjectList.value">'
-								+'<td>{{subject.subject}}</td>'
-								+'<td><a class="btn btn-default" role="button" v-on:click="deleteFunc(subject.subject)">{{$t("message.remove")}}</a><td></tr>'
-							+'</tbody></table>'
-							+'<div class="form-group">'
-							+'</div>'
-						+'</form>'
-					+'</div> <!--content-->'
-				+'</div> <!--container-->',
-		data : function(){
-			return {subject : "",subjectList : {value : {}}};
+					  +'</div>'
+						+'</div>',
+	props: ['array'],
+	methods : {
+		validate : function(){
+			Vue.http.post(contextPath + "/secure/api/witai/validate", {"intent" : this.selectedIntent, "message" : this.array.message.text}).then(function(resp){
+				window.location.reload();
+			});
 		},
-		methods : {
-			save : function(){
-				Vue.http.post(contextPath + '/secure/api/mongo/post/subject', {subject: this.subject}, function(resp){
-					window.location.reload();
-				});	
-			},
-			deleteFunc : function(sbjct){
-				Vue.http.delete(contextPath + '/secure/api/mongo/delete/subject', {subject: sbjct}, function(resp){
-					window.location.reload();
-				});	
-			}
-		},
-		mounted : function(){
-			var subjectList = this.subjectList;
-			Vue.http.get(contextPath + '/secure/api/mongo/get/subjects',function(resp){
-				subjectList.value = resp;
+		deleteMessage : function(){
+			Vue.http.post(contextPath + "/secure/api/witai/delete", {"message" : this.array.message.text}).then(function(resp){
+				window.location.reload();
 			});
 		}
-	
+	},
+	mounted : function(){
+		this.$nextTick(function () {
+			this.selectedIntent = this.array.intentName;
+			if(this.array.confidenceLevel)
+			this.array.confidenceLevel = Math.round(this.array.confidenceLevel * 1000) / 1000;
+				var intentListTemp = this.intentList;
+				Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
+						for(var i = 0; i < resp.data.values.length; i++){
+							intentListTemp.push(resp.data.values[i]);
+						}
+				});
+	  });
+	},
+	data :	function () {
+		return {sentence : {value : ""}, selectedIntent : "", intentList : []}
+	}
 });
 
 
@@ -1168,8 +1226,8 @@ Vue.component('emoji_popup_user',{
 	template :'<div id="emojiModalUser" class="modal fade" role="dialog">'
 							+'<div class="modal-dialog">'
 						    +'<div class="modal-content">'
-						      +'<div class="modal-header">'
-						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+						      +'<div class="modal-header fancyback">'
+						        +'<button type="button" class="close whitetxt" data-dismiss="modal">&times;</button>'
 						        +'<h4 class="modal-title">{{$t("message.userEmoji")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
@@ -1220,8 +1278,8 @@ Vue.component('emoji_popup_bot',{
 	template :'<div id="emojiModalBOT" class="modal fade" role="dialog">'
 							+'<div class="modal-dialog">'
 						    +'<div class="modal-content">'
-						      +'<div class="modal-header">'
-						        +'<button type="button" class="close" data-dismiss="modal">&times;</button>'
+						      +'<div class="modal-header fancyback">'
+						        +'<button type="button" class="close whitetxt" data-dismiss="modal">&times;</button>'
 						        +'<h4 class="modal-title">{{$t("message.botEmoji")}}</h4>'
 						      +'</div>'
 						      +'<div class="modal-body">'
@@ -1287,14 +1345,14 @@ var emojiContainer = Vue.component('emojiContainer', {
 	template : '<div class="container">'
 		+'<div class="header">'
 		+'<div class="page-header">'
-					+'<div style="text-align:center">'
+					+'<div class="headersp">'
 						+'<h1>{{$t("message.emojiPage")}}</h1>'
 					+'</div>'
 					+'<routerLinkComponent></routerLinkComponent>'
-					+'<span style="float:right;margin-left:20px;">'
-					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
-				+'</span>'
-					+'<span style="float:right;">'
+					+'<span class="navbar-nav rootRight">'
+						+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
+					+'</span>'
+					+'<span class="navbar-nav rootRight">'
 						+'<i18n_custom></i18n_custom>'
 					+'</span>'
 				+'</div> <!--page-header-->'
@@ -1315,11 +1373,19 @@ var emojiContainer = Vue.component('emojiContainer', {
 				+'<br/><br/>'
 				+'<emoji_popup_user v-bind:emojiList="emojiList" v-bind:selectedItem="selectedEmojiUser" v-on:clicked=setUserEmoji></emoji_popup_user>'
 				+'<emoji_popup_bot v-bind:emojiList="emojiList" v-bind:selectedItem="selectedEmojiBOT" v-on:clicked=setBotEmoji></emoji_popup_bot>'
-				+ '<div class="table-responsive">'
-				+'<table class="table"><thead style="border-bottom: 2px solid #ddd">'				
-				+'<tr><th style="border-bottom:0;">{{$t("message.userEmoji")}}</th><th style="border-bottom:0;">{{$t("message.botReply")}}</th></tr></thead><tbody><tr v-for="relation in emojiRelation.value"><td v-html="relation.source.image"></td><td v-html="relation.target.image"></td><td>'
-				+ '<button type="button" class="btn btn-default" v-on:click="deleteEmoji(relation.source)">{{$t("message.remove")}}</button>'
-				+'</td></tr></tbody></table></div>'
+				+ '<div class="table-responsive fancy">'
+					+'<table class="table">'
+						+'<thead class="borderBtm">'				
+							+'<tr><th style="border-bottom:0;">{{$t("message.userEmoji")}}</th><th style="border-bottom:0;">{{$t("message.botReply")}}</th></tr>'
+						+'</thead>'
+						+'<tbody>'
+							+'<tr v-for="relation in emojiRelation.value">'
+								+'<td v-html="relation.source.image"></td><td v-html="relation.target.image"></td>'
+								+'<td><button type="button" class="btn btn-default" v-on:click="deleteEmoji(relation.source)">{{$t("message.remove")}}</button></td>'
+							+'</tr>'
+						+'</tbody>'
+					+'</table>'
+				+'</div>'
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data :	function () {
@@ -1363,77 +1429,27 @@ var emojiContainer = Vue.component('emojiContainer', {
 });
 
 
-// Training sayfasi
-Vue.component('training',{
-	template :'<div class="row"><div class="col-md-12">'
-							+'<div class="thumbnail">'
-						  	+'<div class="caption">'
-									+'<h3  v-html="array.message.text">{{}}</h3>'
-									+'<p>'
-									+'<select v-model="selectedIntent" >'
-										+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option>'
-									+'</select>'
-									+'<span style="float:right;">{{array.confidenceLevel}}</span>'
-									+'</p>'
-									+'<p>'
-										+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="validate">{{$t("message.addValidation")}}</a>'
-										+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="deleteMessage">{{$t("message.removeValidation")}}</a>'
-									+'</p>'
-							  +'</div>'
-							+'</div>'
-					  +'</div>'
-						+'</div>',
-	props: ['array'],
-	methods : {
-		validate : function(){
-			Vue.http.post(contextPath + "/secure/api/witai/validate", {"intent" : this.selectedIntent, "message" : this.array.message.text}).then(function(resp){
-				window.location.reload();
-			});
-		},
-		deleteMessage : function(){
-			Vue.http.post(contextPath + "/secure/api/witai/delete", {"message" : this.array.message.text}).then(function(resp){
-				window.location.reload();
-			});
-		}
-	},
-	mounted : function(){
-		this.$nextTick(function () {
-			this.selectedIntent = this.array.intentName;
-			if(this.array.confidenceLevel)
-			this.array.confidenceLevel = Math.round(this.array.confidenceLevel * 1000) / 1000;
-				var intentListTemp = this.intentList;
-				Vue.http.get(contextPath + "/secure/api/get/witai/entities").then(function(resp){
-						for(var i = 0; i < resp.data.values.length; i++){
-							intentListTemp.push(resp.data.values[i]);
-						}
-				});
-	  });
-	},
-	data :	function () {
-		return {sentence : {value : ""}, selectedIntent : "", intentList : []}
-	}
-});
-
-
-// facebook sayfasi
+// Facebook sayfasi
 var facebookContainer = Vue.component("facebookContainer",{
 	template:'<div class="container">'
 						+'<div class="header">'
 							+'<div class="page-header">'
-								+'<div style="text-align:center">'
+								+'<div class="headersp">'
 									+'<h1>{{$t("message.facebookPage")}}</h1>'
 								+'</div>'
 								+'<routerLinkComponent></routerLinkComponent>'
-								+'<span style="float:right;margin-left: 20px;">'
-									+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
+								+'<span class="navbar-nav rootRight">'
+									+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
 								+'</span>'
-								+'<span style="float:right;">'
+								+'<span class="navbar-nav rootRight">'
 									+'<i18n_custom></i18n_custom>'
 								+'</span>'
 							+'</div> <!--page-header-->'
 						+'</div> <!--header-->'
 						+'<div class="content">'
-							+'<div class="col-md-10">'
+							+'<br/>'
+							+'<div class="col-md-10 fancy">'
+							+'<br/>'
 							+'<form class="form-horizontal">'
 								+'<div class="form-group">'
 									+'<label class="control-label col-sm-2" for="pageId">Page Id:</label>'
@@ -1468,7 +1484,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 								+'<div class="form-group">'
 									+'<div class="col-sm-offset-2 col-sm-10">'
 									+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
-									+'<button type="button" class="btn btn-info" v-on:click="deploy">Deploy</button>'
+									+'<button type="button" class="btn btn-info" v-on:click="deploy">{{$t("message.deployBtn")}}</button>'
 									+'</div>'
 								+'</div>'
 							+'</form>'
@@ -1502,21 +1518,23 @@ var facebookContainer = Vue.component("facebookContainer",{
 var witDeployContainer = Vue.component("witDeployContainer",{
 	template : '<div class="container">'
 		+'<div class="header">'
-		+'<div class="page-header">'
-					+'<div style="text-align:center">'
+			+'<div class="page-header">'
+				+'<div class="headersp">'
 						+'<h1>{{$t("message.witaiPage")}}</h1>'
 					+'</div>'
 					+'<routerLinkComponent></routerLinkComponent>'
-					+'<span style="float:right;margin-left: 20px;">'
-					+'<a target="_blank" href="./root/adminUser.xhtml">Root Panel</a>'
-				+'</span>'
-					+'<span style="float:right;">'
+					+'<span class="navbar-nav rootRight">'
+						+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
+					+'</span>'
+					+'<span class="navbar-nav rootRight">'
 						+'<i18n_custom></i18n_custom>'
 					+'</span>'
 				+'</div> <!--page-header-->'
 			+'</div> <!--header-->'
 			+'<div class="content">'
-				+'<div class="col-md-10">'
+				+'<br/>'
+				+'<div class="col-md-10 fancy">'
+				+'<br/>'
 				+'<form class="form-horizontal">'
 					+'<div class="form-group">'
 						+'<label class="control-label col-sm-2" for="authToken">Authorization Token</label>'
@@ -1527,33 +1545,33 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 					+'<div class="form-group">'
 						+'<div class="col-sm-offset-2 col-sm-10">'
 							+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
-							+'<button type="button" class="btn btn-info" v-on:click="deploy">Deploy</button>'
+							+'<button type="button" class="btn btn-info" v-on:click="deploy">{{$t("message.deployBtn")}}</button>'
 						+'</div>'
 					+'</div>'
 				+'</form>'
 				+'<br/><hr/><br/>'
 				+'<form class="form-horizontal">'
 					+'<div class="form-group">'
-						+'<label class="control-label col-sm-2" >Application Name</label>'
-						+'<div class="col-sm-10">'
-							+'<input type="text" class="form-control" v-model="app.name" placeholder="App Name">'
-						+'</div>'
-					+'</div>'
-					+'<div class="form-group">'
-						+'<label class="control-label col-sm-2" >Application Language</label>'
+						+'<label class="control-label col-sm-2">Application Language</label>'
 						+'<div class="col-sm-10">'
 							+'<select v-model="app.language"><option value="tr">TR</option><option value="en">EN</option><option value="fr">FR</option></select>'
 						+'</div>'
 					+'</div>'
 					+'<div class="form-group">'
-						+'<label class="control-label col-sm-2" >Application Description</label>'
+						+'<label class="control-label col-sm-2">Application Name</label>'
+						+'<div class="col-sm-10">'
+							+'<input type="text" class="form-control" v-model="app.name" placeholder="App Name">'
+						+'</div>'
+					+'</div>'
+					+'<div class="form-group">'
+						+'<label class="control-label col-sm-2">Application Description</label>'
 						+'<div class="col-sm-10">'
 							+'<input type="text" class="form-control" v-model="app.description" placeholder="App Description">'
 						+'</div>'
 					+'</div>'
 					+'<div class="form-group">'
 						+'<div class="col-sm-offset-2 col-sm-10">'
-							+'<button type="button" class="btn btn-info" v-on:click="create">Create</button>'
+							+'<button type="button" class="btn btn-info" v-on:click="create">{{$t("message.create")}}</button>'
 						+'</div>'
 					+'</div>'
 				+'</form>'
@@ -1608,11 +1626,11 @@ var vrouter = new VueRouter({
 	routes: [
 		{name: 'home', path: '/', component: container},
 		{name: 'answersContainer', path: '/answers', component: answersContainer},
-		{name: 'trainingContainer', path: '/training', component: trainingContainer},
-		{name: 'facebookContainer', path: '/facebookDeployment', component: facebookContainer},
-		{name: 'witContainer', path: '/witAuthorizationToken', component: witDeployContainer},
-		{name: 'emojiContainer', path: '/emojiDefinition', component: emojiContainer},
-		{name: 'subjectContainer', path: '/subjectDefinition', component: subjectContainer}
+		{name: 'trainingContainer', path: '/trainings', component: trainingContainer},
+		{name: 'subjectContainer', path: '/subjects', component: subjectContainer},
+		{name: 'emojiContainer', path: '/emojis', component: emojiContainer},
+		{name: 'facebookContainer', path: '/facebook', component: facebookContainer},
+		{name: 'witContainer', path: '/witai', component: witDeployContainer}
 	]
 });
 

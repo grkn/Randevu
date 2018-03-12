@@ -67,7 +67,9 @@ var messages = {
 			genericButtons : "Generic Buttons",
 			attachment : "Attachment",
 			subject : "Subject",
-			subjects : "Subjects"
+			subjectPage: "Subject Page",
+			subjects : "Subjects",
+			deployBtn : "Deploy"
 		}
 	},
 	tr: {
@@ -138,7 +140,9 @@ var messages = {
 			genericButtons : "Generic Buttons",
 			attachment : "Attachment",
 			subject : "Konu",
-			subjects : "Konular"
+			subjectPage: "Konu Sayfas\u0131",
+			subjects : "Konular",
+			deployBtn : "Deploy"
 			
 		}
 	}
