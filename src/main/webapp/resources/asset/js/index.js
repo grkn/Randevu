@@ -1,6 +1,7 @@
 Vue.component('i18n_custom',{
 	template : '<select v-model="lang" v-on:change="changeLanguage">'
 	+'<option value="en">{{ $t("message.english") }}</option>'
+	+'<option value="fr">{{ $t("message.french") }}</option>'
 	+'<option value="tr">{{ $t("message.turkish") }}</option>'
 	+'</select>',
 	methods : {
@@ -16,11 +17,13 @@ Vue.component('i18n_custom',{
 
 Vue.component("routerLinkComponent",{
 	template : '<div id="navbar"><div class="navbar-nav"><ul class="nav navbar-nav">'
-				+'<li><router-link :to="{ name: \'home\'}">{{$t("message.home")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'home\'}">{{$t("message.intent")}}</router-link>&nbsp;&nbsp;</li>'
 				+'<li><router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;</li>'
 				+'<li><router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;</li>'
 				+'<li><router-link :to="{ name: \'subjectContainer\'}">{{$t("message.subject")}}</router-link>&nbsp;&nbsp;</li>'
 				+'<li><router-link :to="{ name: \'emojiContainer\'}">{{$t("message.emoji")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'configsContainer\'}">{{$t("message.configs")}}</router-link>&nbsp;&nbsp;</li>'
+				+'<li><router-link :to="{ name: \'webChatContainer\'}">{{$t("message.webChat")}}</router-link>&nbsp;&nbsp;</li>'
 				+'<li><router-link :to="{ name: \'facebookContainer\'}">{{$t("message.facebook")}}</router-link>&nbsp;&nbsp;</li>'
 				+'<li><router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link>&nbsp;&nbsp;</li>'
 			+'</ul></div>'
@@ -38,7 +41,7 @@ var i18n = new VueI18n({
 
 // Carousel popup
 Vue.component('carousel_popup',{
-	template :'<div id="myModal" class="modal fade" role="dialog">'
+	template :'<div id="myModalCarousel" class="modal fade" role="dialog">'
 				+'<div class="modal-dialog">'
 				    +'<div class="modal-content">'
 				      +'<div class="modal-header fancyback">'
@@ -58,9 +61,9 @@ Vue.component('carousel_popup',{
 							+'<br/><br/>'
 							+'<div v-for="car in carousel">'
 								+'<table style="width:100%;">'
-									+'<tr><td><label>{{$t("message.image_url")}}</label></td><td><input type="text" v-model="car.imgUrl"/></td></tr>'
-									+'<tr><td><label>{{$t("message.title")}}</label></td><td><input type="text" v-model="car.title"/></td></tr>'
-									+'<tr><td><label>{{$t("message.subtitle")}}</label></td><td><input type="text" v-model="car.subtitle"/></td></tr>'
+									+'<tr><td><label>{{$t("message.image_url")}} *</label></td><td><input type="text" v-model="car.imgUrl"/></td></tr>'
+									+'<tr><td><label>{{$t("message.title")}} *</label></td><td><input type="text" v-model="car.title"/></td></tr>'
+									+'<tr><td><label>{{$t("message.subtitle")}} *</label></td><td><input type="text" v-model="car.subtitle"/></td></tr>'
 								+'</table>'
 								+'<br/>'
 								+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(car)">{{$t("message.removeButton")}}</button>'
@@ -68,8 +71,8 @@ Vue.component('carousel_popup',{
 								+'<br/><br/>'
 								+'<div v-for="button in car.buttons">'
 									+'<table style="width:100%">'
-										+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
-										+'<tr><td><label>{{$t("message.bName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+										+'<tr><td><label>{{$t("message.url")}} *</label></td><td><input type="text" v-model="button.url"/></td></tr>'
+										+'<tr><td><label>{{$t("message.bName")}} *</label></td><td><input type="text" v-model="button.name"/></td></tr>'
 										+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
 									+'</table>'
 									+'<br/>'
@@ -83,7 +86,7 @@ Vue.component('carousel_popup',{
 				      +'</div>'
 				    +'</div><!--modal-content-->'
 				+'</div><!--modal-dialog-->'
-			+'</div><!--myModal-->',
+			+'</div><!--myModalCarousel-->',
 	props : ['entityList'],
 	methods : {
 		incrementInputFields : function(){
@@ -108,7 +111,7 @@ Vue.component('carousel_popup',{
 		},
 		save : function(){
 			Vue.http.post(contextPath + "/secure/api/view/create/carousel", {obj : this.carousel, intent : this.selectedIntent}, function(resp){
-				$("#myModal").modal('hide');
+				$("#myModalCarousel").modal('hide');
 			});
 		},
 		selectedIntentFunc : function(){
@@ -149,7 +152,7 @@ Vue.component('createCarousel',{
 	props : ['entityList'],
 	methods : {
 		loadPopup : function(){
-				$("#myModal").modal();
+				$("#myModalCarousel").modal();
 		}
 	}
 });
@@ -171,20 +174,21 @@ Vue.component('listTemplate_popup',{
 										+'</select>'
 									+'</div>'
 									+'<br/>'
-									+'<div>'
-										+'<table style="width:100%">'
-											+'<tr><td><label>{{$t("message.viewMoreButtonUrl")}}</label></td><td><input type="text" v-model="listTemplate.viewMoreButtonUrl"/></td></tr>'
-											+'<tr><td><label>{{$t("message.viewMoreButtonName")}}</label></td><td><input type="text" v-model="listTemplate.viewMoreButtonName"/></td></tr>'
+									+'<div>'									
 											+'<br/>'
-										+'</table>'
+											+'<table style="width:100%">'
+												+'<tr><td><label>{{$t("message.viewMoreButtonUrl")}}</label></td><td><input type="text" v-model="listTemplate.viewMoreButtonUrl"/></td></tr>'
+												+'<tr><td><label>{{$t("message.viewMoreButtonName")}}</label></td><td><input type="text" v-model="listTemplate.viewMoreButtonName"/></td></tr>'
+												+'<br/>'
+											+'</table>'
 											+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeInputFields()">{{$t("message.removeListItem")}}</button>'
 											+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementInputFields()">{{$t("message.addListItem")}}</button>'
 											+'<br/><br/>'
 											+'<div v-for="listTemp in listTemplate.list">'
 												+'<table style="width:100%">'
 													+'<tr><td><label>{{$t("message.image_url")}}</label></td><td><input type="text" v-model="listTemp.imgUrl"/></td></tr>'
-													+'<tr><td><label>{{$t("message.title")}}</label></td><td><input type="text" v-model="listTemp.title"/></td></tr>'
-													+'<tr><td><label>{{$t("message.subtitle")}}</label></td><td><input type="text" v-model="listTemp.subTitle"/></td></tr>'
+													+'<tr><td><label>{{$t("message.title")}} *</label></td><td><input type="text" v-model="listTemp.title"/></td></tr>'
+													+'<tr><td><label>{{$t("message.subtitle")}} *</label></td><td><input type="text" v-model="listTemp.subTitle"/></td></tr>'
 												+'</table>'
 												+'<!--<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(listTemp)">{{$t("message.removeButton")}}</button>-->'
 												+'<!--<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementButtons(listTemp)">{{$t("message.addButton")}}</button>-->'
@@ -230,6 +234,15 @@ Vue.component('listTemplate_popup',{
 			}
 		},
 		save : function(){
+			if(!this.listTemplate.list || this.listTemplate.list.length < 2){
+				var lang = window.localStorage.getItem('lang');
+				if(lang == "en"){
+					alert("Please fill at least two item.");
+				}else{
+					alert("Lütfen en az iki tane giriniz.");
+				}
+				return;
+			}
 			Vue.http.post(contextPath + "/secure/api/view/create/listTemplate", {listTemplate : this.listTemplate, intent : this.selectedIntent}, function(resp){
 				$("#myModalListTemplate").modal('hide');
 			});
@@ -240,7 +253,7 @@ Vue.component('listTemplate_popup',{
 				if(resp.type && resp.type == 'listTemplate'){
 					while(0 < listTemplate.list.length){
 						listTemplate.list.splice(0, 1);
-					}
+					}					
 					listTemplate.viewMoreButtonUrl = resp.value.viewMoreButtonUrl;
 					listTemplate.viewMoreButtonName = resp.value.viewMoreButtonName;
 					for(var i = 0; i < resp.value.list.length; i++){
@@ -250,7 +263,7 @@ Vue.component('listTemplate_popup',{
 					while(0 < listTemplate.list.length){
 						listTemplate.list.splice(0, 1);
 					}
-					listTemplate.list.push({buttons : [{}]});
+					listTemplate.list.push({buttons : [{}]});				
 					listTemplate.viewMoreButtonUrl = "";
 					listTemplate.viewMoreButtonName = "";
 				}
@@ -301,7 +314,7 @@ Vue.component('quickreply_popup',{
 								+'<div>'
 									+'<div v-for="qReply in quickReply">'
 										+'<table style="width:100%">'
-											+'<tr><td><label>{{$t("message.content")}}</label></td><td><input type="text" v-model="qReply.text"/></td></tr>'
+											+'<tr><td><label>{{$t("message.content")}} *</label></td><td><input type="text" v-model="qReply.text"/></td></tr>'
 										+'</table>'
 										+'<br/>'
 										+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(qReply)">{{$t("message.removeButton")}}</button>'
@@ -309,8 +322,8 @@ Vue.component('quickreply_popup',{
 										+'<br/><br/>'
 										+'<div v-for="button in qReply.buttons">'
 											+'<table style="width:100%">'
-												+'<tr><td><label>{{$t("message.bName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
-												+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
+												+'<tr><td><label>{{$t("message.bName")}} *</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+												+'<tr><td><label>{{$t("message.text")}} *</label></td><td><input type="text" v-model="button.text"/></td></tr>'
 											+'</table>'
 											+'<br/>'
 										+'</div><!--button in-->'
@@ -337,6 +350,18 @@ Vue.component('quickreply_popup',{
 			}
 		},
 		save : function(){
+			var buttons = this.quickReply[0].buttons;
+			for(var i =0;i < buttons.length;i++){
+				if(!buttons[i].name || !buttons[i].text){
+					var lang = window.localStorage.getItem('lang');
+					if(lang == "en"){
+						alert("Please fill all the fields.");
+					}else{
+						alert("Lütfen tüm alanları doldurunuz.");
+					}
+					return;
+				}
+			}
 			Vue.http.post(contextPath + "/secure/api/view/create/quickReply", {quickReply : this.quickReply, intent : this.selectedIntent}, function(resp){
 				$("#myModalquickreply").modal('hide');
 			});
@@ -404,7 +429,7 @@ Vue.component('generic_buttons_popup',{
 							+'<div>'
 								+'<div v-for="gButtons in genericButtons">'
 									+'<table style="width:100%">'
-										+'<tr><td><label>{{$t("message.content")}}</label></td><td><input type="text" v-model="gButtons.text"/></td></tr>'
+										+'<tr><td><label>{{$t("message.content")}} *</label></td><td><input type="text" v-model="gButtons.text"/></td></tr>'
 									+'</table>'
 									+'<br/>'
 									+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(gButtons)">{{$t("message.removeButton")}}</button>'
@@ -413,8 +438,8 @@ Vue.component('generic_buttons_popup',{
 									+'<div v-for="button in gButtons.buttons">'
 										+'<table style="width:100%">'
 											+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
-											+'<tr><td><label>{{$t("message.bName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
-											+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
+											+'<tr><td><label>{{$t("message.bName")}} *</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+											+'<tr><td><label>{{$t("message.text")}} *</label></td><td><input type="text" v-model="button.text"/></td></tr>'
 										+'</table>'
 										+'<br/>'
 									+'</div><!--button in-->'
@@ -451,6 +476,18 @@ Vue.component('generic_buttons_popup',{
 			}
 		},
 		save : function(){
+			var buttons = this.genericButtons[0].buttons;
+			for(var i = 0;i < buttons.length; i++){
+				if(!buttons[i].name || !buttons[i].text){
+					var lang = window.localStorage.getItem('lang');
+					if(lang == "en"){
+						alert("Please fill all the fields.");
+					}else{
+						alert("Lütfen tüm alanları doldurunuz.");
+					}
+					return;
+				}
+			}
 			Vue.http.post(contextPath + "/secure/api/view/create/genericButtons", {genericButtons : this.genericButtons, intent : this.selectedIntent}, function(resp){
 				$("#myModalGenericButtons").modal('hide');
 			});
@@ -517,18 +554,14 @@ Vue.component('attachment_popup',{
 								+'<br/>'
 								+'<div>'
 									+'<div v-for="atch in genericButtons">'
-										+'<table style="width:100%">'
-											+'<tr><td><label>{{$t("message.content")}}</label></td><td><input type="text" v-model="atch.text"/></td></tr>'
-										+'</table>'
-										+'<br/>'
+										
 										+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="removeButtons(atch)">{{$t("message.removeAttachment")}}</button>'
 										+'<button style="float:right;margin:3px;" class="btn btn-info" v-on:click="incrementButtons(atch)">{{$t("message.addAttachment")}}</button>'
 										+'<br/><br/>'
 										+'<div v-for="button in atch.buttons">'
 											+'<table style="width:100%">'
-												+'<tr><td><label>{{$t("message.fileURL")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
-												+'<tr><td><label>{{$t("message.fileName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
-												+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
+												+'<tr><td><label>{{$t("message.fileURL")}} *</label></td><td><input type="text" v-model="button.url"/></td></tr>'
+												+'<tr><td><label>{{$t("message.fileName")}} *</label></td><td><input type="text" v-model="button.name"/></td></tr>'
 											+'</table>'
 											+'<br/>'
 										+'</div><!--button in-->'
@@ -565,6 +598,17 @@ Vue.component('attachment_popup',{
 			}
 		},
 		save : function(){
+			var buttons = this.genericButtons[0].buttons;
+			for(var i=0 ; i < buttons.length ; i++){
+				if(!buttons[i].url || !buttons[i].name){
+					var lang = window.localStorage.getItem('lang');
+					if(lang == "en"){
+						alert("Please fill all the fields.");
+					}else{
+						alert("Lütfen tüm alanları doldurunuz.");
+					}
+				}
+			}
 			Vue.http.post(contextPath + "/secure/api/view/create/attachment", {attachments : this.genericButtons, intent : this.selectedIntent}, function(resp){
 				$("#myModalAttachment").modal('hide');
 			});
@@ -613,7 +657,7 @@ Vue.component('createAttachment',{
 });
 
 
-//Intent silme, cumle ekleme, cumle silme
+//Intent silme, cumle ekleme, cumle silme, konu ekleme
 Vue.component('intent',{
 	template :'<div class="col-sm-6 col-md-4">'
 				+'<div class="thumbnail niceMng">'
@@ -621,21 +665,23 @@ Vue.component('intent',{
 						+'<div><span style="float:right;cursor:pointer;" v-on:click="removeIntent">X</span></div>'
 						+'<h3> {{value}} </h3>'	
 						+'<hr/>'
-						+'<p><label>{{$t("message.storedSentence")}}</label>'
-							+'<select class="smallselect" v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp }">{{ exp }}</option></select>'
-						+'</p>'
 						+'<p><label>{{$t("message.enterSentence")}}</label>'
 						+'<input class="smallinput" type="text" v-model="sentence"></p>'						
 						+'<p>'
-							+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="addSentence(value)">{{$t("message.save")}}</a>'
-							+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
+							+'<a class="btn btn-info" style="margin:3%;margin-left:0;" role="button" v-on:click="addSentence(value)">{{$t("message.save")}}</a>'
 						+'</p>'
+						+'<p><label>{{$t("message.storedSentence")}}</label>'
+						+'<select class="smallselect" v-model="expression"><option v-for="exp in expressions" v-bind:value="{ value: exp }">{{ exp }}</option></select>'
+						+'</p>'
+						+'<p>'
+						+'<a class="btn btn-default" style="margin:3%;margin-left:0;" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
+						+'</p>'						
 						+'<p><label>{{$t("message.subject")}}</label>'
 							+'<select class="smallselect" v-model="subject.subject"><option v-for="sub in subjectArray" v-bind:value="sub.subject">{{ sub.subject}}</option></select>'
 						+'</p>'
 						+'<p>'
-							+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
-							+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="removeSubject">{{$t("message.remove")}}</a>'
+							+'<a class="btn btn-info" style="margin:3%;margin-left:0;" role="button" v-on:click="saveSubject">{{$t("message.save")}}</a>'
+							+'<a class="btn btn-default" role="button" v-on:click="removeSubject">{{$t("message.remove")}}</a>'
 						+'</p>'
 					+'</div>'
 				+'</div>'
@@ -650,7 +696,7 @@ Vue.component('intent',{
 				for(var i = 0; i < this.expressions.length; i++){
 					exps.push(this.expressions[i]);
 				}
-				Vue.http.post(contextPath + "/secure/api/post/intent/expressions", {value : this.value , expressions:exps}).then(function(resp){
+				Vue.http.post(contextPath + "/secure/api/post/intent/expressions", {value : this.value, expressions:exps}).then(function(resp){
 				});
 			}
 		},
@@ -669,21 +715,31 @@ Vue.component('intent',{
 		},
 		saveSubject : function(){
 			if(this.subject && this.subject.subject)
-			Vue.http.post(contextPath + "/secure/api/mongo/post/subjectRelation", {subject : this.subject.subject , intent : this.value}).then(function(resp){
-				window.location.reload();
+			Vue.http.post(contextPath + "/secure/api/mongo/post/subjectRelation", {subject : this.subject.subject, intent : this.value}).then(function(resp){
+				var lang = window.localStorage.getItem('lang');
+				if(lang == "tr"){
+					alert("Seçtiğiniz konu kaydedilmiştir.");
+				}else{
+					alert("Selected subject has been saved.");
+				}
 			});
 		},
 		removeSubject : function(){
 			if(this.subject && this.subject.subject)
 			Vue.http.delete(contextPath + "/secure/api/mongo/delete/subjectRelation", {subject : this.subject.subject, intent : this.value}).then(function(resp){
-				window.location.reload();
+				var lang = window.localStorage.getItem('lang');
+				if(lang == "tr"){
+					alert("Seçtiğiniz konu silinmiştir.");
+				}else{
+					alert("Selected subject has been deleted.");
+				}
 			});
 		}
 	},
 	mounted : function(){
 		this.$nextTick(function () {
 			var subject = this.subject;
-			Vue.http.get(contextPath + "/secure/api/mongo/get/subject/"+this.value).then(function(resp){
+			Vue.http.get(contextPath + "/secure/api/mongo/get/subject/" + this.value).then(function(resp){
 				if(resp.data[0]){
 					subject.subject = resp.data[0].subject;
 					subject.intent = resp.data[0].intent;
@@ -709,7 +765,7 @@ var container = Vue.component('container',{
 					+'<div class="header">'
 						+'<div class="page-header">'
 							+'<div class="headersp">'
-								+'<h1>{{$t("message.header")}}</h1>'
+								+'<h1>{{$t("message.intentPage")}}</h1>'
 							+'</div>'
 							+'<routerLinkComponent></routerLinkComponent>'
 							+'<span class="navbar-nav rootRight">'
@@ -723,7 +779,7 @@ var container = Vue.component('container',{
 					+'<div class="content">'
 					+'<br/>'
 						+'<div style="margin-left:20%;width:80%;margin-bottom:4%">'
-							+'<div><label>{{$t("message.createLabel")}} :</label>&nbsp;'
+							+'<div><label>{{$t("message.intentName")}} :</label>&nbsp;'
 								+'<input type="text" v-model="intentName"/>&nbsp;&nbsp;'
 								+'<label>{{$t("message.subject")}} :</label>&nbsp;&nbsp;'
 								+'<select v-model="subject"><option v-for="subject in subjectList.value">{{subject.subject}}</option></select>&nbsp;&nbsp;'
@@ -1042,25 +1098,39 @@ var subjectContainer = Vue.component("subjectContainer",{
 						+'</div> <!--page-header-->'
 					+'</div> <!--header-->'
 					+'<div class="content">'
+						+'<br/>'
 						+'<form class="form-horizontal">'
-							+'<div class="form-group">'
-								+'<label class="col-sm-2">{{$t("message.subject")}}</label>'
-								+'<div class="col-sm-4">'
+							+'<div class="form-group" style="display:inline-block;width:100%;">'
+								+'<div class="col-sm-1" style="padding-left:3%"><label>{{$t("message.subject")}}</label></div>'
+								+'<div class="col-sm-5">'
 									+'<input type="text" class="form-control" v-model="subject" id="subject"/>'
 								+'</div>'
-								+ '<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+								+'<div class="col-md-2">'
+									+ '<button type="button" class="btn btn-info" v-on:click="save">{{$t("message.save")}}</button>'
+								+'</div>'
 							+'</div>'
 							+'<br/><br/>'
 							+'<div class="table-responsive fancy">'
-							+'<table class="table">'
-								+'<thead><tr><th style="border-bottom:0;">{{$t("message.subjects")}}</th></tr></thead>'
-								+'<tbody>'
-									+'<tr v-for="subject in subjectList.value">'
-									+'<td>{{subject.subject}}</td>'
-									+'<td><a class="btn btn-default" role="button" v-on:click="deleteFunc(subject.subject)">{{$t("message.remove")}}</a></td>'
-									+'</tr>'
-								+'</tbody>'
-							+'</table>'
+								+'<table class="table">'
+									+'<tbody>'
+										+'<tr v-for="subject in subjectList.value">'
+											+'<td><label>{{$t("message.subject")}} :</label>&nbsp;&nbsp;&nbsp;&nbsp;{{subject.subject}}</td>'
+											+'<td><a class="btn btn-default" role="button" v-on:click="deleteFunc(subject.subject)">{{$t("message.remove")}}</a></td>'
+											+'<td>'							
+												+'<label>{{$t("message.responseList")}}:</label>&nbsp;&nbsp;<input type="text" v-model="subject.response"/>'
+											+'</td>'
+											+'<td>'
+												+'<button type="button" class="btn btn-info" v-on:click="addDefaultResponse(subject)">{{$t("message.save")}}</button>'
+											+'</td>'
+											+'<td>'
+												+'<select v-model="subject.selectedResponse"><option v-for="resp in subject.responseList" v-bind:value="resp">{{resp}}</option></select>'
+											+'</td>'
+											+'<td>'
+												+'<button type="button" class="btn btn-default" v-on:click="deleteDefaultMessage(subject)">Fallback {{$t("message.remove")}}</button>'
+											+'</td>'
+										+'</tr>'
+									+'</tbody>'
+								+'</table>'
 							+'</div>'
 							+'<div class="form-group">'
 							+'</div>'
@@ -1068,7 +1138,7 @@ var subjectContainer = Vue.component("subjectContainer",{
 					+'</div> <!--content-->'
 				+'</div> <!--container-->',
 		data : function(){
-			return {subject : "",subjectList : {value : {}}};
+			return {subject : "",subjectList : {value : {}},response : "", selectedResponse : "",responseList : []};
 		},
 		methods : {
 			save : function(){
@@ -1080,15 +1150,34 @@ var subjectContainer = Vue.component("subjectContainer",{
 				Vue.http.delete(contextPath + '/secure/api/mongo/delete/subject', {subject: sbjct}, function(resp){
 					window.location.reload();
 				});	
+			},
+			addDefaultResponse : function(subject){
+				Vue.http.post(contextPath + '/secure/api/mongo/post/subject', {fallback: subject}, function(resp){
+					window.location.reload();
+				});	
+			},
+			deleteDefaultMessage : function(subject){
+				Vue.http.delete(contextPath + '/secure/api/mongo/delete/subject', {fallback: subject}, function(resp){
+					window.location.reload();
+				});	
 			}
 		},
 		mounted : function(){
 			var subjectList = this.subjectList;
+			var responseList = this.responseList;
 			Vue.http.get(contextPath + '/secure/api/mongo/get/subjects',function(resp){
 				subjectList.value = resp;
+				for(var j = 0 ; j < subjectList.value.length; j++){
+					if(subjectList.value[j].response){
+						subjectList.value[j].responseList = [];
+						for(var i = 0 ; i < subjectList.value[j].response.length ; i++){
+							subjectList.value[j].responseList.push(subjectList.value[j].response[i]);
+						}
+					}
+					subjectList.value[j].response = "";
+				}
 			});
 		}
-	
 });
 
 
@@ -1099,7 +1188,7 @@ var trainingContainer = Vue.component("trainingContainer",{
 							+'<div class="page-header">'
 								+'<div class="headersp">'
 									+'<h1>{{$t("message.trainingPage")}}</h1>'
-								+'</div>'
+								+'</div> <!--headersp-->'
 								+'<routerLinkComponent></routerLinkComponent>'
 								+'<span class="navbar-nav rootRight">'
 									+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
@@ -1110,38 +1199,12 @@ var trainingContainer = Vue.component("trainingContainer",{
 							+'</div> <!--page-header-->'
 						+'</div> <!--header-->'
 						+'<div class="content">'
-							+'<div class="col-md-10">'
-								+'<div><label>{{$t("message.threshold")}}</label>&nbsp;&nbsp;&nbsp;<select v-on:change="changeThreshold" v-model="threshold.val"><option value="0.1">0.1</option><option value="0.2">0.2</option>'
-								+'<option value="0.3">0.3</option><option value="0.4">0.4</option><option value="0.5">0.5</option><option value="0.6">0.6</option><option value="0.7">0.7</option>'
-								+'<option value="0.8">0.8</option><option value="0.9">0.9</option>'
-								+'</select>'
-								+'&nbsp;&nbsp;&nbsp;<label>{{$t("message.responseList")}}</label>&nbsp;&nbsp;<input type="text" v-model="response"/>'
-								+'&nbsp;&nbsp;<button type="button" class="btn btn-info" v-on:click="addDefaultResponse">{{$t("message.save")}}</button>'
-								+'&nbsp;&nbsp;<select v-model="selectedResponse"><option v-for="resp in responseList" v-bind:value="resp">{{resp}}</option></select>'
-								+'&nbsp;&nbsp;<button type="button" class="btn btn-default" v-on:click="deleteDefaultMessage">{{$t("message.remove")}}</button>'
-								+'</div>'
-								+'<br/><br/>'
+							+'<div class="col-md-12">'
 								+'<training v-for="validateText in this.validateTextList" v-bind:array="validateText"></training>'
-							+'</div>'
+							+'</div> <!--col-md-12-->'
 						+'</div> <!--content-->'
 					+'</div> <!--container-->',
 	methods : {
-		changeThreshold : function(){
-			Vue.http.get(contextPath + "/secure/api/change/threshold?threshold=" + this.threshold.val).then(function(resp){
-			});
-		},
-		addDefaultResponse : function(){
-			this.responseList.push(this.response);
-			Vue.http.get(contextPath + "/secure/api/add/responseList?response=" + this.response).then(function(resp){
-			});
-		},
-		deleteDefaultMessage : function(){
-			if(this.selectedResponse.trim() != ""){
-				this.responseList.splice(this.responseList.indexOf(this.selectedResponse),1);
-				Vue.http.delete(contextPath + "/secure/api/delete/responseList?response=" + this.selectedResponse).then(function(resp){
-				});
-			}
-		},
 		mountFunc : function(iList){
 				Vue.http.get(contextPath + "/secure/api/mongo/findByLimitTen/training_messages").then(function(resp){
 						for(var i = 0; i < resp.data.length; i ++){
@@ -1152,43 +1215,34 @@ var trainingContainer = Vue.component("trainingContainer",{
 	},
 	mounted : function(){
 		this.$nextTick(function () {
-			var thresholdTemp = this.threshold;
-			var responseListTemp = this.responseList;
-			Vue.http.get(contextPath + "/secure/api/get/threshold/").then(function(resp){
-					thresholdTemp.val =resp.data[0].threshold;
-					for(var i = 0; i < resp.data[0].responseList.length; i++){
-						responseListTemp.push(resp.data[0].responseList[i]);
-					}
-			});
 			this.mountFunc(this.validateTextList);
 	  })
 	},
 	data :	function () {
-		return {validateTextList :[], threshold : {val : 0.7}, responseList : [],response : "", selectedResponse : ""}
+		return {validateTextList :[]}
 	}
 });
 
 
 //Training template
 Vue.component('training',{
-	template :'<div class="row"><div class="col-md-12">'
+	template :'<div class="row">'
+					+'<div class="col-md-12">'
 							+'<div class="thumbnail niceMng">'
 						  	+'<div class="caption">'
-									+'<h3  v-html="array.message.text">{{}}</h3>'
+									+'<h3 v-html="array.message.text"></h3>'
 									+'<p>'
-									+'<select v-model="selectedIntent" >'
-										+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option>'
-									+'</select>'
-									+'<span style="float:right;">{{array.confidenceLevel}}</span>'
+										+'<select v-model="selectedIntent" >'
+											+'<option v-for="intent in intentList" v-bind:value="intent.value">{{intent.value}}</option>'
+										+'</select>'
+										+'<span style="float:right;">{{array.confidenceLevel}}</span>'
+										+'<a class="btn btn-info" style="margin:3%;" role="button" v-on:click="validate">{{$t("message.addValidation")}}</a>'
+										+'<a class="btn btn-default" role="button" v-on:click="deleteMessage">{{$t("message.removeValidation")}}</a>'
 									+'</p>'
-									+'<p>'
-										+'<a class="btn btn-info" style="margin:3px;" role="button" v-on:click="validate">{{$t("message.addValidation")}}</a>'
-										+'<a class="btn btn-default" style="margin:3px;" role="button" v-on:click="deleteMessage">{{$t("message.removeValidation")}}</a>'
-									+'</p>'
-							  +'</div>'
-							+'</div>'
-					  +'</div>'
-						+'</div>',
+							  +'</div> <!--caption-->'
+							+'</div> <!--thumbnail-->'
+					  +'</div> <!--col-md-12-->'
+				+'</div> <!--row-->',
 	props: ['array'],
 	methods : {
 		validate : function(){
@@ -1429,6 +1483,151 @@ var emojiContainer = Vue.component('emojiContainer', {
 });
 
 
+
+//configs sayfasi
+var configsContainer = Vue.component("configsContainer",{
+	template:'<div class="container">'
+						+'<div class="header">'
+							+'<div class="page-header">'
+								+'<div class="headersp">'
+									+'<h1>{{$t("message.configsPage")}}</h1>'
+								+'</div>'
+								+'<routerLinkComponent></routerLinkComponent>'
+								+'<span class="navbar-nav rootRight">'
+									+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
+								+'</span>'
+								+'<span class="navbar-nav rootRight">'
+									+'<i18n_custom></i18n_custom>'
+								+'</span>'
+							+'</div> <!--page-header-->'
+						+'</div> <!--header-->'
+						+'<div class="content">'
+							+'<div class="col-md-10 fancy" style="margin-left:1%;">'
+								+'<br/>'
+								+'<div class="col-sm-2"><label>{{$t("message.threshold")}} :</label>'
+								+'<select v-on:change="changeThreshold" v-model="threshold.val">'
+									+'<option value="0.1">0.1</option><option value="0.2">0.2</option>'
+									+'<option value="0.3">0.3</option><option value="0.4">0.4</option>'
+									+'<option value="0.5">0.5</option><option value="0.6">0.6</option>'
+									+'<option value="0.7">0.7</option><option value="0.8">0.8</option>'
+									+'<option value="0.9">0.9</option>'
+								+'</select></div>'
+								+'<br/>'
+								+'<br/>'+'<br/>'
+								+'<div class="col-md-10">'
+									+'<label>{{$t("message.generalResponseList")}} :</label>&nbsp;&nbsp;<input type="text" v-model="response"/>'
+									+'&nbsp;&nbsp;<button type="button" class="btn btn-info" v-on:click="addDefaultResponse">{{$t("message.save")}}</button>'
+									+'&nbsp;&nbsp;<select v-model="selectedResponse"><option v-for="resp in responseList" v-bind:value="resp">{{resp}}</option></select>'
+									+'&nbsp;&nbsp;<button type="button" class="btn btn-default" v-on:click="deleteDefaultMessage">{{$t("message.remove")}}</button>'
+								+'</div>'
+							+'</div>'
+							+'<br/>'
+							+'<br/>'
+							+'<br/>'
+							+'<br/>'
+							+'<br/>'
+							+'<br/>'
+							+'<br/>'
+							+'<br/>'
+							+'<div class="row" style="margin-left:1%;"><h3>{{$t("message.persistentMenu")}}</h3></div>'
+								+'<br/>'
+								+'<div class="col-md-10 fancy" style="margin-left:1%;">'
+								+'<form class="form-horizontal">'
+									+'<div class="form-group">'
+										+'<label>{{$t("message.menu")}}&nbsp;&nbsp;&nbsp;</label><input v-model="pMenuItem" type="text"/>'
+										+'<label>{{$t("message.name")}}&nbsp;&nbsp;&nbsp;</label><input v-model="pMenuItemName" type="text"/>'
+										+'<button type="button" style="margin:10px;" class="btn btn-info" v-on:click="addPersistentMenu()">{{$t("message.add")}}</button>'
+									+'</div>'
+									+'<div class="form-group">'
+										+'<ul>'
+											+'<li v-for="item in persistentMenuList">{{item}} <button type="button" style="margin:10px;" class="btn btn-default" v-on:click="removePersistentMenu(item)">{{$t("message.remove")}}</button></li>'
+										+'</ul>'
+									+'</div>'
+								+'</form>'
+								+'</div>'
+							+'</div>'
+						+'</div> <!--content-->'
+					+'</div> <!--container-->',
+	methods : {
+			changeThreshold : function(){
+				Vue.http.get(contextPath + "/secure/api/change/threshold?threshold=" + this.threshold.val).then(function(resp){
+				});
+			},
+			addDefaultResponse : function(){
+				this.responseList.push(this.response);
+				Vue.http.get(contextPath + "/secure/api/add/responseList?response=" + this.response).then(function(resp){
+				});
+			},
+			deleteDefaultMessage : function(){
+				if(this.selectedResponse.trim() != ""){
+					this.responseList.splice(this.responseList.indexOf(this.selectedResponse),1);
+					Vue.http.delete(contextPath + "/secure/api/delete/responseList?response=" + this.selectedResponse).then(function(resp){
+					});
+				}
+			},
+			addPersistentMenu : function(){
+				this.persistentMenuList.push({text : this.pMenuItem, name : this.pMenuItemName});
+				Vue.http.post(contextPath + '/secure/api/add/persistentMenu', {persistentMenuList : this.persistentMenuList}, function(resp){
+				});
+			},
+			
+			removePersistentMenu : function(item){
+				this.persistentMenuList.splice(this.persistentMenuList.indexOf(item),1);
+				Vue.http.post(contextPath + '/secure/api/add/persistentMenu', {persistentMenuList : this.persistentMenuList}, function(resp){
+				});
+			}
+	},
+	mounted : function(){
+		this.$nextTick(function () {
+			var thresholdTemp = this.threshold;
+			var responseListTemp = this.responseList;
+			var pMenu = this.persistentMenuList;
+			Vue.http.get(contextPath + "/secure/api/get/threshold/").then(function(resp){
+					thresholdTemp.val =resp.data[0].threshold;
+					for(var i = 0; i < resp.data[0].responseList.length; i++){
+						responseListTemp.push(resp.data[0].responseList[i]);
+					}
+					for(var i = 0; i < resp.data[0].persistentMenu.length; i++){
+						pMenu.push({text : resp.data[0].persistentMenu[i].text, name : resp.data[0].persistentMenu[i].name});
+					}
+			});
+	  })
+	},
+	data :	function () {
+		return {threshold : {val : 0.7}, responseList : [],response : "", selectedResponse : "",pMenuItem : "",pMenuItemName : "",persistentMenuList : []}
+	}
+});
+
+
+
+var webChatContainer = Vue.component("webChatContainer",{
+	template : '<div class="container">'
+		+'<div class="header">'
+			+'<div class="page-header">'
+				+'<div class="headersp">'
+						+'<h1>{{$t("message.webChatPage")}}</h1>'
+					+'</div>'
+					+'<routerLinkComponent></routerLinkComponent>'
+					+'<span class="navbar-nav rootRight">'
+						+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
+					+'</span>'
+					+'<span class="navbar-nav rootRight">'
+						+'<i18n_custom></i18n_custom>'
+					+'</span>'
+				+'</div> <!--page-header-->'
+			+'</div> <!--header-->'
+			+'<div class="content">'
+				+'<div style="position:absolute;bottom:0px;right:15px;">'
+					+'<table>'
+						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">Talk to BOT</button></td></tr>'
+						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://localhost:8000/webchat.html" width="370px" height="420px" /></td></tr>'
+					+'</table>'
+				+'</div>'
+			+'</div> <!--content-->'
+		+'</div> <!--container-->'	
+});
+
+
 // Facebook sayfasi
 var facebookContainer = Vue.component("facebookContainer",{
 	template:'<div class="container">'
@@ -1593,7 +1792,7 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 				Vue.http.post(contextPath + '/secure/api/witaiCreateApp/post', {application : this.app}, function(resp){
 					if(resp.errors){
 						var lang = window.localStorage.getItem('lang');
-						if(lang == "tr" && resp.errors[0].indexOf("already taken, please choose another one") > 0){
+						if(lang == "tr" && resp.errors[0].indexOf("Already taken, please enter another name.") > 0){
 							alert("Bu isim daha önce alınmıştır. Lütfen yeni bir isim giriniz.");
 						}else{
 							alert(resp.errors);
@@ -1621,6 +1820,7 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 });
 
 
+
 // Menu isimleri
 var vrouter = new VueRouter({
 	routes: [
@@ -1629,6 +1829,8 @@ var vrouter = new VueRouter({
 		{name: 'trainingContainer', path: '/trainings', component: trainingContainer},
 		{name: 'subjectContainer', path: '/subjects', component: subjectContainer},
 		{name: 'emojiContainer', path: '/emojis', component: emojiContainer},
+		{name: 'configsContainer', path: '/configs', component: configsContainer},
+		{name: 'webChatContainer', path: '/webchat', component: webChatContainer},
 		{name: 'facebookContainer', path: '/facebook', component: facebookContainer},
 		{name: 'witContainer', path: '/witai', component: witDeployContainer}
 	]

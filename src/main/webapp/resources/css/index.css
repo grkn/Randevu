@@ -1,10 +1,10 @@
 .page-header{
 	padding-bottom: 40px;
-    margin: 40px 0 20px;
+    margin: 20px 0 10px;
     border-bottom: 1px solid #eee;
 }
 .headersp{
-	padding-bottom: 40px;
+	padding-bottom: 20px;
 	text-align: center;
 }
 .niceMng{
@@ -78,8 +78,8 @@ select, input{
     font-weight: bold;
     height: 40px;
     letter-spacing: .3px;
-    margin: 0 15px;
-    padding: 15px 0;
+    margin: 0 10px;
+    padding: 10px 0;
     position: relative;
     text-decoration: none;
     text-transform: uppercase;
@@ -91,4 +91,10 @@ select, input{
 }
 .nav>li>a:focus {
     outline: -webkit-focus-ring-color auto 0px;
+}
+.big-btn{
+	border-radius:0 !important;
+}
+.big-btn:hover, .big-btn:focus, .big-btn:active{
+	border-color: #31b0d5;
 }

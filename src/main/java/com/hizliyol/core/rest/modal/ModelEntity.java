@@ -21,6 +21,8 @@ public class ModelEntity {
 	private String text;
 	private String subject;
 	private WitaiApp application;
+	private SubjectFallback fallback;
+	private List<PersistentMenu> persistentMenuList;
 	
 	public String getValue() {
 		return value;
@@ -129,5 +131,17 @@ public class ModelEntity {
 	}
 	public void setApplication(WitaiApp application) {
 		this.application = application;
-	}	
+	}
+	public SubjectFallback getFallback() {
+		return fallback;
+	}
+	public void setFallback(SubjectFallback fallback) {
+		this.fallback = fallback;
+	}
+	public List<PersistentMenu> getPersistentMenuList() {
+		return persistentMenuList;
+	}
+	public void setPersistentMenuList(List<PersistentMenu> persistentMenuList) {
+		this.persistentMenuList = persistentMenuList;
+	}
 }

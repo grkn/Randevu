@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by bilge_gilleez on 16.01.2018.
- */
 @RestController
 public class UserRestService {
 

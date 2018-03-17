@@ -532,6 +532,31 @@ public class NodeJsRestService {
         return result;
 	}
 	
+	@RequestMapping(value = "/api/add/persistentMenu", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public String addPersistentMenuItem(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/add/persistentMenu", HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value = "/api/get/persistentMenu",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+	public String getPersistentMenu(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/get/persistentMenu", HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	
 	private HttpEntity<Object> createEntityAndHeader(ModelEntity modelEntity) {
 		HttpHeaders headers = createJsonHeader();
         
