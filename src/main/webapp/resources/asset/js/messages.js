@@ -90,9 +90,105 @@ var messages = {
 		  configs : 'Configs',
 		  configsPage : 'Configurations Page' ,
 		  persistentMenu : 'Persistent Menu',
-		  menu : 'Menu Name'
+		  menu : 'Menu Name',
+		  link :'URL'
 		}
 	},
+	fr: {
+		message: {
+		  english : 'Anglais',
+		  turkish : 'Turc',
+		  french : 'Français',
+		  rootPanel : "Root Panel",
+		  
+		  add : 'Ajouter',
+		  remove : 'Supprimer',
+		  save : "Enregistrer",
+		  search : 'Chercher',
+		  create : "Créer",
+		  close : "Fermer",
+		  success : "REUSSITE",
+		  error : "ERREUR",
+		  
+		  intent : 'Intention',
+		  intentPage : 'Page de Intention',
+		  intentName : "Nome de Intention",
+		  
+		  answers : "Reponses",		  
+		  answerPage : "Page de Réponses",
+		  savedAnswer : "Entrer la Réponse",
+		  enterSentence : 'Phrase',
+		  storedSentence : "Phrases Enregistrées",
+		  
+		  carousel : "Carrousel",
+		  quickReply : "Quick Reply",
+		  listTemplate : "List Template",
+		  genericButtons : "Generic Buttons",
+		  attachment : "Attachement",
+		  
+		  selectIntent : "Sélectionnez Intent",
+		  image_url : "URL de l'Image",
+		  subtitle : "Sous-titre",
+		  title : "Titre",
+		  url : "URL de Bouton",
+		  fileURL : "URL de Fichier",
+		  fileName : "Nom de Fichier",
+		  name : "Le Nom",
+		  bName : "Nom de Bouton",
+		  text : "Texte",
+		  
+		  addButton : "Ajouter un Bouton",
+		  removeButton : "Supprimer un Bouton",
+		  addCarousel : "Ajouter un Slider",
+		  removeCarousel : "Supprimer un Slider",
+		  addQuickReply : "Ajouter QuickReply",
+		  removeQuickReply : "Supprimer QuickReply",
+		  
+		  content : "Contenu",
+		  addListItem : "Ajouter List Item",
+		  removeListItem : "Supprimer List Item",
+		  viewMoreButtonUrl : "URL Lire la Suite",
+		  viewMoreButtonName : "Nom Lire la Suite",
+		  addAttachment : "Ajouter un Attachement",
+		  removeAttachment : "Supprimer un Attachement",
+		  
+		  training : "Formation",
+		  trainingPage : "Page de Formation",
+		  addValidation : "Valider",
+		  removeValidation : "Supprimer",
+		  
+		  threshold : "Threshold",
+		  generalResponseList : "Réponse Générale de Repli",
+		  responseList : "Réponse de Repli",
+		  		  
+		  facebookPage : "Page de Déploiement de Facebook",
+		  facebook : "Facebook",
+		  
+		  witaiPage : "Page de Déploiement Wit.ai",
+		  witai : "wit.ai",
+		  
+		  emoji : "Emoji",
+		  emojiPage : "Page d'Emoji ",
+		  emojiPopupError : "Un seul emoji est autorisé.",
+		  userEmoji : "Utilisateur Emoji",
+		  botEmoji : "Bot Emoji",
+		  botReply: "Réponse de Bot",
+		  		  
+		  subject : "Sujet",
+		  subjects : "Sujets",
+		  subjectPage : "Page de Sujet",
+		  deployBtn : "Déployer",
+		  
+		  webChat : 'WebChat',
+		  webChatPage:'Page de WebChat',
+		  
+		  configs : 'Configs',
+		  configsPage : 'Page de Configurations' ,
+		  persistentMenu : 'Menu Persistent',
+		  menu : 'Nom du Menu',
+		  link :'URL'
+		}
+	},	
 	tr: {
 		message: {
 		  english : 'Ingilizce',
@@ -184,7 +280,8 @@ var messages = {
 		  configs : 'Ayarlar',
 		  configsPage : 'Ayarlar Sayfas\u0131',
 		  persistentMenu : 'Persistent Menü',
-		  menu : 'Menu Ad\u0131'
+		  menu : 'Menu Ad\u0131',
+		  link :'URL'
 		}
 	}
 
