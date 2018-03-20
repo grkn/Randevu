@@ -6,55 +6,54 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-
-<h:head>
-
-
-</h:head>
-<h:body>
-
-	<ui:composition template="/WEB-INF/views/template.xhtml">
-
-		<ui:define name="content">
-			<p:fieldset legend="Rol Tanımlama Ekranı">
-					<p:panelGrid columns="1">
-						<h:outputText value="Rol Adı" />
-						<p:inputText
-								value="#{roleController.role.roleName}"></p:inputText>
-
-						<h:outputText value="Yetkiler" />
-						<p:pickList id="pickList"
-									value="#{roleController.auhorizationDualListModel}" var="item"
-									itemLabel="#{item.authName}" converter="anySelectConverter"
-									itemValue="#{item}" />
-					</p:panelGrid>
-					<p:panel>
-						<p:commandButton update="@form"
-										 actionListener="#{roleController.insert}" value="Kaydet"></p:commandButton>
-					</p:panel>
-			</p:fieldset>
-			<p:fieldset legend="Rol Listesi">
-				<p:dataTable var="role" value="#{roleController.roleLazyModel}" paginator="true" rows="10"
-							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-							 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{roleController.selectedRole}" id="role" lazy="true">
-					<p:ajax event="rowSelect" update="@this" />
-					<p:column headerText="Id" sortBy="#{role.id}" filterBy="#{role.id}">
-						<h:outputText value="#{role.id}" />
-					</p:column>
-					<p:column headerText="Rol İsmi" sortBy="#{role.roleName}" filterBy="#{role.roleName}">
-						<h:outputText value="#{role.roleName}" />
-					</p:column>
-					<p:column headerText="Yetki Listesi" >
-						<h:outputText value="#{role.auhorizationSet}" />
-					</p:column>
-					<p:column>
-						<p:commandButton actionListener="#{roleController.delete(role)}" value="Sil" update="@form"/>
-					</p:column>
-
-				</p:dataTable>
-			</p:fieldset>
-		</ui:define>
-	</ui:composition>
-
-</h:body>
+	<h:head>
+	
+	</h:head>
+	<h:body>
+	
+		<ui:composition template="/WEB-INF/views/template.xhtml">
+	
+			<ui:define name="content">
+				<p:fieldset legend="#{msg['role.creation']}">
+						<p:panelGrid columns="5">
+							<h:outputText value="#{msg['role.name']}" />
+							<p:inputText
+									value="#{roleController.role.roleName}"></p:inputText>
+	
+							<h:outputText value="#{msg['role.auths']}" />
+							<p:pickList id="pickList"
+										value="#{roleController.auhorizationDualListModel}" var="item"
+										itemLabel="#{item.authName}" converter="anySelectConverter"
+										itemValue="#{item}" />
+							<p:commandButton update="@form"
+											 actionListener="#{roleController.insert}" value="#{msg['save']}"></p:commandButton>
+						</p:panelGrid>
+				</p:fieldset>
+				<p:fieldset legend="#{msg['role.list']}">
+					<p:dataTable var="role" value="#{roleController.roleLazyModel}" paginator="true" rows="10"
+								 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								 rowsPerPageTemplate="5,10,15" 
+								 selectionMode="single" 
+								 selection="#{roleController.selectedRole}" 
+								 id="role" lazy="true">
+						<p:ajax event="rowSelect" update="@this" />
+						<p:column headerText="Id" sortBy="#{role.id}">
+							<h:outputText value="#{role.id}" />
+						</p:column>
+						<p:column headerText="#{msg['role.name']}" sortBy="#{role.roleName}">
+							<h:outputText value="#{role.roleName}" />
+						</p:column>
+						<p:column headerText="#{msg['auths']}" >
+							<h:outputText value="#{role.auhorizationSet}" />
+						</p:column>
+						<p:column>
+							<p:commandButton actionListener="#{roleController.delete(role)}" value="#{msg['remove']}" update="@form"/>
+						</p:column>
+	
+					</p:dataTable>
+				</p:fieldset>
+			</ui:define>
+		</ui:composition>
+	
+	</h:body>
 </html>

@@ -18,6 +18,7 @@
         <locale-config>
             <default-locale>tr</default-locale>
             <supported-locale>en</supported-locale>
+            <supported-locale>fr</supported-locale>
         </locale-config>
     </application>
     <factory>

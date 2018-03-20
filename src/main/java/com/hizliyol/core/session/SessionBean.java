@@ -2,8 +2,10 @@ package com.hizliyol.core.session;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 
 import org.slf4j.MDC;
 import org.slf4j.Marker;
@@ -25,6 +27,13 @@ public class SessionBean {
 	private List<GrantedAuthority> list;
 	private String userName;
 	private UserDetailDto userDetailDto;
+	private Locale currentLocale =new Locale("tr");
+	
+    public String switchLocale(String lang) {
+        currentLocale = new Locale(lang);
+        return FacesContext.getCurrentInstance().getViewRoot().getViewId() +
+            "?faces-redirect=true";
+    }
 	
 	@PostConstruct
 	public void init(){
@@ -63,6 +72,14 @@ public class SessionBean {
 
 	public void setUserDetailDto(UserDetailDto userDetailDto) {
 		this.userDetailDto = userDetailDto;
+	}
+
+	public Locale getCurrentLocale() {
+		return currentLocale;
+	}
+
+	public void setCurrentLocale(Locale currentLocale) {
+		this.currentLocale = currentLocale;
 	}
 	
 }

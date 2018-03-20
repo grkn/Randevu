@@ -7,15 +7,20 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<p:menubar>
-        <p:submenu rendered="#{loginController.sessionBean.isRoot()}" label="Root Menu" icon="ui-icon-pencil">
-            <p:menuitem  value="Kullanıcı Tanımlama" url="/root/adminUser.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
-            <p:menuitem  value="Role Tanımlama" url="/root/rootRoleDefinition.xhtml" icon="ui-icon-bookmark"/>
-            <p:menuitem  value="Auth Tanımlama" url="/root/rootAuthDefinition.xhtml" icon="ui-icon-bookmark"/>
+        <p:submenu rendered="#{loginController.sessionBean.isRoot()}" label="#{msg['root.menu']}" icon="ui-icon-pencil">
+            <p:menuitem  value="#{msg['users']}" url="/root/adminUser.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+            <p:menuitem  value="#{msg['roles']}" url="/root/rootRoleDefinition.xhtml" icon="ui-icon-bookmark"/>
+            <p:menuitem  value="#{msg['auths']}" url="/root/rootAuthDefinition.xhtml" icon="ui-icon-bookmark"/>
+        </p:submenu>
+        <p:submenu rendered="#{loginController.sessionBean.isRoot()}" label="#{msg['language']}" icon="ui-icon-pencil">
+            <p:menuitem  value="#{msg['english']}" action="#{sessionBean.switchLocale('en')}" icon="ui-icon-bookmark"/>
+            <p:menuitem  value="#{msg['french']}" action="#{sessionBean.switchLocale('fr')}" icon="ui-icon-bookmark"/>
+            <p:menuitem  value="#{msg['turkish']}" action="#{sessionBean.switchLocale('tr')}" icon="ui-icon-bookmark" />
         </p:submenu>
         <f:facet name="options">
-			<p:panelGrid columns="4">
-	        	<p:outputLabel value="Hoşgeldiniz"></p:outputLabel>
-	            <p:commandButton action="#{loginController.logout()}" value="Çıkış" icon="ui-icon-extlink"  />
+			<p:panelGrid columns="4">			
+	        	<p:outputLabel value="#{msg['welcome']}"></p:outputLabel>
+	            <p:commandButton action="#{loginController.logout()}" value="#{msg['exit']}" icon="ui-icon-extlink"  />
             </p:panelGrid>
         </f:facet>
     </p:menubar>

@@ -6,50 +6,47 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-
 	<h:head>
 	
 	</h:head>
-	
 	<h:body>
-	
+
 		<ui:composition template="/WEB-INF/views/template.xhtml">
-			<ui:define name="content">
-			
-				<p:fieldset legend="Rol Tanımlama Ekranı">
-						<p:panelGrid columns="4">
-							<h:outputText value="Yetki Adı"/>
+			<ui:define name="content">		
+				<p:fieldset legend="#{msg['auth.creation']}">
+						<p:panelGrid columns="5">
+							<h:outputText value="#{msg['role.name']}"/>
 							<p:inputText
 									value="#{authController.authorization.authName}">
 							</p:inputText>
-							<h:outputText value="Roller"/>
-							<p:selectOneMenu id="roles" label="Role Listesi"
+							<h:outputText value="#{msg['auth']}"/>
+							<p:selectOneMenu id="roles"
 										value="#{authController.selectedRole}" converter="anySelectConverter">
 								<f:selectItems value="${authController.roleList}" itemValue="${item}" itemLabel="${item.roleName}" var="item"/>
 							</p:selectOneMenu>
-						</p:panelGrid>
-						<p:panel>
 							<p:commandButton update="@form"
-											 actionListener="#{authController.insert}" value="Kaydet">
+											 actionListener="#{authController.insert}" value="#{msg['save']}">
 							</p:commandButton>
-						</p:panel>
+						</p:panelGrid>
 				</p:fieldset>
-				<p:fieldset legend="Yetki Listesi">
+				<p:fieldset legend="#{msg['auth.list']}">
 					<p:dataTable var="auth" value="#{authController.authList}" paginator="true" rows="10"
 								 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
 								 rowsPerPageTemplate="5,10,15" id="auth" >
-						<p:column headerText="Id" sortBy="#{auth.id}" filterBy="#{auth.id}">
+						<p:column headerText="Id" sortBy="#{auth.id}">
 							<h:outputText value="#{auth.id}" />
-						</p:column>
-						<p:column headerText="Yetki İsmi" sortBy="#{auth.authName}" filterBy="#{auth.authName}">
+						</p:column>					
+						<p:column headerText="#{msg['auth.name']}" sortBy="#{auth.authName}">
 							<h:outputText value="#{auth.authName}"/>
 						</p:column>
+						<p:column headerText="#{msg['role.name']}" sortBy="#{auth.roleId.roleName}">
+							<h:outputText value="#{auth.roleId.roleName}"/>
+						</p:column>							
 						<p:column>
-							<p:commandButton actionListener="#{authController.delete(auth)}" value="Sil" update="@form"/>
+							<p:commandButton actionListener="#{authController.delete(auth)}" value="#{msg['remove']}" update="@form"/>
 						</p:column>
 					</p:dataTable>
 				</p:fieldset>
-				
 			</ui:define>
 		</ui:composition>
 

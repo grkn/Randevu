@@ -69,19 +69,19 @@
                        access="hasRole('ROLE_ROOT')"
                        method="GET" />
         <security:intercept-url pattern="/secure/api/**"
-                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
+                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN','ROLE_USER')"
                        method="GET" />
 		 <security:intercept-url pattern="/secure/api/**"
-                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
+                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN','ROLE_USER')"
                        method="POST" />
         <security:intercept-url pattern="/secure/api/**"
-                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
+                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN','ROLE_USER')"
                        method="DELETE" />
         <security:intercept-url pattern="/nonsecure/**"
-                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
+                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN','ROLE_USER')"
                        method="POST" />
         <security:intercept-url pattern="/nonsecure/**"
-                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN')"
+                       access="hasAnyRole('ROLE_ROOT','ROLE_ADMIN','ROLE_USER')"
                        method="GET" />
         <security:intercept-url pattern="/**" access="denyAll()" />
         <security:access-denied-handler ref="oauthAccessDeniedHandler" />

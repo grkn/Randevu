@@ -6,77 +6,71 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-
-<h:head>
-
-
-</h:head>
-<h:body>
-
-	<ui:composition template="/WEB-INF/views/template.xhtml">
-
-		<ui:define name="content">
-			<p:fieldset legend="Tanımlama Ekranı">
-				<h:panelGrid columns="4" cellpadding="10">
-					<h:outputText value="Kullanıcı Adı" />
-					<p:inputText
-						value="#{adminCreateUserController.user.username}"></p:inputText>
-					<h:outputText value="Şifre"></h:outputText>
-					<p:password
-						value="#{adminCreateUserController.user.password}"></p:password>
-
-					<h:outputText value="İsim" />
-					<p:inputText
-						value="#{adminCreateUserController.user.firstName}"></p:inputText>
-					<h:outputText value="Soyadı" />
-					<p:inputText
-						value="#{adminCreateUserController.user.lastName}"></p:inputText>
-					<h:outputText value="Mail Adresi" />
-					<p:inputText
-						value="#{adminCreateUserController.user.email}"></p:inputText>
-				</h:panelGrid>
-			</p:fieldset>
-
-			<p:fieldset legend="Rol Listesi">
-				<p:pickList id="pickList"
-					value="#{adminCreateUserController.roleDualList}" var="item"
-					itemLabel="#{item.roleName}" converter="anySelectConverter"
-					itemValue="#{item}" />
-			</p:fieldset>
-
-			<p:panel>
-				<p:commandButton update="@form"
-					actionListener="#{adminCreateUserController.insert}" value="Kaydet"></p:commandButton>
-			</p:panel>
-
-
-			<p:fieldset legend="Müşteri Listesi">
-				<p:dataTable var="user" value="#{adminCreateUserController.randevuUserLazyModel}" paginator="true" rows="10"
-							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-							 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{adminCreateUserController.selectedRandevuUser}" id="randevuUser" lazy="true">
-					<p:ajax event="rowSelect" update="@this" />
-					<p:column headerText="Id" sortBy="#{user.id}" filterBy="#{user.id}">
-						<h:outputText value="#{user.id}" />
-					</p:column>
-					<p:column headerText="Kullanıcı Adı" sortBy="#{user.username}" filterBy="#{user.username}">
-						<h:outputText value="#{user.username}" />
-					</p:column>
-					<p:column headerText="İsim" sortBy="#{user.firstName}" filterBy="#{user.firstName}">
-						<h:outputText value="#{user.firstName}" />
-					</p:column>
-					<p:column headerText="Soyadı" sortBy="#{user.lastName}" filterBy="#{user.lastName}">
-						<h:outputText value="#{user.lastName}" />
-					</p:column>
-					<p:column headerText="Rol">
-						<h:outputText value="#{user.roleSet}" />
-					</p:column>
-					<p:column>
-						<p:commandButton value="Sil" actionListener="#{adminCreateUserController.delete(user)}" update="@form"/>
-					</p:column>
-				</p:dataTable>
-			</p:fieldset>
-		</ui:define>
-	</ui:composition>
-
-</h:body>
+	<h:head>	
+	
+	</h:head>
+	<h:body>
+	
+		<ui:composition template="/WEB-INF/views/template.xhtml">
+	
+			<ui:define name="content">
+				<p:fieldset legend="#{msg['new.user']}">
+					<h:panelGrid columns="3" cellpadding="10">
+						<h:panelGrid columns="2" cellpadding="10">
+							<h:outputText value="#{msg['user.username']}" />
+							<p:inputText
+								value="#{adminCreateUserController.user.username}"></p:inputText>
+							<h:outputText value="#{msg['user.password']}"></h:outputText>
+							<p:password
+								value="#{adminCreateUserController.user.password}"></p:password>
+							<h:outputText value="#{msg['user.name']}" />
+							<p:inputText
+								value="#{adminCreateUserController.user.firstName}"></p:inputText>
+							<h:outputText value="#{msg['user.lastname']}" />
+							<p:inputText
+								value="#{adminCreateUserController.user.lastName}"></p:inputText>
+							<h:outputText value="#{msg['user.email']}" />
+							<p:inputText
+								value="#{adminCreateUserController.user.email}"></p:inputText>
+						</h:panelGrid>
+						<h:panelGrid columns="2" cellpadding="10">
+							<p:pickList id="pickList"
+								value="#{adminCreateUserController.roleDualList}" var="item"
+								itemLabel="#{item.roleName}" converter="anySelectConverter"
+								itemValue="#{item}" />
+						</h:panelGrid>
+						<p:commandButton update="@form"
+							actionListener="#{adminCreateUserController.insert}" value="#{msg['save']}"></p:commandButton>
+					</h:panelGrid>
+				</p:fieldset>
+	
+				<p:fieldset legend="#{msg['user.list']}">
+					<p:dataTable var="user" value="#{adminCreateUserController.randevuUserLazyModel}" paginator="true" rows="10"
+								 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+								 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{adminCreateUserController.selectedRandevuUser}" id="randevuUser" lazy="true">
+						<p:ajax event="rowSelect" update="@this" />
+						<p:column headerText="Id" sortBy="#{user.id}" filterBy="#{user.id}">
+							<h:outputText value="#{user.id}" />
+						</p:column>
+						<p:column headerText="#{msg['user.username']}" sortBy="#{user.username}" filterBy="#{user.username}">
+							<h:outputText value="#{user.username}" />
+						</p:column>
+						<p:column headerText="#{msg['user.name']}" sortBy="#{user.firstName}" filterBy="#{user.firstName}">
+							<h:outputText value="#{user.firstName}" />
+						</p:column>
+						<p:column headerText="#{msg['user.lastname']}" sortBy="#{user.lastName}" filterBy="#{user.lastName}">
+							<h:outputText value="#{user.lastName}" />
+						</p:column>
+						<p:column headerText="#{msg['roles']}" sortBy="#{Rol}" filterBy="#{Rol}">
+							<h:outputText value="#{user.roleSet}" />
+						</p:column>
+						<p:column>
+							<p:commandButton value="#{msg['remove']}" actionListener="#{adminCreateUserController.delete(user)}" update="@form"/>
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+			</ui:define>
+			
+		</ui:composition>
+	</h:body>
 </html>

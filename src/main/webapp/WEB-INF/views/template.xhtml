@@ -13,39 +13,41 @@
    	<h:outputScript library="js" name="site.js"> </h:outputScript>	
 </h:head>
 <h:body style="background-color:#fff;">
-	<h:form>
-		<div class="container">
-			<div class="header-container">
-				<div class="header">
-					<ui:insert name="header">
-						<ui:include src="header.xhtml" />
-					</ui:insert>
+	<f:view locale="#{sessionBean.currentLocale}">
+		<h:form>
+			<div class="container">
+				<div class="header-container">
+					<div class="header">
+						<ui:insert name="header">
+							<ui:include src="header.xhtml" />
+						</ui:insert>
+					</div>
+				</div>
+				<div class="messages-container">
+					<div class="messages">
+						<ui:insert name="messages">
+							<ui:include src="messages.xhtml" />
+						</ui:insert>
+					</div>
+				</div>
+				<div class="content-container">
+					<div class="content">
+						<ui:insert name="content">
+							<p></p>
+						</ui:insert>
+					</div>
+				</div>
+				<div class="footer-container">
+					<div class="footer">
+						<ui:insert name="footer">
+							<ui:include src="footer.xhtml" />
+						</ui:insert>
+					</div>
 				</div>
 			</div>
-			<div class="messages-container">
-				<div class="messages">
-					<ui:insert name="messages">
-						<ui:include src="messages.xhtml" />
-					</ui:insert>
-				</div>
-			</div>
-			<div class="content-container">
-				<div class="content">
-					<ui:insert name="content">
-						<p>Main content</p>
-					</ui:insert>
-				</div>
-			</div>
-			<div class="footer-container">
-				<div class="footer">
-					<ui:insert name="footer">
-						<ui:include src="footer.xhtml" />
-					</ui:insert>
-				</div>
-			</div>
-		</div>
-		<input type="hidden" name="${_csrf.parameterName}"
-			value="${_csrf.token}" />
-	</h:form>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+		</h:form>
+	</f:view>
 </h:body>
 </html>

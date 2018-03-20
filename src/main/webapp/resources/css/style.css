@@ -7,18 +7,19 @@
 	text-align: center
 }
 .content-container .content{
-	width: 80%;
-    left: 10%;
+	width: 90%;
+    left: 5%;
     position: relative;
 	text-align: center;
 }
 .messages-container{
 	width: 100%;
 	text-align:center;
+	margin-top:2% !important;
 }
 .messages-container .messages{
-	width: 80%;
-    left: 10%;
+	width: 90%;
+    left: 5%;
     position: relative;
     text-align: center;
 }
@@ -33,5 +34,34 @@
 }
 .ui-panelgrid tr td{
 	border:  none !important;
+}
+fieldset{
+	margin-top: 2% !important;
+}
+.ui-fieldset-content {
+	padding: 2% !important;
+}
+.ui-widget-content {
+	border: 1px solid #ddd !important;
+	border-top: 4px solid #494747 !important;
+    background: url(https://media.mongodb.org/code-block-bg.png) #f5f6f7;
+    font-weight: normal;
+    color: #333;
+}
+.ui-widget-header{
+	border: 1px solid #ddd !important;
+    background: #f5f6f7 !important;    
+    font-weight: normal;
+    color: #333;
+}
+.ui-picklist-list {
+	background: #ffffff !important;
+}
+.ui-datatable-selectable, .ui-widget-content .ui-datatable-even, .ui-datatable-data .ui-widget-content, .ui-datatable tbody.ui-datatable-data{
+	border-top: 0px solid #ddd !important;
+}
+.ui-paginator .ui-paginator-top .ui-widget-header .ui-corner-top{
+	background-color: #5bc0de !important;
+    border-color: #46b8da !important;
 }
 
