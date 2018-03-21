@@ -16,10 +16,10 @@
 			<onMatch>ACCEPT</onMatch>
 			<onMismatch>DENY</onMismatch>
 		</filter>
-		<file>${DEV_HOME}/randevu.txt</file>
+		<file>${DEV_HOME}/logInfo.txt</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>randevu-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+			<fileNamePattern>log_info-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
 			<maxFileSize>50MB</maxFileSize>
 			<maxHistory>30</maxHistory>
 			<totalSizeCap>5GB</totalSizeCap>
@@ -36,7 +36,7 @@
 			<onMatch>ACCEPT</onMatch>
 			<onMismatch>DENY</onMismatch>
 		</filter>
-		<file>${DEV_HOME}/randevu_error.log</file>
+		<file>${DEV_HOME}/logError.log</file>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
 				%d{yyyy-MM-dd HH:mm:ss} - %X{username} - %X{sessionId} - %msg%n
@@ -45,7 +45,7 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!-- rollover daily -->
-			<fileNamePattern>randevu_error-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
+			<fileNamePattern>log_error-%d{yyyy-MM-dd}.%i.txt</fileNamePattern>
 			<maxFileSize>50MB</maxFileSize>
 			<maxHistory>30</maxHistory>
 			<totalSizeCap>5GB</totalSizeCap>

@@ -13,7 +13,7 @@ import javax.persistence.*;
  * @author grkn
  */
 @Entity
-@Table(name = "role", catalog = "randevu", schema = "")
+@Table(name = "role", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
     , @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id = :id")
@@ -33,7 +33,7 @@ public class Role implements Serializable {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<RandevuUser> randevuUserSet = new HashSet<>();
+    private Set<UserManagement> userSet = new HashSet<>();
     @OneToMany(mappedBy = "roleId", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.REMOVE} )
     private Set<Auhorization> auhorizationSet;
 
@@ -65,13 +65,13 @@ public class Role implements Serializable {
         this.roleName = roleName;
     }
 
-    public Set<RandevuUser> getRandevuUserSet() {
-        return randevuUserSet;
-    }
-
-    public void setRandevuUserSet(Set<RandevuUser> randevuUserSet) {
-        this.randevuUserSet = randevuUserSet;
-    }
+    public Set<UserManagement> getUserSet() {
+		return userSet;
+	}
+    
+    public void setUserSet(Set<UserManagement> userSet) {
+		this.userSet = userSet;
+	}
 
     public Set<Auhorization> getAuhorizationSet() {
         return auhorizationSet;

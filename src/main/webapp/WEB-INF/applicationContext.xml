@@ -136,13 +136,13 @@
 	<bean id="clientDetails"
 		class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService">
 		<constructor-arg index="0">
-			<ref bean="randevuDatasource" />
+			<ref bean="datasource" />
 		</constructor-arg>
 	</bean>
 
 	<bean id="tokenStore"
           class="org.springframework.security.oauth2.provider.token.store.JdbcTokenStore">
-        <constructor-arg ref="randevuDatasource" />
+        <constructor-arg ref="datasource" />
     </bean>
 
     <bean id="tokenServices"
@@ -216,7 +216,7 @@
     </bean>
 
     <!-- Employee DB data source. -->
-    <bean id="randevuDatasource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+    <bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
         <property name="driverClass" value="${jdbc.driverClassName}"/>
         <property name="jdbcUrl" value="${jdbc.url}"/>
@@ -230,7 +230,7 @@
 
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="randevuDatasource"/>
+        <property name="dataSource" ref="datasource"/>
         <property name="packagesToScan" value="com.hizliyol.core.entity"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>

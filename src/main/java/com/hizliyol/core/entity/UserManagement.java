@@ -22,16 +22,16 @@ import javax.persistence.Table;
  * @author grkn
  */
 @Entity
-@Table(name = "randevu_user", catalog = "randevu", schema = "")
+@Table(name = "user_management", schema = "")
 @NamedQueries({
-    @NamedQuery(name = "RandevuUser.findAll", query = "SELECT r FROM RandevuUser r")
-    , @NamedQuery(name = "RandevuUser.findById", query = "SELECT r FROM RandevuUser r WHERE r.id = :id")
-    , @NamedQuery(name = "RandevuUser.findByUsername", query = "SELECT r FROM RandevuUser r WHERE r.username = :username")
-    , @NamedQuery(name = "RandevuUser.findByPassword", query = "SELECT r FROM RandevuUser r WHERE r.password = :password")
-    , @NamedQuery(name = "RandevuUser.findByFirstName", query = "SELECT r FROM RandevuUser r WHERE r.firstName = :firstName")
-    , @NamedQuery(name = "RandevuUser.findByLastName", query = "SELECT r FROM RandevuUser r WHERE r.lastName = :lastName")
-    , @NamedQuery(name = "RandevuUser.findByEmail", query = "SELECT r FROM RandevuUser r WHERE r.email = :email")})
-public class RandevuUser implements Serializable {
+    @NamedQuery(name = "UserManagement.findAll", query = "SELECT r FROM UserManagement r")
+    , @NamedQuery(name = "UserManagement.findById", query = "SELECT r FROM UserManagement r WHERE r.id = :id")
+    , @NamedQuery(name = "UserManagement.findByUsername", query = "SELECT r FROM UserManagement r WHERE r.username = :username")
+    , @NamedQuery(name = "UserManagement.findByPassword", query = "SELECT r FROM UserManagement r WHERE r.password = :password")
+    , @NamedQuery(name = "UserManagement.findByFirstName", query = "SELECT r FROM UserManagement r WHERE r.firstName = :firstName")
+    , @NamedQuery(name = "UserManagement.findByLastName", query = "SELECT r FROM UserManagement r WHERE r.lastName = :lastName")
+    , @NamedQuery(name = "UserManagement.findByEmail", query = "SELECT r FROM UserManagement r WHERE r.email = :email")})
+public class UserManagement implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,13 +49,13 @@ public class RandevuUser implements Serializable {
     private String lastName;
     @Column(name = "email")
     private String email;
-    @ManyToMany(mappedBy = "randevuUserSet",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.REMOVE})
+    @ManyToMany(mappedBy = "userSet",fetch = FetchType.EAGER,cascade = {CascadeType.MERGE,CascadeType.REMOVE})
     private Set<Role> roleSet = new HashSet<>();
 
-    public RandevuUser() {
+    public UserManagement() {
     }
     
-    public RandevuUser(Integer id) {
+    public UserManagement(Integer id) {
         this.id = id;
     }
 
@@ -125,10 +125,10 @@ public class RandevuUser implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RandevuUser)) {
+        if (!(object instanceof UserManagement)) {
             return false;
         }
-        RandevuUser other = (RandevuUser) object;
+        UserManagement other = (UserManagement) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -137,7 +137,7 @@ public class RandevuUser implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.RandevuUser[ id=" + id + " ]";
+        return "entity.UserManagement[ id=" + id + " ]";
     }
 
 }

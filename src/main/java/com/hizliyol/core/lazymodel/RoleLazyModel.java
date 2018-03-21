@@ -24,9 +24,9 @@ public class RoleLazyModel extends LazyDataModel<Role> {
 
     @Override
     public Role getRowData(String rowKey) {
-        for(Role randevuUser : result) {
-            if(randevuUser.getId().equals(rowKey))
-                return randevuUser;
+        for(Role role : result) {
+            if(role.getId().equals(rowKey))
+                return role;
         }
 
         return null;

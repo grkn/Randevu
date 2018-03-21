@@ -11,7 +11,7 @@ public abstract class AbstractJdbcDao {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	@Autowired
-	@Qualifier("randevuDatasource")
+	@Qualifier("datasource")
 	public void init(DataSource dataSource){
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}

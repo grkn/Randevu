@@ -25,12 +25,12 @@ import com.hizliyol.core.dao.UserDao;
 import com.hizliyol.core.dao.UserRoleDao;
 import com.hizliyol.core.data.UserDataDao;
 import com.hizliyol.core.entity.Auhorization;
-import com.hizliyol.core.entity.RandevuUser;
+import com.hizliyol.core.entity.UserManagement;
 import com.hizliyol.core.entity.Role;
 
 @Service
 @Transactional("transactionManager")
-public class UserService extends BaseService<RandevuUser,UserDataDao>{
+public class UserService extends BaseService<UserManagement,UserDataDao>{
 	
 	private UserDataDao userDataDao;
 	
@@ -48,7 +48,7 @@ public class UserService extends BaseService<RandevuUser,UserDataDao>{
 	@Autowired
 	private UserRoleDao userRoleDao;
 	
-	public RandevuUser getUserByUserName(String userName){
+	public UserManagement getUserByUserName(String userName){
 		return userDao.getUser(userName);
 	}
 	
@@ -56,8 +56,8 @@ public class UserService extends BaseService<RandevuUser,UserDataDao>{
 		return userDao.getRoles();
 	}
 	
-	public void insert(RandevuUser user){
-		final RandevuUser resultUser = userDataDao.save(user);
+	public void insert(UserManagement user){
+		final UserManagement resultUser = userDataDao.save(user);
 		if(!CollectionUtils.isEmpty(user.getRoleSet()))
 		userRoleDao.saveUserRole(resultUser);
 		
@@ -156,15 +156,15 @@ public class UserService extends BaseService<RandevuUser,UserDataDao>{
 		clientDetails.addClientDetails(clientDetailsEntity);
 	}
 
-	public List<RandevuUser> getRandevuUserLazily(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-		return userDao.getRandevuUserLazily(first, pageSize, sortField, sortOrder, filters);
+	public List<UserManagement> getUserLazily(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+		return userDao.getUserLazily(first, pageSize, sortField, sortOrder, filters);
 	}
 
-	public Long getRandevuUserLazilyCount(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-		return userDao.getRandevuUserLazilyCount(first, pageSize, sortField, sortOrder, filters);
+	public Long getUserLazilyCount(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+		return userDao.getUserLazilyCount(first, pageSize, sortField, sortOrder, filters);
 	}
 
-	public void delete(RandevuUser user) {
+	public void delete(UserManagement user) {
 		userDataDao.delete(user);
 	}
 	

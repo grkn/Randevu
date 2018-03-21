@@ -1,7 +1,7 @@
 package com.hizliyol.core.rest;
 
 import com.hizliyol.core.data.UserDataDao;
-import com.hizliyol.core.entity.RandevuUser;
+import com.hizliyol.core.entity.UserManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ public class UserRestService {
 
     @RequestMapping(value = "/users/get/allUsers",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<List<RandevuUser>> getUsers(){
-        List<RandevuUser> dto = new ArrayList<>();
-        userDataDao.findAll().forEach(randevuUser -> dto.add(randevuUser));
-        return new ResponseEntity<List<RandevuUser>>(dto, HttpStatus.OK);
+    public ResponseEntity<List<UserManagement>> getUsers(){
+        List<UserManagement> dto = new ArrayList<>();
+        userDataDao.findAll().forEach(user -> dto.add(user));
+        return new ResponseEntity<List<UserManagement>>(dto, HttpStatus.OK);
     }
 
 }

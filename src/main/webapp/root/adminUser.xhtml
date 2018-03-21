@@ -45,9 +45,9 @@
 				</p:fieldset>
 	
 				<p:fieldset legend="#{msg['user.list']}">
-					<p:dataTable var="user" value="#{adminCreateUserController.randevuUserLazyModel}" paginator="true" rows="10"
+					<p:dataTable var="user" value="#{adminCreateUserController.userLazyModel}" paginator="true" rows="10"
 								 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-								 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{adminCreateUserController.selectedRandevuUser}" id="randevuUser" lazy="true">
+								 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{adminCreateUserController.selectedUser}" id="userDatatable" lazy="true">
 						<p:ajax event="rowSelect" update="@this" />
 						<p:column headerText="Id" sortBy="#{user.id}" filterBy="#{user.id}">
 							<h:outputText value="#{user.id}" />

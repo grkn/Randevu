@@ -9,13 +9,13 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.hizliyol.core.entity.Auhorization;
-import com.hizliyol.core.entity.RandevuUser;
+import com.hizliyol.core.entity.UserManagement;
 import com.hizliyol.core.entity.Role;
 
 @Repository
 public class UserRoleDao extends AbstractJdbcDao{
 
-	public void saveUserRole(RandevuUser user){
+	public void saveUserRole(UserManagement user){
 		MapSqlParameterSource[] arr = new MapSqlParameterSource[user.getRoleSet().size()];
 		int counter = 0;
 		for (Role role : user.getRoleSet()) {

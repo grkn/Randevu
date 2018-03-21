@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.hizliyol.core.domain.UserDetailDto;
 import com.hizliyol.core.entity.Auhorization;
-import com.hizliyol.core.entity.RandevuUser;
+import com.hizliyol.core.entity.UserManagement;
 import com.hizliyol.core.entity.Role;
 import com.hizliyol.core.service.UserService;
 
@@ -27,7 +27,7 @@ public class CustomAuthentication implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		RandevuUser user = userService.getUserByUserName(username);
+		UserManagement user = userService.getUserByUserName(username);
 		
 		if(null == user)
 			throw new UsernameNotFoundException("Kullanýcý bulunamadý");
