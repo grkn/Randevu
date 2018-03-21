@@ -91,7 +91,12 @@ var messages = {
 		  configsPage : 'Configurations Page' ,
 		  persistentMenu : 'Persistent Menu',
 		  menu : 'Menu Name',
-		  link :'URL'
+		  link :'URL',
+		  
+		  authToken : 'Authorization Token',
+		  appLang: 'Application Language',
+		  appName: 'Application Name',
+		  appDescription:'Application Description'
 		}
 	},
 	fr: {
@@ -180,13 +185,19 @@ var messages = {
 		  deployBtn : "Déployer",
 		  
 		  webChat : 'WebChat',
-		  webChatPage:'Page de WebChat',
+		  webChatPage:"Page de WebChat",
 		  
-		  configs : 'Configs',
-		  configsPage : 'Page de Configurations' ,
-		  persistentMenu : 'Menu Persistent',
-		  menu : 'Nom du Menu',
-		  link :'URL'
+		  configs : "Configs",
+		  configsPage : "Page de Configurations" ,
+		  persistentMenu : "Menu Persistent",
+		  menu : "Nom du Menu",
+		  link : "URL",
+		  
+		  authToken : 'Authorization Token',
+		  appLang: "Langue de l'Application",
+		  appName: "Nom de l'Application",
+		  appDescription: "Description de l'Application"
+		
 		}
 	},	
 	tr: {
@@ -281,7 +292,12 @@ var messages = {
 		  configsPage : 'Ayarlar Sayfas\u0131',
 		  persistentMenu : 'Persistent Menü',
 		  menu : 'Menu Ad\u0131',
-		  link :'URL'
+		  link :'URL',
+		  
+		  authToken : 'Authorization Token',
+		  appLang: 'Uygulama Dili',
+		  appName: 'Uygulama Adı',
+		  appDescription: 'Uygulama Açıklaması'
 		}
 	}
 
