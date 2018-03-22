@@ -15,11 +15,11 @@ var messages = {
 		  success : "SUCCESS",
 		  error : "ERROR",
 		  
-		  intent : 'Intent',
+		  intent : 'INTENT',
 		  intentPage : 'Intent Page',
 		  intentName : "Intent Name",
 		  
-		  answers : "Answers",		  
+		  answers : "ANSWERS",		  
 		  answerPage : "Answers Page",
 		  savedAnswer : "Enter Answer",
 		  enterSentence : 'Sentence',
@@ -57,7 +57,7 @@ var messages = {
 		  addAttachment : "Add Attachment",
 		  removeAttachment : "Remove Attachment",
 		  
-		  training : "Training",
+		  training : "TRAINING",
 		  trainingPage : "Training Page",
 		  addValidation : "Validate",
 		  removeValidation : "Remove",
@@ -67,27 +67,27 @@ var messages = {
 		  responseList : "Fallback Answer",
 		  		  
 		  facebookPage : "Facebook Deployment Page",
-		  facebook : "Facebook",
+		  facebook : "FACEBOOK",
 		  
 		  witaiPage : "Wit.ai Deployment Page",
-		  witai : "wit.ai",
+		  witai : "WIT.AI",
 		  
-		  emoji : "Emoji",
+		  emoji : "EMOJI",
 		  emojiPage : "Emoji Page",
 		  emojiPopupError : "Only one emoji is permitted",
 		  userEmoji : "User Emoji",
 		  botEmoji : "Bot Emoji",
 		  botReply: "Bot Reply",
 		  		  
-		  subject : "Subject",
+		  subject : "SUBJECT",
 		  subjects : "Subjects",
 		  subjectPage : "Subject Page",
 		  deployBtn : "Deploy",
 		  
-		  webChat : 'WebChat',
+		  webChat : 'WEBCHAT',
 		  webChatPage:'WebChat Page',
 		  
-		  configs : 'Configs',
+		  configs : 'CONFIGS',
 		  configsPage : 'Configurations Page' ,
 		  persistentMenu : 'Persistent Menu',
 		  menu : 'Menu Name',
@@ -97,7 +97,7 @@ var messages = {
 		  appLang: 'Application Language',
 		  appName: 'Application Name',
 		  appDescription:'Application Description',
-		  chatbase : 'Chatbase',
+		  chatbase : 'CHATBASE',
 		  chatbasePage: 'Chatbase Page'
 		}
 	},
@@ -112,20 +112,20 @@ var messages = {
 		  remove : 'Supprimer',
 		  save : "Enregistrer",
 		  search : 'Chercher',
-		  create : "Créer",
+		  create : "Cr\u00E9er",
 		  close : "Fermer",
 		  success : "REUSSITE",
 		  error : "ERREUR",
 		  
-		  intent : 'Intention',
+		  intent : 'INTENTION',
 		  intentPage : 'Page de Intention',
 		  intentName : "Nome de Intention",
 		  
-		  answers : "Reponses",		  
-		  answerPage : "Page de Réponses",
-		  savedAnswer : "Entrer la Réponse",
+		  answers : "REPONSES",		  
+		  answerPage : "Page de R\u00E9ponses",
+		  savedAnswer : "Entrer la R\u00E9ponse",
 		  enterSentence : 'Phrase',
-		  storedSentence : "Phrases Enregistrées",
+		  storedSentence : "Phrases Enregistr\u00E9es",
 		  
 		  carousel : "Carrousel",
 		  quickReply : "Quick Reply",
@@ -133,7 +133,7 @@ var messages = {
 		  genericButtons : "Generic Buttons",
 		  attachment : "Attachement",
 		  
-		  selectIntent : "Sélectionnez Intent",
+		  selectIntent : "S\u00E9lectionnez Intent",
 		  image_url : "URL de l'Image",
 		  subtitle : "Sous-titre",
 		  title : "Titre",
@@ -159,37 +159,37 @@ var messages = {
 		  addAttachment : "Ajouter un Attachement",
 		  removeAttachment : "Supprimer un Attachement",
 		  
-		  training : "Formation",
+		  training : "FORMATION",
 		  trainingPage : "Page de Formation",
 		  addValidation : "Valider",
 		  removeValidation : "Supprimer",
 		  
 		  threshold : "Threshold",
-		  generalResponseList : "Réponse Générale de Repli",
-		  responseList : "Réponse de Repli",
+		  generalResponseList : "R\u00E9ponse G\u00E9n\u00E9rale de Repli",
+		  responseList : "R\u00E9ponse de Repli",
 		  		  
-		  facebookPage : "Page de Déploiement de Facebook",
-		  facebook : "Facebook",
+		  facebookPage : "Page de D\u00E9ploiement de Facebook",
+		  facebook : "FACEBOOK",
 		  
-		  witaiPage : "Page de Déploiement Wit.ai",
-		  witai : "wit.ai",
+		  witaiPage : "Page de D\u00E9ploiement Wit.ai",
+		  witai : "WIT.AI",
 		  
-		  emoji : "Emoji",
+		  emoji : "EMOJI",
 		  emojiPage : "Page d'Emoji ",
-		  emojiPopupError : "Un seul emoji est autorisé.",
+		  emojiPopupError : "Un seul emoji est autoris\u00E9.",
 		  userEmoji : "Utilisateur Emoji",
 		  botEmoji : "Bot Emoji",
-		  botReply: "Réponse de Bot",
+		  botReply: "R\u00E9ponse de Bot",
 		  		  
-		  subject : "Sujet",
+		  subject : "SUJET",
 		  subjects : "Sujets",
 		  subjectPage : "Page de Sujet",
-		  deployBtn : "Déployer",
+		  deployBtn : "D\u00E9ployer",
 		  
-		  webChat : 'WebChat',
+		  webChat : 'WEBCHAT',
 		  webChatPage:"Page de WebChat",
 		  
-		  configs : "Configs",
+		  configs : "CONFIGS",
 		  configsPage : "Page de Configurations" ,
 		  persistentMenu : "Menu Persistent",
 		  menu : "Nom du Menu",
@@ -199,7 +199,7 @@ var messages = {
 		  appLang: "Langue de l'Application",
 		  appName: "Nom de l'Application",
 		  appDescription: "Description de l'Application",
-		  chatbase : 'Chatbase',
+		  chatbase : 'CHATBASE',
 		  chatbasePage: 'Page de Chatbase'
 		}
 	},	
@@ -219,11 +219,11 @@ var messages = {
 		  success : "BASARALI",
 		  error : "HATA VAR",
 		  
-		  intent : 'Intent',
+		  intent : 'INTENT',
 		  intentPage : 'Intent Sayfas\u0131',
 		  intentName : "Intent Ad\u0131",
 		  
-		  answers : "Cevaplar",
+		  answers : "CEVAPLAR",
 		  answerPage : "Cevaplar Sayfas\u0131",
 		  savedAnswer : "Cevap Giriniz",
 		  enterSentence : 'C\u00FCmle',
@@ -274,9 +274,9 @@ var messages = {
 		  facebook	: "Facebook",
 		  
 		  witaiPage : "Wit.ai Deployment Sayfas\u0131",
-		  witai : "wit.ai",
+		  witai : "WİT.Aİ",
 		  
-		  emoji : "Emoji",
+		  emoji : "EMoJİ",
 		  emojiPage : "Emoji Sayfas\u0131",
 		  emojiPopupError : "Sadece bir emoji se\u00E7ebilirsiniz",
 		  userEmoji : "Kullan\u0131c\u0131 Emoji",
@@ -288,10 +288,10 @@ var messages = {
 		  subjects : "Konular",
 		  deployBtn : "Deploy",
 		  
-		  webChat : 'WebChat',
+		  webChat : 'WEBCHAT',
 		  webChatPage:'WebChat Sayfas\u0131',
 		  
-		  configs : 'Ayarlar',
+		  configs : 'AYARLAR',
 		  configsPage : 'Ayarlar Sayfas\u0131',
 		  persistentMenu : 'Persistent Menü',
 		  menu : 'Menu Ad\u0131',
@@ -301,7 +301,7 @@ var messages = {
 		  appLang: 'Uygulama Dili',
 		  appName: 'Uygulama Adı',
 		  appDescription: 'Uygulama Açıklaması',
-		  chatbase : 'Chatbase',
+		  chatbase : 'CHATBASE',
 		  chatbasePage: 'Chatbase Sayfas\u0131'
 			  
 		}

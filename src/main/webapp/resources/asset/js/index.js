@@ -123,7 +123,7 @@ Vue.component('carousel_popup',{
 					}
 					return;
 				}
-				for(var j = 0 ; j < this.carousel[i].buttons.length ; j++){
+				for(var j = 0; j < this.carousel[i].buttons.length; j++){
 					if( !this.carousel[i].buttons[j].name){
 						var lang = window.localStorage.getItem('lang');
 						if(lang == "tr"){
@@ -404,7 +404,7 @@ Vue.component('quickreply_popup',{
 					alert("Please fill all the requried fields.");
 				}
 			}
-			for(var i =0;i < buttons.length;i++){
+			for(var i = 0; i < buttons.length; i++){
 				if(!buttons[i].name || !buttons[i].text){
 					var lang = window.localStorage.getItem('lang');
 					if(lang == "tr"){
@@ -435,7 +435,7 @@ Vue.component('quickreply_popup',{
 					while(0 < quickReplyTemp.length){
 						quickReplyTemp.splice(0, 1);
 					}
-					quickReplyTemp.push({buttons:[{}]});
+					quickReplyTemp.push({buttons : [{}]});
 				}
 			});
 		}
@@ -656,7 +656,7 @@ Vue.component('attachment_popup',{
 		},
 		save : function(){
 			var buttons = this.genericButtons[0].buttons;
-			for(var i=0 ; i < buttons.length ; i++){
+			for(var i=0; i < buttons.length; i++){
 				if(!buttons[i].url || !buttons[i].name){
 					var lang = window.localStorage.getItem('lang');
 					if(lang == "tr"){
@@ -687,7 +687,7 @@ Vue.component('attachment_popup',{
 					while(0 < genericButtons.length){
 						genericButtons.splice(0, 1);
 					}
-					genericButtons.push({buttons:[{}]});
+					genericButtons.push({buttons : [{}]});
 				}
 			});
 		}
@@ -1201,7 +1201,7 @@ var subjectContainer = Vue.component("subjectContainer",{
 					+'</div> <!--content-->'
 				+'</div> <!--container-->',
 		data : function(){
-			return {subject : "",subjectList : {value : {}},response : "", selectedResponse : "",responseList : []};
+			return {subject : "", subjectList : {value : {}}, response : "", selectedResponse : "", responseList : []};
 		},
 		methods : {
 			save : function(){
@@ -1228,12 +1228,12 @@ var subjectContainer = Vue.component("subjectContainer",{
 		mounted : function(){
 			var subjectList = this.subjectList;
 			var responseList = this.responseList;
-			Vue.http.get(contextPath + '/secure/api/mongo/get/subjects',function(resp){
+			Vue.http.get(contextPath + '/secure/api/mongo/get/subjects', function(resp){
 				subjectList.value = resp;
-				for(var j = 0 ; j < subjectList.value.length; j++){
+				for(var j = 0; j < subjectList.value.length; j++){
 					if(subjectList.value[j].response){
 						subjectList.value[j].responseList = [];
-						for(var i = 0 ; i < subjectList.value[j].response.length ; i++){
+						for(var i = 0; i < subjectList.value[j].response.length; i++){
 							subjectList.value[j].responseList.push(subjectList.value[j].response[i]);
 						}
 					}
@@ -1675,7 +1675,7 @@ var configsContainer = Vue.component("configsContainer",{
 	  })
 	},
 	data :	function () {
-		return {threshold : {val : 0.7}, responseList : [],response : "", selectedResponse : "",pMenuItem : "",pMenuItemName : "",persistentMenuList : []}
+		return {threshold : {val : 0.7}, responseList : [],response : "", selectedResponse : "", pMenuItem : "", pMenuItemName : "", persistentMenuList : []}
 	}
 });
 
