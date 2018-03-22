@@ -557,6 +557,31 @@ public class NodeJsRestService {
 	}
 	
 	
+	@RequestMapping(value = "/api/chatbase/post", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public String chatbase(@RequestBody ModelEntity modelEntity){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = createEntityAndHeader(modelEntity);
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/chatbase/post", HttpMethod.POST, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	@RequestMapping(value = "/api/chatbase/get", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
+	public String getchatbase(){
+		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
+		
+		HttpEntity<Object> entity = new HttpEntity<>(createJsonHeader());
+        
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:8000/chatbase/get", HttpMethod.GET, entity, String.class);
+        String result = responseEntity.getBody();
+        
+        return result;
+	}
+	
+	
 	private HttpEntity<Object> createEntityAndHeader(ModelEntity modelEntity) {
 		HttpHeaders headers = createJsonHeader();
         

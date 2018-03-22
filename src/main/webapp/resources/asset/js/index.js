@@ -17,16 +17,17 @@ Vue.component('i18n_custom',{
 
 Vue.component("routerLinkComponent",{
 	template : '<div id="navbar"><div class="navbar-nav"><ul class="nav navbar-nav">'
-				+'<li><router-link :to="{ name: \'home\'}">{{$t("message.intent")}}</router-link>&nbsp;&nbsp;</li>'
-				+'<li><router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link>&nbsp;&nbsp;</li>'
-				+'<li><router-link :to="{ name: \'subjectContainer\'}">{{$t("message.subject")}}</router-link>&nbsp;&nbsp;</li>'
-				+'<li><router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link>&nbsp;&nbsp;</li>'
-				+'<li><router-link :to="{ name: \'emojiContainer\'}">{{$t("message.emoji")}}</router-link>&nbsp;&nbsp;</li>'
-				+'<li><router-link :to="{ name: \'configsContainer\'}">{{$t("message.configs")}}</router-link>&nbsp;&nbsp;</li>'
-				+'<li><router-link :to="{ name: \'webChatContainer\'}">{{$t("message.webChat")}}</router-link>&nbsp;&nbsp;</li>'
-				+'<li><router-link :to="{ name: \'facebookContainer\'}">{{$t("message.facebook")}}</router-link>&nbsp;&nbsp;</li>'
-				+'<li><router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link>&nbsp;&nbsp;</li>'
-			+'</ul></div>'
+				+'<li><router-link :to="{ name: \'home\'}">{{$t("message.intent")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'subjectContainer\'}">{{$t("message.subject")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'trainingContainer\'}">{{$t("message.training")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'emojiContainer\'}">{{$t("message.emoji")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'configsContainer\'}">{{$t("message.configs")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'webChatContainer\'}">{{$t("message.webChat")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'facebookContainer\'}">{{$t("message.facebook")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'chatbaseContainer\'}">{{$t("message.chatbase")}}</router-link></li>'
+			+'</ul></div></div>'
 }); 
 
 
@@ -71,7 +72,7 @@ Vue.component('carousel_popup',{
 								+'<br/><br/>'
 								+'<div v-for="button in car.buttons">'
 									+'<table style="width:100%">'
-										+'<tr><td><label>{{$t("message.url")}} *</label></td><td><input type="text" v-model="button.url"/></td></tr>'
+										+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
 										+'<tr><td><label>{{$t("message.bName")}} *</label></td><td><input type="text" v-model="button.name"/></td></tr>'
 										+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
 									+'</table>'
@@ -91,7 +92,7 @@ Vue.component('carousel_popup',{
 	methods : {
 		incrementInputFields : function(){
 			if(this.carousel.length < 4){
-					this.carousel.push({buttons : [{}]});
+				this.carousel.push({buttons : [{}]});
 			}
 		},
 		removeInputFields : function(){
@@ -110,7 +111,7 @@ Vue.component('carousel_popup',{
 			}
 		},
 		save : function(){
-			for(var i = 0; i < this.carousel.length;i++){
+			for(var i = 0; i < this.carousel.length; i++){
 				if(!this.carousel[i].imgUrl || !this.carousel[i].title || !this.carousel[i].subtitle){
 					var lang = window.localStorage.getItem('lang');
 					if(lang == "tr"){
@@ -123,7 +124,7 @@ Vue.component('carousel_popup',{
 					return;
 				}
 				for(var j = 0 ; j < this.carousel[i].buttons.length ; j++){
-					if(!this.carousel[i].buttons[j].url || !this.carousel[i].buttons[j].name){
+					if( !this.carousel[i].buttons[j].name){
 						var lang = window.localStorage.getItem('lang');
 						if(lang == "tr"){
 							alert("Lütfen yıldızlı alanları doldurunuz.");
@@ -1858,7 +1859,7 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data :	function () {
-			return {witDeployment : {value : ""}, isDeployed : {value : false},app : {}}
+			return {witDeployment : {value : ""}, isDeployed : {value : false}, app : {}}
 		},
 		methods :{
 			deploy:function(){
@@ -1889,17 +1890,73 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 			}
 		},
 		mounted : function(){
-
 			this.$nextTick(function () {
 				var witTemp = this.witDeployment;
 					Vue.http.get(contextPath + '/secure/api/witaiDeploy/get', function(resp){
 						witTemp.value = resp[0].defaultAuthorizationToken;
 					});
-		  })
+		  });
 		}
 	
 });
 
+var chatbaseContainer = Vue.component('chatbaseContainer',{
+	template : '<div class="container">'
+		+'<div class="header">'
+			+'<div class="page-header">'
+				+'<div class="headersp">'
+						+'<h1>{{$t("message.chatbasePage")}}</h1>'
+					+'</div>'
+					+'<routerLinkComponent></routerLinkComponent>'
+					+'<span class="navbar-nav rootRight">'
+						+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
+					+'</span>'
+					+'<span class="navbar-nav rootRight">'
+						+'<i18n_custom></i18n_custom>'
+					+'</span>'
+				+'</div> <!--page-header-->'
+			+'</div> <!--header-->'
+			+'<div class="content">'
+				+'<br/>'
+				+'<div class="col-md-10 fancy">'
+				+'<br/>'
+					+'<form class="form-horizontal">'
+						+'<div class="form-group">'
+							+'<label class="control-label col-sm-2" for="authToken">{{$t("message.authToken")}}</label>'
+							+'<div class="col-sm-10">'
+								+'<input type="text" class="form-control" v-model="chatbaseDeployment.value" id="authToken" placeholder="Authorization Token">'
+							+'</div>'
+						+'</div>'
+						+'<div class="form-group">'
+							+'<div class="col-sm-offset-2 col-sm-10">'
+								+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
+								+'<button type="button" class="btn btn-info" v-on:click="deploy">{{$t("message.deployBtn")}}</button>'
+							+'</div>'
+						+'</div>'
+					+'</form>'					
+				+'</div>'
+			+'</div> <!--content-->'
+		+'</div> <!--container-->',
+		data :	function () {
+			return {chatbaseDeployment : {value : ""}, isDeployed : {value : false}, app : {}}
+		},
+		methods :{
+			deploy:function(){
+				var tempIdDeployed = this.isDeployed;
+				Vue.http.post(contextPath + '/secure/api/chatbase/post', {chatbaseDeployment : this.chatbaseDeployment.value}, function(resp){
+					tempIdDeployed.value = true;
+				});
+			}
+		},
+		mounted : function(){
+			this.$nextTick(function () {
+				var chatbaseTemp = this.chatbaseDeployment;
+					Vue.http.get(contextPath + '/secure/api/chatbase/get', function(resp){
+						chatbaseTemp.value = resp[0].chatbaseAppSecret;
+					});
+		  });
+		}
+});
 
 
 // Menu isimleri
@@ -1913,7 +1970,8 @@ var vrouter = new VueRouter({
 		{name: 'configsContainer', path: '/configs', component: configsContainer},
 		{name: 'webChatContainer', path: '/webchat', component: webChatContainer},
 		{name: 'facebookContainer', path: '/facebook', component: facebookContainer},
-		{name: 'witContainer', path: '/witai', component: witDeployContainer}
+		{name: 'witContainer', path: '/witai', component: witDeployContainer},
+		{name: 'chatbaseContainer', path: '/chatbase', component: chatbaseContainer}
 	]
 });
 

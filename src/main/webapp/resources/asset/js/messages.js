@@ -4,7 +4,7 @@ var messages = {
 		  english : 'English',
 		  turkish : 'Turkish',
 		  french : 'French',
-		  rootPanel : "Root Panel",
+		  rootPanel : "Root",
 		  
 		  add : 'Add',
 		  remove : 'Remove',
@@ -96,7 +96,9 @@ var messages = {
 		  authToken : 'Authorization Token',
 		  appLang: 'Application Language',
 		  appName: 'Application Name',
-		  appDescription:'Application Description'
+		  appDescription:'Application Description',
+		  chatbase : 'Chatbase',
+		  chatbasePage: 'Chatbase Page'
 		}
 	},
 	fr: {
@@ -104,7 +106,7 @@ var messages = {
 		  english : 'Anglais',
 		  turkish : 'Turc',
 		  french : 'Français',
-		  rootPanel : "Root Panel",
+		  rootPanel : "Root",
 		  
 		  add : 'Ajouter',
 		  remove : 'Supprimer',
@@ -196,8 +198,9 @@ var messages = {
 		  authToken : 'Authorization Token',
 		  appLang: "Langue de l'Application",
 		  appName: "Nom de l'Application",
-		  appDescription: "Description de l'Application"
-		
+		  appDescription: "Description de l'Application",
+		  chatbase : 'Chatbase',
+		  chatbasePage: 'Page de Chatbase'
 		}
 	},	
 	tr: {
@@ -205,7 +208,7 @@ var messages = {
 		  english : 'Ingilizce',
 		  turkish : 'T\u00FCrk\u00E7e',
 		  french : 'Frans\u0131zca',
-		  rootPanel : "Root Panel",
+		  rootPanel : "Root",
 		  
 		  add : 'Ekle',
 		  remove : 'Sil',
@@ -297,7 +300,10 @@ var messages = {
 		  authToken : 'Authorization Token',
 		  appLang: 'Uygulama Dili',
 		  appName: 'Uygulama Adı',
-		  appDescription: 'Uygulama Açıklaması'
+		  appDescription: 'Uygulama Açıklaması',
+		  chatbase : 'Chatbase',
+		  chatbasePage: 'Chatbase Sayfas\u0131'
+			  
 		}
 	}
 

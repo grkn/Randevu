@@ -23,6 +23,7 @@ public class ModelEntity {
 	private WitaiApp application;
 	private SubjectFallback fallback;
 	private List<PersistentMenu> persistentMenuList;
+	private String chatbaseDeployment;
 	
 	public String getValue() {
 		return value;
@@ -144,4 +145,11 @@ public class ModelEntity {
 	public void setPersistentMenuList(List<PersistentMenu> persistentMenuList) {
 		this.persistentMenuList = persistentMenuList;
 	}
+	public String getChatbaseDeployment() {
+		return chatbaseDeployment;
+	}
+	public void setChatbaseDeployment(String chatbaseDeployment) {
+		this.chatbaseDeployment = chatbaseDeployment;
+	}
+
 }
