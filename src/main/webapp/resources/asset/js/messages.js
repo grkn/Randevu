@@ -98,7 +98,8 @@ var messages = {
 		  appName: 'Application Name',
 		  appDescription:'Application Description',
 		  chatbase : 'CHATBASE',
-		  chatbasePage: 'Chatbase Page'
+		  chatbasePage: 'Chatbase Page',
+		  talkToBot : 'Talk to BOT'
 		}
 	},
 	fr: {
@@ -200,7 +201,8 @@ var messages = {
 		  appName: "Nom de l'Application",
 		  appDescription: "Description de l'Application",
 		  chatbase : 'CHATBASE',
-		  chatbasePage: 'Page de Chatbase'
+		  chatbasePage: 'Page de Chatbase',
+		  talkToBot : 'Parlez au BOT'
 		}
 	},	
 	tr: {
@@ -302,7 +304,8 @@ var messages = {
 		  appName: 'Uygulama Adı',
 		  appDescription: 'Uygulama Açıklaması',
 		  chatbase : 'CHATBASE',
-		  chatbasePage: 'Chatbase Sayfas\u0131'
+		  chatbasePage: 'Chatbase Sayfas\u0131',
+		  talkToBot : 'Bot ile Konuşun'
 			  
 		}
 	}

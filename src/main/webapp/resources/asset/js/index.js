@@ -1700,7 +1700,7 @@ var webChatContainer = Vue.component("webChatContainer",{
 			+'<div class="content">'
 				+'<div style="position:absolute;bottom:0px;right:15px;">'
 					+'<table>'
-						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">Talk to BOT</button></td></tr>'
+						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">{{$t("message.talkToBot")}}</button></td></tr>'
 						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://localhost:8000/webchat.html" width="370px" height="420px" /></td></tr>'
 					+'</table>'
 				+'</div>'
