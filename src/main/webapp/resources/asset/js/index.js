@@ -1636,6 +1636,7 @@ var configsContainer = Vue.component("configsContainer",{
 			},
 			addDefaultResponse : function(){
 				this.responseList.push(this.response);
+				this.response = "";
 				Vue.http.get(contextPath + "/secure/api/add/responseList?response=" + this.response).then(function(resp){
 				});
 			},
@@ -1648,6 +1649,8 @@ var configsContainer = Vue.component("configsContainer",{
 			},
 			addPersistentMenu : function(){
 				this.persistentMenuList.push({text : this.pMenuItem, name : this.pMenuItemName});
+				this.pMenuItem = "";
+				this.pMenuItemName = "";
 				Vue.http.post(contextPath + '/secure/api/add/persistentMenu', {persistentMenuList : this.persistentMenuList}, function(resp){
 				});
 			},
@@ -1701,7 +1704,7 @@ var webChatContainer = Vue.component("webChatContainer",{
 				+'<div style="position:absolute;bottom:0px;right:15px;">'
 					+'<table>'
 						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">{{$t("message.talkToBot")}}</button></td></tr>'
-						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://localhost:8000/webchat.html" width="370px" height="420px" /></td></tr>'
+						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://www.chatbotpanel.com:8000/webchat.html" width="370px" height="420px" /></td></tr>'
 					+'</table>'
 				+'</div>'
 			+'</div> <!--content-->'
