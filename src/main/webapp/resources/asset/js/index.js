@@ -1839,7 +1839,7 @@ var witDeployContainer = Vue.component("witDeployContainer", {
 					+'</div>'
 					+'<div class="form-group">'
 						+'<div class="col-sm-offset-2 col-sm-10">'
-							+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
+							+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}<span style="padding-left:5px;color:red;margin-right:20px">{{$t("message.savewitaikey")}}</span></span>'	
 							+'<button type="button" class="btn btn-info" v-on:click="deploy">{{$t("message.deployBtn")}}</button>'
 						+'</div>'
 					+'</div>'

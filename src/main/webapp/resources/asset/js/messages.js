@@ -14,7 +14,7 @@ var messages = {
 		  close : "Close",
 		  success : "SUCCESS",
 		  error : "ERROR",
-		  savewitaikey : "Please save this key in your computer.",
+		  savewitaikey : "Please save this key on your computer.",
 		  
 		  intent : 'INTENT',
 		  intentPage : 'Intent Page',
@@ -117,7 +117,7 @@ var messages = {
 		  create : "Cr\u00E9er",
 		  close : "Fermer",
 		  success : "REUSSITE",
-		  savewitaikey : "Veuillez sauvegarder cette clé dans votre ordinateur.",
+		  savewitaikey : "Veuillez sauvegarder cette clé sur votre ordinateur.",
 		  error : "ERREUR",
 		  
 		  intent : 'INTENTION',
