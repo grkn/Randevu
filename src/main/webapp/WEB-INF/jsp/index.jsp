@@ -27,6 +27,7 @@
 		<script type="text/javascript">
 			var contextPath = "${pageContext.servletContext.contextPath}";
 			localStorage.setItem('id_token', "${authToken}");
+			localStorage.setItem('userName', "${userName}");
 		</script>
 	</head>
 	<body>

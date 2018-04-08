@@ -28,7 +28,7 @@ public class HomePageRestController {
 		String req =request.getRequestURL().toString().replaceAll(request.getRequestURI(), "");
 		req = req + "/" + request.getContextPath();
 		authToken.put("authToken", Util.getAccessToken(new StringBuilder(req).append("/oauth/token").toString(), sessionBean.getUserDetailDto().getUsername(), sessionBean.getUserDetailDto().getPassword(), sessionBean.getUserDetailDto().getUsername(), sessionBean.getUserDetailDto().getPassword()));
-		
+		authToken.put("userName",sessionBean.getUserName());
 		return new ModelAndView("index", authToken);
 	}
 	

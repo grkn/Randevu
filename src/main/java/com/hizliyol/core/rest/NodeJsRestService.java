@@ -2,6 +2,9 @@ package com.hizliyol.core.rest;
 
 import java.nio.charset.Charset;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,6 +23,9 @@ import com.hizliyol.core.rest.modal.ModelEntity;
 
 @RestController
 public class NodeJsRestService {
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	@RequestMapping(value = "/api/get/witai/entities", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
 	public String getEntities(){
@@ -594,6 +600,8 @@ public class NodeJsRestService {
         Charset utf8 = Charset.forName("UTF-8");
         MediaType mediaType = new MediaType("application", "json", utf8);
         headers.setContentType(mediaType);
+        
+        headers.set("Authorization", request.getHeader("Authorization"));
 		return headers;
 	}
 	

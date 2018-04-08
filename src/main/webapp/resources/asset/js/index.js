@@ -1,4 +1,4 @@
-Vue.component('i18n_custom',{
+Vue.component('i18n_custom', {
 	template : '<select v-model="lang" v-on:change="changeLanguage">'
 	+'<option value="en">{{ $t("message.english") }}</option>'
 	+'<option value="fr">{{ $t("message.french") }}</option>'
@@ -10,12 +10,12 @@ Vue.component('i18n_custom',{
 			window.location.reload();
 		}
 	},
-	data : function(){
+	data : function() {
 		return {lang : window.localStorage.getItem('lang')};
 	}
 });
 
-Vue.component("routerLinkComponent",{
+Vue.component("routerLinkComponent", {
 	template : '<div id="navbar"><div class="navbar-nav"><ul class="nav navbar-nav">'
 				+'<li><router-link :to="{ name: \'home\'}">{{$t("message.intent")}}</router-link></li>'
 				+'<li><router-link :to="{ name: \'answersContainer\'}">{{$t("message.answers")}}</router-link></li>'
@@ -41,8 +41,8 @@ var i18n = new VueI18n({
 
 
 // Carousel popup
-Vue.component('carousel_popup',{
-	template :'<div id="myModalCarousel" class="modal fade" role="dialog">'
+Vue.component('carousel_popup', {
+	template : '<div id="myModalCarousel" class="modal fade" role="dialog">'
 				+'<div class="modal-dialog">'
 				    +'<div class="modal-content">'
 				      +'<div class="modal-header fancyback">'
@@ -171,7 +171,7 @@ Vue.component('carousel_popup',{
 });
 
 // Add carousel
-Vue.component('createCarousel',{
+Vue.component('createCarousel', {
 	template :'<div style="display:inline-block; padding-right:1%;">'
 					+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.carousel")}}</button>'
 					+'<carousel_popup v-bind:entityList="entityList"></carousel_popup>'
@@ -186,7 +186,7 @@ Vue.component('createCarousel',{
 
 
 // list Template popup
-Vue.component('listTemplate_popup',{
+Vue.component('listTemplate_popup', {
 	template :'<div id="myModalListTemplate" class="modal fade" role="dialog">'
 					+'<div class="modal-dialog">'
 					    +'<div class="modal-content">'
@@ -223,7 +223,7 @@ Vue.component('listTemplate_popup',{
 												+'<br/><br/>'
 													+'<table style="width:100%">'
 														+'<tr><td><label>{{$t("message.url")}}</label></td><td><input type="text" v-model="button.url"/></td></tr>'
-														+'<tr><td><label>{{$t("message.bName")}}</label></td><td><input type="text" v-model="button.name"/></td></tr>'
+														+'<tr><td><label>{{$t("message.bName")}}*</label></td><td><input type="text" v-model="button.name"/></td></tr>'
 														+'<tr><td><label>{{$t("message.text")}}</label></td><td><input type="text" v-model="button.text"/></td></tr>'
 													+'</table>'
 													+'<br/>'
@@ -273,8 +273,8 @@ Vue.component('listTemplate_popup',{
 				return;
 			}
 			for(var i = 0; i < this.listTemplate.list.length; i++){
+				var lang = window.localStorage.getItem('lang');
 				if(!this.listTemplate.list[i].title || !this.listTemplate.list[i].subTitle){
-					var lang = window.localStorage.getItem('lang');
 					if(lang == "tr"){
 						alert("Lütfen yıldızlı alanları doldurunuz.");
 					}else if (lang == "fr"){
@@ -283,6 +283,18 @@ Vue.component('listTemplate_popup',{
 						alert("Please fill all the requried fields.");
 					}
 					return;
+				}
+				for(var j = 0 ; j < this.listTemplate.list[i].buttons.length;j++){
+					if(!this.listTemplate.list[i].buttons[j].name){
+						if(lang == "tr"){
+							alert("Lütfen yıldızlı alanları doldurunuz.");
+						}else if (lang == "fr"){
+							alert("Veuillez remplir tous les champs obligatoires");
+						}else{
+							alert("Please fill all the requried fields.");
+						}
+						return;
+					}
 				}
 			}
 			
@@ -324,7 +336,7 @@ Vue.component('listTemplate_popup',{
 });
 
 // Add list Template
-Vue.component('createListTemplate',{
+Vue.component('createListTemplate', {
 	template :'<div style="display:inline-block; padding-right:1%;">'
 					+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.listTemplate")}}</button>'
 					+'<listTemplate_popup v-bind:entityList="entityList"></listTemplate_popup>'
@@ -339,7 +351,7 @@ Vue.component('createListTemplate',{
 
 
 //Quick Reply popup
-Vue.component('quickreply_popup',{
+Vue.component('quickreply_popup', {
 	template :'<div id="myModalquickreply" class="modal fade" role="dialog">'
 					+'<div class="modal-dialog">'
 					    +'<div class="modal-content">'
@@ -451,7 +463,7 @@ Vue.component('quickreply_popup',{
 });
 
 //Add quick reply
-Vue.component('createQuickReply',{
+Vue.component('createQuickReply', {
 	template :'<div style="display:inline-block; padding-right:1%;">'
 				+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.quickReply")}}</button>'
 				+'<quickreply_popup v-bind:entityList="entityList"></quickreply_popup>'
@@ -466,7 +478,7 @@ Vue.component('createQuickReply',{
 
 
 // Generic Buttons popup
-Vue.component('generic_buttons_popup',{
+Vue.component('generic_buttons_popup', {
 	template :'<div id="myModalGenericButtons" class="modal fade" role="dialog">'
 					+'<div class="modal-dialog">'
 					    +'<div class="modal-content">'
@@ -579,7 +591,7 @@ Vue.component('generic_buttons_popup',{
 });
 
 // Add Generic Buttons
-Vue.component('createGenericButtons',{
+Vue.component('createGenericButtons', {
 	template :'<div style="display:inline-block; padding-right:1%;">'
 				+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.genericButtons")}}</button>'
 				+'<generic_buttons_popup v-bind:entityList="entityList"></generic_buttons_popup>'
@@ -594,7 +606,7 @@ Vue.component('createGenericButtons',{
 
 
 // Attachment popup
-Vue.component('attachment_popup',{
+Vue.component('attachment_popup', {
 	template :'<div id="myModalAttachment" class="modal fade" role="dialog">'
 					+'<div class="modal-dialog">'
 					    +'<div class="modal-content">'
@@ -703,7 +715,7 @@ Vue.component('attachment_popup',{
 });
 
 // Add Attachment
-Vue.component('createAttachment',{
+Vue.component('createAttachment', {
 	template :'<div style="display:inline-block; padding-right:1%;">'
 				+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.attachment")}}</button>'
 				+'<attachment_popup v-bind:entityList="entityList"></attachment_popup>'
@@ -718,7 +730,7 @@ Vue.component('createAttachment',{
 
 
 //Intent silme, cumle ekleme, cumle silme, konu ekleme
-Vue.component('intent',{
+Vue.component('intent', {
 	template :'<div class="col-sm-6 col-md-4">'
 				+'<div class="thumbnail niceMng">'
 					+'<div class="caption">'
@@ -746,7 +758,7 @@ Vue.component('intent',{
 					+'</div>'
 				+'</div>'
 			+'</div>',
-	props: ['value', 'index', 'expressions','subjectArray'],
+	props: ['value', 'index', 'expressions', 'subjectArray'],
 	methods : {
 		addSentence : function(id){
 			if(this.sentence.trim() != ""){
@@ -817,14 +829,14 @@ Vue.component('intent',{
 });
 
 //Intent row template
-Vue.component('row',{
+Vue.component('row', {
 	template : '<div class="row"><intent v-for="(intent,index) in array" v-bind:subjectArray="subjectArray" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></intent></div>',
 	props: ['array','subjectArray']
 	
 });
 
 //Intent Sayfasi
-var container = Vue.component('container',{
+var container = Vue.component('container', {
 	template:'<div class="container">'
 					+'<div class="header">'
 						+'<div class="page-header">'
@@ -957,7 +969,7 @@ var container = Vue.component('container',{
 
 
 //Answers cevap ekleme
-Vue.component('answers',{
+Vue.component('answers', {
 	template :'<div class="col-sm-6 col-md-4">'
 					+'<div class="thumbnail niceMng">'
 				  	+'<div class="caption">'
@@ -1016,7 +1028,7 @@ Vue.component('answers',{
 });
 
 // Answers row template
-Vue.component('answersRow',{
+Vue.component('answersRow', {
 	template :'<div class="row">'
 					+'<answers v-for="(intent,index) in array" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></answers>'
 				+'</div>',
@@ -1024,7 +1036,7 @@ Vue.component('answersRow',{
 });
 
 // Answers Sayfasi
-var answersContainer = Vue.component("answersContainer",{
+var answersContainer = Vue.component("answersContainer", {
 	template:'<div class="container">'
 				+'<div class="header">'
 					+'<div class="page-header">'
@@ -1144,7 +1156,7 @@ var answersContainer = Vue.component("answersContainer",{
 
 
 //Subject sayfasi
-var subjectContainer = Vue.component("subjectContainer",{
+var subjectContainer = Vue.component("subjectContainer", {
 	template : '<div class="container">'
 					+'<div class="header">'
 						+'<div class="page-header">'
@@ -1245,7 +1257,7 @@ var subjectContainer = Vue.component("subjectContainer",{
 
 
 // Training sayfasi
-var trainingContainer = Vue.component("trainingContainer",{
+var trainingContainer = Vue.component("trainingContainer", {
 	template:'<div class="container">'
 						+'<div class="header">'
 							+'<div class="page-header">'
@@ -1288,7 +1300,7 @@ var trainingContainer = Vue.component("trainingContainer",{
 
 
 //Training template
-Vue.component('training',{
+Vue.component('training', {
 	template :'<div class="row">'
 					+'<div class="col-md-12">'
 							+'<div class="thumbnail niceMng">'
@@ -1339,7 +1351,7 @@ Vue.component('training',{
 
 
 // Emoji user popup
-Vue.component('emoji_popup_user',{
+Vue.component('emoji_popup_user', {
 	template :'<div id="emojiModalUser" class="modal fade" role="dialog">'
 							+'<div class="modal-dialog">'
 						    +'<div class="modal-content">'
@@ -1391,7 +1403,7 @@ Vue.component('emoji_popup_user',{
 });
 
 // Emoji bot popup
-Vue.component('emoji_popup_bot',{
+Vue.component('emoji_popup_bot', {
 	template :'<div id="emojiModalBOT" class="modal fade" role="dialog">'
 							+'<div class="modal-dialog">'
 						    +'<div class="modal-content">'
@@ -1512,20 +1524,20 @@ var emojiContainer = Vue.component('emojiContainer', {
 			showEmojiPopup : function(modal){
 				$("#" + modal).modal();
 			},
-			setUserEmoji(item){
+			setUserEmoji : function(item){
 				this.selectedEmojiUser = item;
 			},
-			setBotEmoji(item){
+			setBotEmoji : function(item){
 				this.selectedEmojiBOT = item;
 			}
 			,
-			save(){
+			save : function(){
 				if(this.selectedEmojiUser.image && this.selectedEmojiBOT.image)
 				Vue.http.post(contextPath + '/secure/api/save/emoji/relation', {source : this.selectedEmojiUser, target : this.selectedEmojiBOT}, function(resp){
 					window.location.reload();
 				});				
 			},
-			deleteEmoji(source){
+			deleteEmoji : function(source){
 				if(source){
 					Vue.http.delete(contextPath + '/secure/api/delete/emoji/relation', {text : source.text}, function(resp){
 						window.location.reload();
@@ -1548,7 +1560,7 @@ var emojiContainer = Vue.component('emojiContainer', {
 
 
 //configs sayfasi
-var configsContainer = Vue.component("configsContainer",{
+var configsContainer = Vue.component("configsContainer", {
 	template:'<div class="container">'
 					+'<div class="header">'
 						+'<div class="page-header">'
@@ -1636,9 +1648,10 @@ var configsContainer = Vue.component("configsContainer",{
 			},
 			addDefaultResponse : function(){
 				this.responseList.push(this.response);
-				this.response = "";
 				Vue.http.get(contextPath + "/secure/api/add/responseList?response=" + this.response).then(function(resp){
+					
 				});
+				this.response = "";
 			},
 			deleteDefaultMessage : function(){
 				if(this.selectedResponse.trim() != ""){
@@ -1678,13 +1691,13 @@ var configsContainer = Vue.component("configsContainer",{
 	  })
 	},
 	data :	function () {
-		return {threshold : {val : 0.7}, responseList : [],response : "", selectedResponse : "", pMenuItem : "", pMenuItemName : "", persistentMenuList : []}
+		return {threshold : {val : 0.7}, responseList : [], response : "", selectedResponse : "", pMenuItem : "", pMenuItemName : "", persistentMenuList : []}
 	}
 });
 
 
 
-var webChatContainer = Vue.component("webChatContainer",{
+var webChatContainer = Vue.component("webChatContainer", {
 	template : '<div class="container">'
 		+'<div class="header">'
 			+'<div class="page-header">'
@@ -1704,7 +1717,7 @@ var webChatContainer = Vue.component("webChatContainer",{
 				+'<div style="position:absolute;bottom:0px;right:15px;">'
 					+'<table>'
 						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">{{$t("message.talkToBot")}}</button></td></tr>'
-						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://www.chatbotpanel.com:8000/webchat.html" width="370px" height="420px" /></td></tr>'
+						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://localhost:8000/webchat.html?accessToken=DSWRM5DAQVXBGOH7BQWO455ERSGWRNR6&authorization=91723e23-3537-4cbc-8c64-11fff4ed09ec" width="370px" height="420px" /></td></tr>'
 					+'</table>'
 				+'</div>'
 			+'</div> <!--content-->'
@@ -1713,7 +1726,7 @@ var webChatContainer = Vue.component("webChatContainer",{
 
 
 // Facebook sayfasi
-var facebookContainer = Vue.component("facebookContainer",{
+var facebookContainer = Vue.component("facebookContainer", {
 	template:'<div class="container">'
 						+'<div class="header">'
 							+'<div class="page-header">'
@@ -1798,7 +1811,7 @@ var facebookContainer = Vue.component("facebookContainer",{
 
 
 // witai sayfasi
-var witDeployContainer = Vue.component("witDeployContainer",{
+var witDeployContainer = Vue.component("witDeployContainer", {
 	template : '<div class="container">'
 		+'<div class="header">'
 			+'<div class="page-header">'
@@ -1903,7 +1916,7 @@ var witDeployContainer = Vue.component("witDeployContainer",{
 	
 });
 
-var chatbaseContainer = Vue.component('chatbaseContainer',{
+var chatbaseContainer = Vue.component('chatbaseContainer', {
 	template : '<div class="container">'
 		+'<div class="header">'
 			+'<div class="page-header">'
@@ -1912,6 +1925,7 @@ var chatbaseContainer = Vue.component('chatbaseContainer',{
 					+'</div>'
 					+'<routerLinkComponent></routerLinkComponent>'
 					+'<span class="navbar-nav rootRight">'
+					+	'<span style="margin-right:5px">{{userName}}</span>'
 						+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
 					+'</span>'
 					+'<span class="navbar-nav rootRight">'
@@ -1941,7 +1955,7 @@ var chatbaseContainer = Vue.component('chatbaseContainer',{
 			+'</div> <!--content-->'
 		+'</div> <!--container-->',
 		data :	function () {
-			return {chatbaseDeployment : {value : ""}, isDeployed : {value : false}, app : {}}
+			return {chatbaseDeployment : {value : ""}, isDeployed : {value : false}, app : {} , userName :  localStorage.getItem('userName')}
 		},
 		methods :{
 			deploy:function(){
@@ -1981,10 +1995,11 @@ var vrouter = new VueRouter({
 
 var vue = new Vue({
   el: '#app',
-  data: {},
+  data: { userName : ""},
   methods : {},
 	mounted: function () {
 	  this.$nextTick(function () {
+		  
 	  })
 	},
   methods : {},
