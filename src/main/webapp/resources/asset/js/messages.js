@@ -4,7 +4,7 @@ var messages = {
 		  english : 'English',
 		  turkish : 'Turkish',
 		  french : 'French',
-		  rootPanel : "Root",
+		  rootPanel : "Root Panel",
 		  
 		  add : 'Add',
 		  remove : 'Remove',
@@ -107,7 +107,7 @@ var messages = {
 		  english : 'Anglais',
 		  turkish : 'Turc',
 		  french : 'Français',
-		  rootPanel : "Root",
+		  rootPanel : "Panneau de Root",
 		  
 		  add : 'Ajouter',
 		  remove : 'Supprimer',
@@ -210,7 +210,7 @@ var messages = {
 		  english : 'Ingilizce',
 		  turkish : 'T\u00FCrk\u00E7e',
 		  french : 'Frans\u0131zca',
-		  rootPanel : "Root",
+		  rootPanel : "ROOT PANELİ",
 		  
 		  add : 'Ekle',
 		  remove : 'Sil',
@@ -288,7 +288,7 @@ var messages = {
 		  subject : "Konu",
 		  subjectPage : "Konu Sayfas\u0131",
 		  subjects : "Konular",
-		  deployBtn : "Deploy",
+		  deployBtn : "Gönder",
 		  
 		  webChat : 'WEBCHAT',
 		  webChatPage:'WebChat Sayfas\u0131',

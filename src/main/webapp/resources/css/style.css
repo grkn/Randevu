@@ -24,7 +24,7 @@
     text-align: center;
 }
 .ui-widget {
-   font-size: 12px !important;
+   font-size: 14px !important;
 }
 .ui-panelgrid{
 	border:  none !important;
@@ -36,10 +36,13 @@
 	border:  none !important;
 }
 fieldset{
-	margin-top: 2% !important;
+	margin-top: 10% !important;
 }
 .ui-fieldset-content {
 	padding: 2% !important;
+}
+.ui-fieldset-content {
+	margin-bottom: 3%;
 }
 .ui-widget-content {
 	border: 1px solid #ddd !important;
@@ -64,4 +67,32 @@ fieldset{
 	background-color: #5bc0de !important;
     border-color: #46b8da !important;
 }
+.logintable{
+	padding: 5% !important;
+}
 
+tr.logintr>td {
+  padding-bottom: 1em;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+	background-color: #5bc0de !important;
+    border-color: #46b8da !important;
+}
+ input[type="submit"]{
+    color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;    
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+ }
+  input[type="text"],   input[type="password"] {
+    	border: 1px solid #eee;
+  	border-style: outset; 
+  }
+  

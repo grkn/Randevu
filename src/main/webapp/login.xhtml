@@ -7,27 +7,35 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<h:head>
+		<h:outputStylesheet name="style.css" library="css" />
 	</h:head>
 	<h:body>
-		<div style="text-align:center">
-			<p:fieldset legend="Giriş" style="display:inline-block">
-				<form action="${request.contextPath}/nonsecure/admin/" method="post" style="text-align:center">
-					<table style="width:100%">
-						<tr>
-							<td  style="text-align: right;width: 50%;"><h:outputLabel value="Kullanıcı Adı" /></td>
-							<td style="text-align: left;width: 50%;"><input type="text" name="username"/></td>
-						</tr>	
-						<tr>
-							<td style="text-align: right;width: 50%;"><h:outputLabel value="Şifre" /></td>
-							<td style="text-align: left;width: 50%;"><input type="password" name="password"/></td>			
-						</tr>
-						<tr>
-							<td colspan="2" style="text-align:center"><input type="submit" value="Giriş"/></td>
-						</tr>
-					</table>
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-				</form>
-			</p:fieldset>
+		<div class="container">
+		    <div class="row">
+		        <div class="col-md-offset-5 col-md-5">	
+					<div style="text-align:center">
+						<p:fieldset legend="#{msg['loginpage']}" style="display:inline-block">
+							<form action="${request.contextPath}/nonsecure/admin/" method="post" style="text-align:center">
+					            <h4>#{msg['welcome']}</h4>
+								<table style="width:100%" class="logintable">
+									<tr class="logintr">
+										<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;"><h:outputLabel value="#{msg['user.username']}" /></td>
+										<td style="text-align: left;width: 50%;"><input type="text" name="username"/></td>
+									</tr>	
+									<tr class="logintr">
+										<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;"><h:outputLabel value="#{msg['user.password']}" /></td>
+										<td style="text-align: left;width: 50%;"><input type="password" name="password"/></td>			
+									</tr>
+									<tr>
+										<td colspan="2" style="text-align:center; padding-top:10%;"><input type="submit" value="#{msg['login']}"/></td>
+									</tr>
+								</table>
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+							</form>
+						</p:fieldset>
+					</div>
+				</div>
+			</div>
 		</div>
 	</h:body>
 </html>

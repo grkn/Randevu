@@ -1,9 +1,9 @@
 Vue.component('i18n_custom', {
 	template : '<select v-model="lang" v-on:change="changeLanguage">'
-	+'<option value="en">{{ $t("message.english") }}</option>'
-	+'<option value="fr">{{ $t("message.french") }}</option>'
-	+'<option value="tr">{{ $t("message.turkish") }}</option>'
-	+'</select>',
+					+'<option value="en">{{ $t("message.english") }}</option>'
+					+'<option value="fr">{{ $t("message.french") }}</option>'
+					+'<option value="tr">{{ $t("message.turkish") }}</option>'
+				+'</select>',
 	methods : {
 		changeLanguage : function(){
 			window.localStorage.setItem("lang", this.lang);
@@ -1717,7 +1717,7 @@ var webChatContainer = Vue.component("webChatContainer", {
 				+'<div style="position:absolute;bottom:0px;right:15px;">'
 					+'<table>'
 						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">{{$t("message.talkToBot")}}</button></td></tr>'
-						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://localhost:8000/webchat.html?accessToken=DSWRM5DAQVXBGOH7BQWO455ERSGWRNR6&authorization=91723e23-3537-4cbc-8c64-11fff4ed09ec" width="370px" height="420px" /></td></tr>'
+						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://www.chatbotpanel:8000/webchat.html?accessToken=DSWRM5DAQVXBGOH7BQWO455ERSGWRNR6&authorization=91723e23-3537-4cbc-8c64-11fff4ed09ec" width="370px" height="420px" /></td></tr>'
 					+'</table>'
 				+'</div>'
 			+'</div> <!--content-->'
@@ -1909,7 +1909,7 @@ var witDeployContainer = Vue.component("witDeployContainer", {
 			this.$nextTick(function () {
 				var witTemp = this.witDeployment;
 					Vue.http.get(contextPath + '/secure/api/witaiDeploy/get', function(resp){
-						witTemp.value = resp[0].defaultAuthorizationToken;
+						witTemp.value = resp.defaultAuthorizationToken;
 					});
 		  });
 		}
