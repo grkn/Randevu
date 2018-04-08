@@ -14,6 +14,7 @@ var messages = {
 		  close : "Close",
 		  success : "SUCCESS",
 		  error : "ERROR",
+		  savewitaikey : "Please save this key in your computer.",
 		  
 		  intent : 'INTENT',
 		  intentPage : 'Intent Page',
@@ -116,6 +117,7 @@ var messages = {
 		  create : "Cr\u00E9er",
 		  close : "Fermer",
 		  success : "REUSSITE",
+		  savewitaikey : "Veuillez sauvegarder cette clé dans votre ordinateur.",
 		  error : "ERREUR",
 		  
 		  intent : 'INTENTION',
@@ -219,6 +221,7 @@ var messages = {
 		  create : "Olu\u015Ftur",
 		  close : "Kapat",	  
 		  success : "BASARALI",
+		  savewitaikey :"Lütfen bu anahtarı bilgisayarınıza kaydedin.",
 		  error : "HATA VAR",
 		  
 		  intent : 'INTENT',
