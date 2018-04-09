@@ -1717,7 +1717,7 @@ var webChatContainer = Vue.component("webChatContainer", {
 				+'<div style="position:absolute;bottom:0px;right:15px;">'
 					+'<table>'
 						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">{{$t("message.talkToBot")}}</button></td></tr>'
-						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken=DSWRM5DAQVXBGOH7BQWO455ERSGWRNR6&authorization=91723e23-3537-4cbc-8c64-11fff4ed09ec" width="370px" height="420px" /></td></tr>'
+						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken=DSWRM5DAQVXBGOH7BQWO455ERSGWRNR6&authorization=d5a35236-f6bd-4f04-9dac-65d3869ccad9" width="370px" height="420px" /></td></tr>'
 					+'</table>'
 				+'</div>'
 			+'</div> <!--content-->'

@@ -80,7 +80,7 @@ var messages = {
 		  botEmoji : "Bot Emoji",
 		  botReply: "Bot Reply",
 		  		  
-		  subject : "SUBJECT",
+		  subject : "Subject",
 		  subjects : "Subjects",
 		  subjectPage : "Subject Page",
 		  deployBtn : "Deploy",
@@ -184,7 +184,7 @@ var messages = {
 		  botEmoji : "Bot Emoji",
 		  botReply: "R\u00E9ponse de Bot",
 		  		  
-		  subject : "SUJET",
+		  subject : "Sujet",
 		  subjects : "Sujets",
 		  subjectPage : "Page de Sujet",
 		  deployBtn : "D\u00E9ployer",
@@ -281,7 +281,7 @@ var messages = {
 		  witaiPage : "Wit.ai Deployment Sayfas\u0131",
 		  witai : "WİT.Aİ",
 		  
-		  emoji : "EMoJİ",
+		  emoji : "Emoji",
 		  emojiPage : "Emoji Sayfas\u0131",
 		  emojiPopupError : "Sadece bir emoji se\u00E7ebilirsiniz",
 		  userEmoji : "Kullan\u0131c\u0131 Emoji",
