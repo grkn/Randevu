@@ -1714,10 +1714,10 @@ var webChatContainer = Vue.component("webChatContainer", {
 				+'</div> <!--page-header-->'
 			+'</div> <!--header-->'
 			+'<div class="content">'
-				+'<div style="position:absolute;bottom:0px;right:15px;">'
+				+'<div style="position:absolute !important;bottom:0px;right:15px;">'
 					+'<table>'
 						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">{{$t("message.talkToBot")}}</button></td></tr>'
-						+'<tr><td><iframe style="border:none;border-left:1px solid #c3c3c3 !important" id="container" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken=DSWRM5DAQVXBGOH7BQWO455ERSGWRNR6&authorization=d5a35236-f6bd-4f04-9dac-65d3869ccad9" width="370px" height="420px" /></td></tr>'
+						+'<tr><td><iframe class="collapse in" id="container" style="border:none;border-left:1px solid #c3c3c3 !important" src="http://localhost:8000/webchat.html?accessToken='+window.globalAccessToken+'&authorization='+localStorage.getItem('id_token')+'" width="370px" height="420px" /></td></tr>'
 					+'</table>'
 				+'</div>'
 			+'</div> <!--content-->'
@@ -1896,6 +1896,7 @@ var witDeployContainer = Vue.component("witDeployContainer", {
 							alert("This name was previously taken, please enter another name.");
 						}						
 					}else{
+						window.globalAccessToken= resp.access_token;
 						Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : resp.access_token}, function(resp){
 							window.location.reload();
 						});

@@ -96,3 +96,5 @@ tr.logintr>td {
   	border-style: outset; 
   }
   
+  .ui-fieldset{ padding: inherit !important;}
+  
