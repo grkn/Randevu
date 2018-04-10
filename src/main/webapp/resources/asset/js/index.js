@@ -1714,14 +1714,28 @@ var webChatContainer = Vue.component("webChatContainer", {
 				+'</div> <!--page-header-->'
 			+'</div> <!--header-->'
 			+'<div class="content">'
+				+'<div><b>Please copy this to your web site.</b></div>'
+				+'<div style="width:500px">{{iframeContent}}</div>'
 				+'<div style="position:absolute !important;bottom:0px;right:15px;">'
 					+'<table>'
 						+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">{{$t("message.talkToBot")}}</button></td></tr>'
-						+'<tr><td><iframe class="collapse in" id="container" style="border:none;border-left:1px solid #c3c3c3 !important" src="http://localhost:8000/webchat.html?accessToken='+window.globalAccessToken+'&authorization='+localStorage.getItem('id_token')+'" width="370px" height="420px" /></td></tr>'
+						+'<tr><td><iframe class="collapse in" id="container" style="border:none;border-left:1px solid #c3c3c3 !important" src="http://localhost:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'" width="370px" height="420px" /></td></tr>'
 					+'</table>'
 				+'</div>'
 			+'</div> <!--content-->'
-		+'</div> <!--container-->'	
+		+'</div> <!--container-->'	,
+		data : function(){
+			return {
+				iframeContent : '<div style="position:absolute !important;bottom:0px;right:15px;">'
+										+'<table>'
+										+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">BOT</button></td></tr>'
+										+'<tr><td><iframe class="collapse in" id="container" style="border:none;border-left:1px solid #c3c3c3 !important" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'" width="370px" height="420px" /></td></tr>'
+									+'</table>'
+								+'</div>'
+				
+				
+			}
+		}
 });
 
 
@@ -1879,6 +1893,7 @@ var witDeployContainer = Vue.component("witDeployContainer", {
 		methods :{
 			deploy:function(){
 				var tempIdDeployed = this.isDeployed;
+				localStorage.setItem('globalAccessToken',this.witDeployment.value);
 				Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : this.witDeployment.value}, function(resp){
 					tempIdDeployed.value = true;
 				});
@@ -1896,7 +1911,7 @@ var witDeployContainer = Vue.component("witDeployContainer", {
 							alert("This name was previously taken, please enter another name.");
 						}						
 					}else{
-						window.globalAccessToken= resp.access_token;
+						localStorage.setItem('globalAccessToken',""+resp.access_token);
 						Vue.http.post(contextPath + '/secure/api/witaiDeploy/post', {witDeployment : resp.access_token}, function(resp){
 							window.location.reload();
 						});

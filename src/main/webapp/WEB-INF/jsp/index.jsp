@@ -26,10 +26,11 @@
 		<!-- Latest compiled and minified JavaScript -->
 		
 		<script type="text/javascript">
-			var globalAccessToken = "DSWRM5DAQVXBGOH7BQWO455ERSGWRNR6";
 			var contextPath = "${pageContext.servletContext.contextPath}";
 			localStorage.setItem('id_token', "${authToken}");
 			localStorage.setItem('userName', "${userName}");
+			if(!localStorage.getItem('globalAccessToken'))
+			localStorage.setItem('globalAccessToken',"DSWRM5DAQVXBGOH7BQWO455ERSGWRNR6");
 		</script>
 	</head>
 	<body>
