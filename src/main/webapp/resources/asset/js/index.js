@@ -1628,8 +1628,8 @@ var configsContainer = Vue.component("configsContainer", {
 												+'</td>'
 											+'</tr>'										
 											+'<tr v-for="item in persistentMenuList">'
-												+'<td>{{item.text}}</td>'
 												+'<td>{{item.name}}</td>'
+												+'<td>{{item.text}}</td>'
 												+'<td>'
 													+'<button type="button" class="btn btn-default" v-on:click="removePersistentMenu(item)">{{$t("message.remove")}}</button></li>'
 												+'</td>'
@@ -1661,7 +1661,7 @@ var configsContainer = Vue.component("configsContainer", {
 				}
 			},
 			addPersistentMenu : function(){
-				this.persistentMenuList.push({text : this.pMenuItem, name : this.pMenuItemName});
+				this.persistentMenuList.push({text : this.pMenuItemName, name : this.pMenuItem});
 				this.pMenuItem = "";
 				this.pMenuItemName = "";
 				Vue.http.post(contextPath + '/secure/api/add/persistentMenu', {persistentMenuList : this.persistentMenuList}, function(resp){
