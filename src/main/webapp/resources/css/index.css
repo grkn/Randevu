@@ -94,6 +94,9 @@ select, input{
 }
 .big-btn{
 	border-radius:0 !important;
+	color: #fff;
+    background-color: #5bc0de;
+    border-color: #46b8da;
 }
 .big-btn:hover, .big-btn:focus, .big-btn:active{
 	border-color: #31b0d5;

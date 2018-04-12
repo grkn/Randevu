@@ -1724,12 +1724,12 @@ var webChatContainer = Vue.component("webChatContainer", {
 			return {
 				iframeContent : '<div style="position:absolute !important;bottom:0px;right:15px;">'
 										+'<table>'
-										+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">BOT</button></td></tr>'
+										+'<tr><td><button type="button" style="width:370px" class="btn btn-info big-btn" data-toggle="collapse" data-target="#container">BOT</button></td></tr>'
 										+'<tr><td><iframe class="collapse in" id="container" style="border:none;border-left:1px solid #c3c3c3 !important" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'" width="370px" height="420px" /></td></tr>'
 									+'</table>'
 								+'</div>',
 				iframeHTML : 	'<table>'
-									+'<tr><td><button type="button" style="width:370px" class="big-btn btn btn-info" data-toggle="collapse" data-target="#container">BOT</button></td></tr>'
+									+'<tr><td><button type="button" style="width:370px" class="btn big-btn" data-toggle="collapse" data-target="#container">BOT</button></td></tr>'
 									+'<tr><td><iframe class="collapse in" id="container" style="border:none;border-left:1px solid #c3c3c3 !important" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'" width="370px" height="420px" /></td></tr>'
 								+'</table>',
 			}
