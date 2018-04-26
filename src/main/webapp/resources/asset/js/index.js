@@ -1733,7 +1733,7 @@ var webChatContainer = Vue.component("webChatContainer", {
 									+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" style="border:none;border-right:1px solid #c3c3c3 !important;border-left:1px solid #c3c3c3 !important" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'"/></td></tr>'
 								+'</table>',
 								
-				iframe : "http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'"
+				iframe : 'http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token');
 			}
 		}
 });
