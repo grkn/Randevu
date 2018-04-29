@@ -1792,6 +1792,12 @@ var facebookContainer = Vue.component("facebookContainer", {
 									+'</div>'
 								+'</div>'
 								+'<div class="form-group">'
+									+'<label class="control-label col-sm-2" for="appId">Webhook:</label>'
+									+'<div class="col-sm-10">'
+										+'<input disabled="disabled" type="text" class="form-control" id="webhook" placeholder="WebHook" v-model="GUID.value">'
+									+'</div>'
+								+'</div>'
+								+'<div class="form-group">'
 									+'<div class="col-sm-offset-2 col-sm-10">'
 									+'<span style="color:green;margin-right:20px" v-if="isDeployed.value">{{$t("message.success")}}</span>'	
 									+'<button type="button" class="btn btn-info" v-on:click="deploy">{{$t("message.deployBtn")}}</button>'
@@ -1804,21 +1810,36 @@ var facebookContainer = Vue.component("facebookContainer", {
 	methods : {
 			deploy : function(){
 				var tempIsDeployed = this.isDeployed;
+				this.facebookDeployment.values.guid = this.GUID.value;
 				Vue.http.post(contextPath + '/secure/api/facebook/post', {facebookDeployment : this.facebookDeployment.values}, function(resp){
 					tempIsDeployed.value = true;
 				});
+			},
+			 s4: function() {
+			    return Math.floor((1 + Math.random()) * 0x10000)
+			      .toString(16)
+			      .substring(1);
+			  },
+			guid : function() {
+				 
+					  return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + this.s4() + this.s4();
 			}
 	},
 	mounted : function(){
 		this.$nextTick(function () {
+			this.GUID.value = "https://www.chatbotpanel.com:8081/"+this.guid();
 			var facebookTemp = this.facebookDeployment;
+			var GUID = this.GUID;
 				Vue.http.get(contextPath + '/secure/api/facebook/get', function(resp){
 					facebookTemp.values = resp[0].facebookDeployment;
+					if(facebookTemp.values.guid)
+					GUID.value = facebookTemp.values.guid;
+					
 				});
 	  })
 	},
 	data :	function () {
-		return {facebookDeployment : {values : {}}, isDeployed : {value : false}}
+		return {facebookDeployment : {values : {}}, isDeployed : {value : false},GUID : {value : ""}}
 	}
 });
 

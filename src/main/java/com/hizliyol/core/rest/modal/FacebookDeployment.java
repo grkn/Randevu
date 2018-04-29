@@ -7,6 +7,7 @@ public class FacebookDeployment {
 	private String appSecret;
 	private String verifyToken;
 	private String accessToken;
+	private String guid;
 	
 	public String getPageId() {
 		return pageId;
@@ -37,6 +38,12 @@ public class FacebookDeployment {
 	}
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
+	}
+	public String getGuid() {
+		return guid;
+	}
+	public void setGuid(String guid) {
+		this.guid = guid;
 	}
 	
 }
