@@ -1830,10 +1830,7 @@ var facebookContainer = Vue.component("facebookContainer", {
 			var facebookTemp = this.facebookDeployment;
 			var GUID = this.GUID;
 				Vue.http.get(contextPath + '/secure/api/facebook/get', function(resp){
-					facebookTemp.values = resp[0][localStorage.getItem('id_token')].facebookDeployment;
-					if(facebookTemp.values.guid)
-					GUID.value = facebookTemp.values.guid;
-					
+					facebookTemp.values = resp[0].facebookDeployment;
 				});
 	  })
 	},
