@@ -25,8 +25,9 @@ Vue.component("routerLinkComponent", {
 				+'<li><router-link :to="{ name: \'configsContainer\'}">{{$t("message.configs")}}</router-link></li>'
 				+'<li><router-link :to="{ name: \'webChatContainer\'}">{{$t("message.webChat")}}</router-link></li>'
 				+'<li><router-link :to="{ name: \'facebookContainer\'}">{{$t("message.facebook")}}</router-link></li>'
-				+'<li><router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link></li>'
 				+'<li><router-link :to="{ name: \'chatbaseContainer\'}">{{$t("message.chatbase")}}</router-link></li>'
+				+'<li><router-link :to="{ name: \'witContainer\'}">{{$t("message.witai")}}</router-link></li>'
+
 			+'</ul></div></div>'
 }); 
 
@@ -1725,15 +1726,13 @@ var webChatContainer = Vue.component("webChatContainer", {
 				iframeContent : '<div style="position:absolute !important;bottom:0px;right:15px;">'
 										+'<table>'
 										+'<tr><td><button type="button" class="btn btn-info big-btn" style="width:370px" data-toggle="collapse" data-target="#container">Talk to BOT</button></td></tr>'
-										+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" style="border:none;border-right:1px solid #c3c3c3 !important;border-left:1px solid #c3c3c3 !important" src="'+this.iframe+'"/></td></tr>'
+										+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" style="border:none;border-right:1px solid #c3c3c3 !important;border-left:1px solid #c3c3c3 !important" src="'+'http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'"/></td></tr>'
 									+'</table>'
 								+'</div>',
 				iframeHTML : 	'<table>'
 									+'<tr><td><button type="button" class="btn btn-info big-btn" style="width:370px" data-toggle="collapse" data-target="#container"> Talk to BOT</button></td></tr>'
 									+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" style="border:none;border-right:1px solid #c3c3c3 !important;border-left:1px solid #c3c3c3 !important" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'"/></td></tr>'
-								+'</table>',
-								
-				iframe : 'http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')
+								+'</table>'
 			}
 		}
 });
@@ -1831,7 +1830,7 @@ var facebookContainer = Vue.component("facebookContainer", {
 			var facebookTemp = this.facebookDeployment;
 			var GUID = this.GUID;
 				Vue.http.get(contextPath + '/secure/api/facebook/get', function(resp){
-					facebookTemp.values = resp[0].facebookDeployment;
+					facebookTemp.values = resp[0][localStorage.getItem('id_token')].facebookDeployment;
 					if(facebookTemp.values.guid)
 					GUID.value = facebookTemp.values.guid;
 					
