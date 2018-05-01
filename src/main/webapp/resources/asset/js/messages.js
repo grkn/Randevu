@@ -100,7 +100,9 @@ var messages = {
 		  appDescription:'Application Description',
 		  chatbase : 'CHATBASE',
 		  chatbasePage: 'Chatbase Page',
-		  talkToBot : 'Talk to BOT'
+		  talkToBot : 'Talk to BOT',
+		  exit : 'Sign Out',
+		  webhookmsg : 'Please copy the following to the Callback URL in the Facebook Developer section.'
 		}
 	},
 	fr: {
@@ -204,7 +206,9 @@ var messages = {
 		  appDescription: "Description de l'Application",
 		  chatbase : 'CHATBASE',
 		  chatbasePage: 'Page de Chatbase',
-		  talkToBot : 'Parlez au BOT'
+		  talkToBot : 'Parlez au BOT',
+		  exit : 'Sortie',
+		  webhookmsg : 'Veuillez copier ce qui suit à Callback URL dans la section Facebook Developer.'
 		}
 	},	
 	tr: {
@@ -308,7 +312,9 @@ var messages = {
 		  appDescription: 'Uygulama Açıklaması',
 		  chatbase : 'CHATBASE',
 		  chatbasePage: 'Chatbase Sayfas\u0131',
-		  talkToBot : 'Bot ile Konuşun'
+		  talkToBot : 'Bot ile Konuşun',
+		  exit : '\u00C7\u0131k\u0131\u015F',
+		  webhookmsg : 'Lütfen Facebook Developer kısmında Callback URL \'ye aşağıdakileri kopyalayınız.'
 			  
 		}
 	}
