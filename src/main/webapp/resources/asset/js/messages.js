@@ -101,7 +101,7 @@ var messages = {
 		  chatbase : 'CHATBASE',
 		  chatbasePage: 'Chatbase Page',
 		  talkToBot : 'Talk to BOT',
-		  exit : 'Sign Out',
+		  exit : 'SIGN OUT',
 		  webhookmsg : 'Please copy the following to the Callback URL in the https://developers.facebook.com/apps/ to app.'
 		}
 	},
@@ -207,7 +207,7 @@ var messages = {
 		  chatbase : 'CHATBASE',
 		  chatbasePage: 'Page de Chatbase',
 		  talkToBot : 'Parlez au BOT',
-		  exit : 'Sortie',
+		  exit : 'SORTIE',
 		  webhookmsg : 'Veuillez copier ce qui suit à Callback URL aux https://developers.facebook.com/apps/'
 		}
 	},	
