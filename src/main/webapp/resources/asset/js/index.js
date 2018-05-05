@@ -118,7 +118,7 @@ Vue.component('carousel_popup', {
 					if(lang == "tr"){
 						alert("Lütfen yıldızlı alanları doldurunuz.");
 					}else if (lang == "fr"){
-						alert("Veuillez remplir tous les champs obligatoires");
+						alert("Veuillez remplir tous les champs obligatoires.");
 					}else{
 						alert("Please fill all the requried fields.");
 					}
@@ -130,9 +130,20 @@ Vue.component('carousel_popup', {
 						if(lang == "tr"){
 							alert("Lütfen yıldızlı alanları doldurunuz.");
 						}else if (lang == "fr"){
-							alert("Veuillez remplir tous les champs obligatoires");
+							alert("Veuillez remplir tous les champs obligatoires.");
 						}else{
 							alert("Please fill all the requried fields.");
+						}
+						return;
+					}
+					if(this.carousel[i].buttons[j].url && this.carousel[i].buttons[j].url.indexOf("https") < 0){
+						var lang = window.localStorage.getItem('lang');
+						if(lang == "tr"){
+							alert("Sadece https ile başlayan link geçerlidir.");
+						}else if (lang == "fr"){
+							alert("Seuls les liens commençant par https sont valides.");
+						}else{
+							alert("Only links starting with https are valid.");
 						}
 						return;
 					}
@@ -293,6 +304,17 @@ Vue.component('listTemplate_popup', {
 							alert("Veuillez remplir tous les champs obligatoires");
 						}else{
 							alert("Please fill all the requried fields.");
+						}
+						return;
+					}
+					if(this.listTemplate.list[i].buttons[j].url && this.listTemplate.list[i].buttons[j].url.indexOf("https") < 0){
+						var lang = window.localStorage.getItem('lang');
+						if(lang == "tr"){
+							alert("Sadece https ile başlayan link geçerlidir.");
+						}else if (lang == "fr"){
+							alert("Seuls les liens commençant par https sont valides.");
+						}else{
+							alert("Only links starting with https are valid.");
 						}
 						return;
 					}
@@ -557,6 +579,18 @@ Vue.component('generic_buttons_popup', {
 					}
 					return;
 				}
+				
+				if(buttons[i].url && buttons[i].url.indexOf("https") < 0){
+					var lang = window.localStorage.getItem('lang');
+					if(lang == "tr"){
+						alert("Sadece https ile başlayan link geçerlidir.");
+					}else if (lang == "fr"){
+						alert("Seuls les liens commençant par https sont valides.");
+					}else{
+						alert("Only links starting with https are valid.");
+					}
+					return;
+				}
 			}
 			Vue.http.post(contextPath + "/secure/api/view/create/genericButtons", {genericButtons : this.genericButtons, intent : this.selectedIntent}, function(resp){
 				$("#myModalGenericButtons").modal('hide');
@@ -678,6 +712,18 @@ Vue.component('attachment_popup', {
 						alert("Veuillez remplir tous les champs obligatoires");
 					}else{
 						alert("Please fill all the requried fields.");
+					}
+					return;
+				}
+				
+				if(buttons[i].url && buttons[i].url.indexOf("https") < 0){
+					var lang = window.localStorage.getItem('lang');
+					if(lang == "tr"){
+						alert("Sadece https ile başlayan link geçerlidir.");
+					}else if (lang == "fr"){
+						alert("Seuls les liens commençant par https sont valides.");
+					}else{
+						alert("Only links starting with https are valid.");
 					}
 					return;
 				}
