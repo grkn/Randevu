@@ -2857,3 +2857,10 @@ h6 {
 .nav-bar>ul>li>a:active {
   color: #46b8da;
 }
+
+@media (min-width: 767px) {
+  .align_right {
+    padding-left: 14% !important;
+  }
+}
+    

@@ -185,6 +185,8 @@
         <security:csrf disabled="true"/>
         <security:intercept-url pattern="/logout"
                                 access="permitAll"/>
+        <security:intercept-url pattern="/form.html"
+                                access="permitAll"/>
 		<security:intercept-url pattern="/intro.html"
                                 access="permitAll"/>
         <security:intercept-url pattern="/login.xhtml"

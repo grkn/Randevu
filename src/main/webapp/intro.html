@@ -39,20 +39,30 @@
 						  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						    <span class="navbar-toggler-icon"></span>
 						  </button>
-						  <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarSupportedContent">
-						    <ul class="navbar-nav" >
-								<li style="float:left;"><a href="#benefits">Benefits</a></li>
-								<li style="float:left;"><a href="#features">Features</a></li>
-								<li style="float:left;"><a href="#howto">How To</a></li>
+						  <div class="collapse navbar-collapse align-items-center" id="navbarSupportedContent">
+						    <ul class="navbar-nav" style="justify-content: center;width: 60%;">
+								<li style="float:left;"><a onclick="changeColor(this)" href="#benefits">Benefits</a></li>
+								<li style="float:left;"><a onclick="changeColor(this)" href="#features">Features</a></li>
+								<li style="float:left;"><a onclick="changeColor(this)" href="#howto">How To</a></li>
 						    </ul>
-							<ul class="navbar-nav">
-								<li><a href="#benefits">JOIN BETA</a></li>
-								<li><a href="login.xhtml">SIGN IN</a></li>
+							<ul class="navbar-nav align_right">
+								<li><a onclick="changeColor(this)" href="./form.html">JOIN BETA</a></li>
+								<li><a onclick="changeColor(this)" href="login.xhtml">SIGN IN</a></li>
 						    </ul>
 						  </div>
+						  
 					</div>
 				</nav>
+				<script>
+					function changeColor(element){
+						$(".navbar-nav a").css("color","#000");
+						$(element).css("color","#46b8da");
+						
+					}
+				</script>
+			
 			</header>
+			
 			<!-- End Header Area -->
 
 			<!-- start banner Area -->
