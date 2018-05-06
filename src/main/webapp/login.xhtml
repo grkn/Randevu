@@ -8,34 +8,90 @@
 	xmlns:p="http://primefaces.org/ui">
 	<h:head>
 		<h:outputStylesheet name="style.css" library="css" />
+		
+		<h:link rel="shortcut icon" href="img/favicon.ico" />
+		<h:outputStylesheet name="linearicons.css" library="css" />
+		<h:outputStylesheet name="font-awesome.min.css" library="css" />
+		<h:outputStylesheet name="jquery.DonutWidget.min.css" library="css" />		
+		<h:outputStylesheet name="bootstrap.css" library="css" />		
+		<h:outputStylesheet name="main.css" library="css" />
 	</h:head>
 	<h:body>
-		<div class="container">
-		    <div class="row">
-		        <div class="col-md-offset-5 col-md-5">	
-					<div style="text-align:center">
-						<p:fieldset legend="#{msg['loginpage']}" style="display:inline-block">
-							<form action="${request.contextPath}/nonsecure/admin/" method="post" style="text-align:center">
-					            <h4>#{msg['welcome']}</h4>
-								<table style="width:100%" class="logintable">
-									<tr class="logintr">
-										<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;"><h:outputLabel value="#{msg['user.username']}" /></td>
-										<td style="text-align: left;width: 50%;"><input type="text" name="username"/></td>
-									</tr>	
-									<tr class="logintr">
-										<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;"><h:outputLabel value="#{msg['user.password']}" /></td>
-										<td style="text-align: left;width: 50%;"><input type="password" name="password"/></td>			
-									</tr>
-									<tr>
-										<td colspan="2" style="text-align:center; padding-top:10%;"><input type="submit" value="#{msg['login']}"/></td>
-									</tr>
-								</table>
-								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-							</form>
-						</p:fieldset>
+		<!-- Start Header Area -->
+		<header class="default-header">
+			<nav class="navbar navbar-expand-lg  navbar-light">
+				<div class="container">
+					  <a class="navbar-brand" href="intro.html">
+					  	<h1>ChatBot Panel</h1>
+					  </a>
+					  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					    <span class="navbar-toggler-icon"></span>
+					  </button>
+					  <div class="collapse navbar-collapse align-items-center" id="navbarSupportedContent">
+					    <ul class="navbar-nav" style="justify-content: center; width: 70%;">
+							<li style="float:left;"><a onclick="changeColor(this)" href="intro.html#benefits">BENEFITS</a></li>
+							<li style="float:left;"><a onclick="changeColor(this)" href="intro.html#features">FEATURES</a></li>
+							<li style="float:left;"><a onclick="changeColor(this)" href="intro.html#howto">HOW TO</a></li>
+					    </ul>
+						<ul class="navbar-nav">
+							<li><a onclick="changeColor(this)" target="_blank" href="./form.html">JOIN BETA</a></li>
+							<li><a onclick="changeColor(this)" href="./login.xhtml">SIGN IN</a></li>
+					    </ul>
+					  </div>
+				</div>
+			</nav>
+			<script>
+				function changeColor(element){
+					$(".navbar-nav a").css("color","#000");
+					$(element).css("color","#46b8da");	
+				}				
+			</script>
+		</header>
+		<!-- End Header Area -->
+
+		<!-- Start login Area -->
+		<section class="blog-area section-gap" id="features">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+			        <div class="col-md-offset-5 col-md-5">	
+						<div style="text-align:center">
+							<p:fieldset legend="#{msg['welcome']}" style="display:inline-block">
+								<form action="${request.contextPath}/nonsecure/admin/" method="post" style="text-align:center">
+									<table style="width:100%;" class="logintable">
+										<tr class="logintr">
+											<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;"><h:outputLabel value="#{msg['user.username']}" /></td>
+											<td style="text-align: left;width: 50%;"><input type="text" name="username"/></td>
+										</tr>	
+										<tr class="logintr">
+											<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;"><h:outputLabel value="#{msg['user.password']}" /></td>
+											<td style="text-align: left;width: 50%;"><input type="password" name="password"/></td>			
+										</tr>
+										<tr>
+											<td colspan="2" style="text-align:center; padding-top:10%;"><input type="submit" value="#{msg['login']}"/></td>
+										</tr>
+									</table>
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+								</form>
+							</p:fieldset>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
+		<!-- End login Area -->
+		
+		<!-- Start footer Area -->
+		<footer class="footer-area ">
+			<div class="container">
+					<div class="footer-social">
+						<a href="#"><i class="fa fa-facebook"></i></a>
+						<a href="#"><i class="fa fa-youtube"></i></a>							
+						<a href="#"><i class="fa fa-twitter"></i></a>
+						<a href="#"><i class="fa fa-linkedin"></i></a>
+					</div>
+			</div>
+		</footer>
+		<!-- End footer Area -->		
+		
 	</h:body>
 </html>

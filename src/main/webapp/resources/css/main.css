@@ -51,9 +51,9 @@
 
 body {
   color: #333333;
-  font-family: "Poppins", sans-serif;
+  font-family: Roboto, Helvetica Neue, "Poppins", sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.625em;
   position: relative;
 }
@@ -118,7 +118,7 @@ a, a:focus, a:hover {
 
 h1, h2, h3,
 h4, h5, h6 {
-  font-family: "Poppins", sans-serif;
+  font-family: Roboto, Helvetica Neue, "Poppins", sans-serif;
   color: #222222;
   line-height: 1.2em !important;
   margin-bottom: 0;
@@ -130,7 +130,7 @@ h4, h5, h6 {
 .h4, .h5, .h6 {
   margin-bottom: 0;
   margin-top: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: Roboto, Helvetica Neue, "Poppins", sans-serif;
   font-weight: 600;
   color: #222222;
 }
@@ -1954,7 +1954,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .p1-gradient-color, .sigle-service:hover .lnr, .single-blog h4:hover {
-  background: -moz-linear-gradient(0deg, #908ced 0%, #b56fe8 100%);
+  background:  -moz-linear-gradient(0deg, #908ced 0%, #b56fe8 100%);
   background: -webkit-linear-gradient(0deg, #908ced 0%, #b56fe8 100%);
   background: -ms-linear-gradient(0deg, #908ced 0%, #b56fe8 100%);
   -webkit-background-clip: text;
@@ -2180,8 +2180,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sigle-service .lnr {
-  font-size: 35px;
-  color: #777777;
+  font-size: 45px;
+  color: rgb(70, 184, 218);
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -2359,7 +2359,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: #eeeeee;
+  background: #848484;
   margin: 0 50px;
 }
 
@@ -2850,9 +2850,9 @@ h6 {
 .subtitle{
   font-size: 18px;
   line-height: 28px;
+  letter-spacing: 0.05em;
   margin: 0 auto;
   margin-bottom: 50px;
-  letter-spacing: 0.05em;
 }
 .nav-bar>ul>li>a:active {
   color: #46b8da;
@@ -2863,4 +2863,3 @@ h6 {
     padding-left: 14% !important;
   }
 }
-    
