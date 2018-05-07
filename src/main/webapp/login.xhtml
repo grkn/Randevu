@@ -7,14 +7,12 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	<h:head>
-		<h:outputStylesheet name="style.css" library="css" />
-		
-		<h:link rel="shortcut icon" href="img/favicon.ico" />
-		<h:outputStylesheet name="linearicons.css" library="css" />
-		<h:outputStylesheet name="font-awesome.min.css" library="css" />
-		<h:outputStylesheet name="jquery.DonutWidget.min.css" library="css" />		
-		<h:outputStylesheet name="bootstrap.css" library="css" />		
-		<h:outputStylesheet name="main.css" library="css" />
+	        <h:outputStylesheet name="style.css" library="css" />
+	        <h:outputStylesheet name="main.css" library="css" />
+	        <h:outputStylesheet name="linearicons.css" library="css" />
+	        <link rel="stylesheet" href="./resources/css/font-awesome.min.css"></link>
+	        <h:outputStylesheet name="jquery.DonutWidget.min.css" library="css" />
+	        <h:outputStylesheet name="bootstrap.css" library="css" />	        
 	</h:head>
 	<h:body>
 		<!-- Start Header Area -->
@@ -55,19 +53,19 @@
 				<div class="row d-flex justify-content-center">
 			        <div class="col-md-offset-5 col-md-5">	
 						<div style="text-align:center">
-							<p:fieldset legend="#{msg['welcome']}" style="display: inline-block">
+							<p:fieldset legend="Welcome" style="display: inline-block">
 								<form action="${request.contextPath}/nonsecure/admin/" method="post" style="text-align:center">
 									<table style="width:100%;" class="logintable">
 										<tr class="logintr">
-											<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;"><h:outputLabel value="#{msg['user.username']}" /></td>
+											<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;">Username</td>
 											<td style="text-align: left;width: 50%;"><input type="text" name="username"/></td>
 										</tr>	
 										<tr class="logintr">
-											<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;"><h:outputLabel value="#{msg['user.password']}" /></td>
+											<td style="text-align: right;width: 30%;padding-right:5%;font-weight:bold;">Password</td>
 											<td style="text-align: left;width: 50%;"><input type="password" name="password"/></td>			
 										</tr>
 										<tr>
-											<td colspan="2" style="text-align:center; padding-top:10%;"><input type="submit" value="#{msg['login']}"/></td>
+											<td colspan="2" style="text-align:center; padding-top:10%;"><input type="submit" value="Sign In"/></td>
 										</tr>
 									</table>
 									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -92,6 +90,6 @@
 			</div>
 		</footer>
 		<!-- End footer Area -->		
-		
+			
 	</h:body>
 </html>

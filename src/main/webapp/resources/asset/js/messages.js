@@ -283,7 +283,7 @@ var messages = {
 		  facebook	: "Facebook",
 		  
 		  witaiPage : "Wit.ai Deployment Sayfas\u0131",
-		  witai : "WİT.Aİ",
+		  witai : "WIT.AI",
 		  
 		  emoji : "Emoji",
 		  emojiPage : "Emoji Sayfas\u0131",
