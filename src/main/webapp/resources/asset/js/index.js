@@ -2005,7 +2005,6 @@ var chatbaseContainer = Vue.component('chatbaseContainer', {
 					+'</div>'
 					+'<routerLinkComponent></routerLinkComponent>'
 					+'<span class="navbar-nav rootRight">'
-					+	'<span style="margin-right:5px">{{userName}}</span>'
 					+'<a href="../../login.xhtml"><b>{{$t("message.exit")}}</b></a>'
 					+'</span>'
 					+'<span class="navbar-nav rootRight">'
