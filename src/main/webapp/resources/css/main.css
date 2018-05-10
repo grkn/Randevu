@@ -1065,9 +1065,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .generic-blockquote {
-  padding: 30px 50px 30px 30px;
-  background: #f9f9ff;
-  border-left: 2px solid #46b8da;
+  padding: 20px 30px 20px 30px;
+  border-left: 8px solid #494747;
+  background: url(https://media.mongodb.org/code-block-bg.png);
 }
 
 .progress-table-wrap {
@@ -2027,7 +2027,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #000;
   font-weight: 600;
   border: 1px solid #f4f4f4;
-  padding: 12px 35px;
+  padding: 8px 35px;
   border-radius: 20px;
 }
 
@@ -2052,6 +2052,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #fff;
   width: 100% !important;
   box-shadow: -21.213px 21.213px 30px 0px rgba(158, 158, 158, 0.3);
+  
 }
 
 .sticky-wrapper {
@@ -2210,7 +2211,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .about-area {
-  background: url(../img/about-bg.png) no-repeat center center;
+  background: #494747;
   background-size: cover;
   background-position: center;
 }
@@ -2599,7 +2600,7 @@ h1, h2, h3, h4, h5, h6 {
 .footer-area {
   padding-top: 50px;
   padding-bottom: 50px;
-  background-color: #46b8da;
+  background-color: #f5f5f5;
 }
 
 .footer-area .footer-nav li {
@@ -2838,6 +2839,7 @@ h6 {
 .section-top-border {
   padding: 70px 0;
   border-top: 1px dotted #eee;
+  background-color: #ffc71f;
 }
 
 .switch-wrap {
@@ -2862,4 +2864,17 @@ h6 {
   .align_right {
     padding-left: 14% !important;
   }
+}
+@media (max-width: 767px) {
+  .contactmail {
+    text-align: center !important;
+	font-size:16px;
+  }
+}
+
+.generic-blockquote h6 {
+    color: rgba(0,0,0, 0.87);
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: 600;
 }
