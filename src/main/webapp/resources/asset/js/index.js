@@ -795,7 +795,7 @@ Vue.component('intent', {
 						+'<p>'
 						+'<a class="btn btn-default" style="margin:3%;margin-left:0;" role="button" v-on:click="removeSentece(value)">{{$t("message.remove")}}</a>'
 						+'</p>'						
-						+'<p><label>{{$t("message.subject")}}</label>'
+						+'<p>'
 							+'<select class="smallselect" v-model="subject.subject"><option v-for="sub in subjectArray" v-bind:value="sub.subject">{{ sub.subject}}</option></select>'
 						+'</p>'
 						+'<p>'
@@ -1772,12 +1772,12 @@ var webChatContainer = Vue.component("webChatContainer", {
 				iframeContent : '<div style="position:absolute !important;bottom:0px;right:15px;">'
 										+'<table>'
 										+'<tr><td><button type="button" class="btn btn-info big-btn" style="width:370px" data-toggle="collapse" data-target="#container">Talk to BOT</button></td></tr>'
-										+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" style="border:none;border-right:1px solid #c3c3c3 !important;border-left:1px solid #c3c3c3 !important" src="'+'http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'"/></td></tr>'
+										+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" style="border:none;border-right:1px solid #c3c3c3 !important;border-left:1px solid #c3c3c3 !important" src="'+'http://localhost:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'"/></td></tr>'
 									+'</table>'
 								+'</div>',
 				iframeHTML : 	'<table>'
 									+'<tr><td><button type="button" class="btn btn-info big-btn" style="width:370px" data-toggle="collapse" data-target="#container"> Talk to BOT</button></td></tr>'
-									+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" style="border:none;border-right:1px solid #c3c3c3 !important;border-left:1px solid #c3c3c3 !important" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'"/></td></tr>'
+									+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" style="border:none;border-right:1px solid #c3c3c3 !important;border-left:1px solid #c3c3c3 !important" src="http://localhost:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'"/></td></tr>'
 								+'</table>'
 			}
 		}
