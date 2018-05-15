@@ -1066,7 +1066,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .generic-blockquote {
   padding: 20px 30px 20px 30px;
-  border-left: 8px solid #494747;
+  border-left: 8px solid #1F1300;
   background: url(https://media.mongodb.org/code-block-bg.png);
 }
 
@@ -2871,14 +2871,17 @@ h6 {
 	font-size:16px;
   }
   .col-lg-3>img {
-	 margin: auto;
+	margin: auto;
     width: 100%;
   }
 }
 
 .generic-blockquote h6 {
-    color: rgba(0,0,0, 0.87);
+    color: #1F1300;
     margin-bottom: 12px;
     font-size: 18px;
     font-weight: 600;
+}
+.menu-content h1, .menu-content p{
+	color: #1F1300;
 }
