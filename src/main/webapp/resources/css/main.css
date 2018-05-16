@@ -2871,8 +2871,15 @@ h6 {
   }
   .col-lg-3>img {
 	margin: auto;
-    width: 100%;
+    width: 80%;
+    margin-left: 10%;
   }
+  .footer-social {
+  text-align: center;
+}
+.signin{
+	padding:10px !important;
+}
 }
 .contactmail a {
     
@@ -2891,3 +2898,6 @@ h6 {
 	color: #fff !important;
 	background: #5bc0de;
 }
+ .service-area {
+   background: #eee;
+ }
