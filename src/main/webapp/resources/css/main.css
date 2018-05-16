@@ -2874,7 +2874,10 @@ h6 {
     width: 100%;
   }
 }
-
+.contactmail a {
+    
+	color: #fff !important;
+  }
 .generic-blockquote h6 {
     color: #1F1300;
     margin-bottom: 12px;
