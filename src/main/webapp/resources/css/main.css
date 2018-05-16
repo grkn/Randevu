@@ -2884,3 +2884,7 @@ h6 {
 .menu-content h1, .menu-content p{
 	color: #1F1300;
 }
+.signin{
+	color: #fff !important;
+	background: #5bc0de;
+}
