@@ -1,7 +1,7 @@
 .page-header{
 	padding-bottom: 40px;
     margin: 20px 0 10px;
-    border-bottom: 8px solid #269abc;
+    border-bottom: 8px solid #5bc0de;
 }
 .headersp{
 	padding-bottom: 20px;
@@ -59,7 +59,7 @@ select, input{
 	padding-top: 1%;
 	background: #f5f6f7;
 	border:1px solid #edf4e8;
-	border-left: 8px solid #269abc;
+	border-left: 8px solid #5bc0de;
 	color: #222;
 	padding-left: 0;
 }
