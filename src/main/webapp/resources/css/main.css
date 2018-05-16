@@ -2211,7 +2211,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .about-area {
-  background: #494747;
+  background: #4f4f4f;
   background-size: cover;
   background-position: center;
 }
@@ -2640,11 +2640,11 @@ h6 {
 }
 
 .footer-social {
-  text-align: right;
+  text-align: center;
 }
 
 .footer-social a {
-  background: #111111;
+  background: #404040;
   width: 20px;
   width: 40px;
   display: inline-table;
