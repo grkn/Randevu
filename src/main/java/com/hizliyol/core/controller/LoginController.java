@@ -1,9 +1,10 @@
 package com.hizliyol.core.controller;
 
+import java.io.IOException;
+
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 
-import ch.qos.logback.classic.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -12,8 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.hizliyol.core.session.SessionBean;
 
-import java.io.IOException;
-import java.time.format.TextStyle;
+import ch.qos.logback.classic.Logger;
 
 
 @Component
@@ -40,7 +40,7 @@ public class LoginController extends  BaseController {
 
 	public void logout() throws IOException {
 		SecurityContextHolder.clearContext();
-		FacesContext.getCurrentInstance().getExternalContext().redirect("/login.xhtml?logout");
+		FacesContext.getCurrentInstance().getExternalContext().redirect("/EnerjiOkul/login.xhtml?logout");
 	}
 	
 }

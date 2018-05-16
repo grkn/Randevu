@@ -4,6 +4,8 @@ import ch.qos.logback.classic.Logger;
 import com.hizliyol.core.exception.ControllerException;
 import com.hizliyol.core.exception.DaoException;
 import com.hizliyol.core.exception.ServiceException;
+import com.hizliyol.core.util.Util;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -72,8 +74,6 @@ public class LogAspect {
         for (Object arg :joinPoint.getArgs()) {
             builder.append(arg).append(",");
         }
-
-
         long start = System.currentTimeMillis();
         try {
             obj = joinPoint.proceed();
@@ -82,7 +82,7 @@ public class LogAspect {
         } catch (Throwable throwable) {
             long elapsedtime = System.currentTimeMillis() - start;
             logger.error(new StringBuffer( joinPoint.getSignature().getName()).append("(").append(builder.toString()).append(") Time : ").append(elapsedtime).append(" ms").toString());
-            logger.error(getStackTrace(throwable.getStackTrace()));
+            logger.error(Util.getStackTrace(throwable.getStackTrace()));
 
             switch (type){
                 case CONTROLLER:
@@ -93,20 +93,8 @@ public class LogAspect {
                     throw new ServiceException(throwable);
             }
         }finally {
-            if(type.equals(Type.CONTROLLER)){
-                synchronized (this){
-                    MDC.clear();
-                }
-            }
+            
         }
         return obj;
-    }
-
-    private String getStackTrace(StackTraceElement[] arr){
-        StringBuffer builder = new StringBuffer();
-        for (StackTraceElement element :arr) {
-            builder.append(element.toString()).append("\n");
-        }
-        return builder.toString();
     }
 }
