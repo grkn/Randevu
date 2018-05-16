@@ -1074,10 +1074,10 @@ Vue.component('answers', {
 	}
 });
 
-// Answers row template
-Vue.component('answersRow', {
-	template : '<div class="row">'
-					+'<answers v-for="(intent, index) in array" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" : key="intent.value"></answers>'
+//Answers row template
+Vue.component('answersRow',{
+	template :'<div class="row">'
+					+'<answers v-for="(intent,index) in array" v-bind:value="intent.value" v-bind:expressions="intent.expressions" v-bind:index="index" :key="intent.value"></answers>'
 				+'</div>',
 	props: ['array']
 });
