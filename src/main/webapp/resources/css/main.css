@@ -2645,12 +2645,11 @@ h6 {
 
 .footer-social a {
   background: #5bc0de;
-  width: 20px;
-  width: 40px;
+  width: 60px;
   display: inline-table;
-  height: 40px;
+  height: 60px;
   text-align: center;
-  padding-top: 10px;
+  padding-top: 20px;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
