@@ -41,7 +41,7 @@ var i18n = new VueI18n({
 });
 
 
-//Carousel popup
+// Carousel popup
 Vue.component('carousel_popup', {
 	template : '<div id="myModalCarousel" class="modal fade" role="dialog">'
 				+'<div class="modal-dialog">'
@@ -184,7 +184,7 @@ Vue.component('carousel_popup', {
 
 // Add carousel
 Vue.component('createCarousel', {
-	template :'<div style="display:inline-block; padding-right:1%;">'
+	template : '<div style="display:inline-block; padding-right:1%;">'
 					+'<button v-on:click="loadPopup" type="button" class="btn btn-info">{{$t("message.carousel")}}</button>'
 					+'<carousel_popup v-bind:entityList="entityList"></carousel_popup>'
 				+'</div>',
