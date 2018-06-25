@@ -24,6 +24,9 @@ import com.hizliyol.core.rest.modal.ModelEntity;
 @RestController
 public class NodeJsRestService {
 
+	@Autowired
+	private HttpServletRequest request;
+	
 	@RequestMapping(value = "/api/get/witai/entities", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
 	public String getEntities(HttpServletRequest request){
 		RestTemplate restTemplate = new RestTemplate(new HttpComponentsClientHttpRequestFactory());
@@ -598,7 +601,8 @@ public class NodeJsRestService {
         MediaType mediaType = new MediaType("application", "json", utf8);
         headers.setContentType(mediaType);
         
-        headers.set("Authorization", authorization);
+        
+        headers.set("Authorization", request.getHeader("Authorization"));
 		return headers;
 	}
 	
