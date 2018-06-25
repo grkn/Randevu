@@ -1891,6 +1891,7 @@ var witDeployContainer = Vue.component("witDeployContainer", {
 							+'<routerLinkComponent></routerLinkComponent>'
 							+'<span class="navbar-nav rootRight">'
 								+'<a href="../../intro.html"><b>{{$t("message.exit")}}</b></a>'
+								+'<a target="_blank" href="./root/adminUser.xhtml"><b>{{$t("message.rootPanel")}}</b></a>'
 							+'</span>'
 							+'<span class="navbar-nav rootRight">'
 								+'<i18n_custom></i18n_custom>'
