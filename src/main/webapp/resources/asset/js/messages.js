@@ -4,7 +4,7 @@ var messages = {
 		  english : 'English',
 		  turkish : 'Turkish',
 		  french : 'French',
-		  rootPanel : "Root Panel",
+		  rootPanel : "Panel",
 		  
 		  add : 'Add',
 		  remove : 'Remove',
@@ -110,7 +110,7 @@ var messages = {
 		  english : 'Anglais',
 		  turkish : 'Turc',
 		  french : 'Français',
-		  rootPanel : "Panneau de Root",
+		  rootPanel : "Panneau",
 		  
 		  add : 'Ajouter',
 		  remove : 'Supprimer',
@@ -216,7 +216,7 @@ var messages = {
 		  english : 'Ingilizce',
 		  turkish : 'T\u00FCrk\u00E7e',
 		  french : 'Frans\u0131zca',
-		  rootPanel : "ROOT PANELİ",
+		  rootPanel : "PANEL",
 		  
 		  add : 'Ekle',
 		  remove : 'Sil',
