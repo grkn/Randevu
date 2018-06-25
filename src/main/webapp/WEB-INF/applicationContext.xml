@@ -37,6 +37,12 @@
             </map>
         </property>
     </bean>
+    
+    <security:http security="none" pattern="/lib/**"/>
+    <security:http security="none" pattern="/resources/**"/>
+    <security:http security="none" pattern="/root/resources/*"/>
+    <security:http security="none" pattern="/admin/resources/*"/>
+    <security:http security="none" pattern="/javax.faces.resource/*"/>
 
     <security:http pattern="/oauth/token" use-expressions="true" create-session="stateless"
                    authentication-manager-ref="clientAuthenticationManager"
@@ -174,20 +180,15 @@
         <constructor-arg name="clientDetailsService" ref="clientDetails" />
     </bean>
 
-	<security:http security="none" pattern="/lib/**"/>
-    <security:http security="none" pattern="/resources/*"/>
-    <security:http security="none" pattern="/root/resources/*"/>
-    <security:http security="none" pattern="/admin/resources/*"/>
-    <security:http security="none" pattern="/javax.faces.resource/*"/>
-
-
-
     <security:http use-expressions="true"
                    create-session="always" authentication-manager-ref="authManager">
         <security:csrf disabled="true"/>
         <security:intercept-url pattern="/logout"
                                 access="permitAll"/>
-
+        <security:intercept-url pattern="/form.html"
+                                access="permitAll"/>
+		<security:intercept-url pattern="/intro.html"
+                                access="permitAll"/>
         <security:intercept-url pattern="/login.xhtml"
                                 access="permitAll"/>
         <security:intercept-url pattern="/nonsecure/admin/**"
