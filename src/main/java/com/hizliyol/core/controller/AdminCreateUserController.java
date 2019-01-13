@@ -2,6 +2,7 @@ package com.hizliyol.core.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -26,7 +27,7 @@ public class AdminCreateUserController extends BaseController {
 	private UserManagement user = new UserManagement();
 
 	private DualListModel<Role> roleDualList;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -35,15 +36,12 @@ public class AdminCreateUserController extends BaseController {
 
 	private UserLazyModel userLazyModel;
 
-	private UserManagement selectedUser;
-
 	@PostConstruct
-	public void init(){
+	public void init() {
 		roleDualList = new DualListModel<>(userService.getRoles(), new ArrayList<>());
 		userLazyModel = new UserLazyModel(userService);
 	}
-	
-	
+
 	public UserManagement getUser() {
 		return user;
 	}
@@ -56,46 +54,45 @@ public class AdminCreateUserController extends BaseController {
 		return roleDualList;
 	}
 
-
 	public void setRoleDualList(DualListModel<Role> roleDualList) {
 		this.roleDualList = roleDualList;
 	}
-	
-	public void insert() throws ClassNotFoundException, IOException{
+
+	public void insert() throws ClassNotFoundException, IOException {
 		List<Role> role = roleDualList.getTarget();
 		user.setPassword(encoder.encode(user.getPassword()));
 		UserManagement userManagement = userService.getUserByUserName(user.getUsername());
-		if(userManagement == null){
-			role.forEach(rl -> user.getRoleSet().add(new Role(rl.getId(),rl.getRoleName())));
+		if (userManagement == null) {
+			role.forEach(rl -> user.getRoleSet().add(new Role(rl.getId(), rl.getRoleName())));
 			userService.insert(user);
-		}else{
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(javax.faces.application.FacesMessage.SEVERITY_INFO,"",getMessage("user.already.defined")));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+					javax.faces.application.FacesMessage.SEVERITY_INFO, "", getMessage("user.already.defined")));
 		}
 		user = new UserManagement();
 	}
 
-	public void delete(UserManagement user){
+	public void delete(UserManagement user) {
 		userService.delete(user);
 	}
-
 
 	public UserLazyModel getUserLazyModel() {
 		return userLazyModel;
 	}
 
-
 	public void setUserLazyModel(UserLazyModel userLazyModel) {
 		this.userLazyModel = userLazyModel;
 	}
 
-
-	public UserManagement getSelectedUser() {
-		return selectedUser;
+	public void change() {
+		List<Role> notExistsList = new ArrayList<>();
+		List<Role> deletedList = roleDualList.getSource();
+		List<Role> existsList = userService
+				.getUserRoleList(this.user.getId().toString(), roleDualList.getTarget().toArray(new Role[this.roleDualList.getTarget().size()]));
+		this.roleDualList.getTarget().forEach(item -> {
+			if (!existsList.contains(item))
+				notExistsList.add(item);
+		});
+		userService.change(this.user, notExistsList, deletedList);
 	}
-
-
-	public void setSelectedUser(UserManagement selectedUser) {
-		this.selectedUser = selectedUser;
-	}
-
 }

@@ -41,14 +41,16 @@
 						</h:panelGrid>
 						<p:commandButton update="@form"
 							actionListener="#{adminCreateUserController.insert}" value="#{msg['save']}"></p:commandButton>
+							<p:commandButton value="Update" actionListener="#{adminCreateUserController.change}" update="@form"/>
 					</h:panelGrid>
 				</p:fieldset>
 	
 				<p:fieldset legend="#{msg['user.list']}">
 					<p:dataTable var="user" value="#{adminCreateUserController.userLazyModel}" paginator="true" rows="10"
 								 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-								 rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{adminCreateUserController.selectedUser}" id="userDatatable" lazy="true">
-						<p:ajax event="rowSelect" update="@this" />
+								 rowsPerPageTemplate="5,10,15" id="userDatatable" lazy="true">
+						<p:ajax event="rowSelect" update="@form" />
+						<p:column selectionMode="single" style="width:16px;text-align:center"/>
 						<p:column headerText="Id" sortBy="#{user.id}" filterBy="#{user.id}">
 							<h:outputText value="#{user.id}" />
 						</p:column>
@@ -66,6 +68,7 @@
 						</p:column>
 						<p:column>
 							<p:commandButton value="#{msg['remove']}" actionListener="#{adminCreateUserController.delete(user)}" update="@form"/>
+							<p:commandButton value="Load" actionListener="#{adminCreateUserController.setUser(user)}" update="@form"/>
 						</p:column>
 					</p:dataTable>
 				</p:fieldset>
