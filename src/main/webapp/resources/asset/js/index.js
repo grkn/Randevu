@@ -810,12 +810,8 @@ Vue.component('intent', {
 		addSentence : function(id){
 			if(this.sentence.trim() != ""){
 				this.expressions.unshift(this.sentence);
-				this.sentence = "";
-				var exps = [];
-				for(var i = 0; i < this.expressions.length; i++){
-					exps.push(this.expressions[i]);
-				}
-				Vue.http.post(contextPath + "/secure/api/post/intent/expressions", {value : this.value, expressions:exps}).then(function(resp){
+				Vue.http.post(contextPath + "/secure/api/post/intent/expressions", {value : this.value, expression:this.sentence}).then(function(resp){
+					this.sentence = "";
 				});
 			}
 		},
@@ -1766,12 +1762,12 @@ var webChatContainer = Vue.component("webChatContainer", {
 			iframeContent : '<div style="position:absolute !important;bottom:0px;right:15px;">'
 								+'<table>'
 									+'<tr><td><button type="button" class="btn btn-info big-btn" style="width:370px" data-toggle="collapse" data-target="#container">Talk to BOT</button></td></tr>'
-									+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" src="'+'http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'" style="border-top:none;border-right:none;border-bottom:none;border-left:1px solid rgb(195, 195, 195) !important;border-image:initial;"></iframe></td></tr>'
+									+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" src="'+'http://192.168.2.226:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'" style="border-top:none;border-right:none;border-bottom:none;border-left:1px solid rgb(195, 195, 195) !important;border-image:initial;"></iframe></td></tr>'
 								+'</table>'
 							+'</div>',
 			iframeHTML :	'<table>'
 								+'<tr><td><button type="button" class="btn btn-info big-btn" style="width:370px" data-toggle="collapse" data-target="#container"> Talk to BOT</button></td></tr>'
-								+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" src="http://www.chatbotpanel.com:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'" style="border-top:none;border-right:none;border-bottom:none;border-left:1px solid rgb(195, 195, 195) !important;border-image:initial;"></iframe></td></tr>'
+								+'<tr><td><iframe class="collapse in" id="container" width="370px" height="420px" src="http://192.168.2.226:8000/webchat.html?accessToken='+localStorage.getItem('globalAccessToken')+'&authorization='+localStorage.getItem('id_token')+'" style="border-top:none;border-right:none;border-bottom:none;border-left:1px solid rgb(195, 195, 195) !important;border-image:initial;"></iframe></td></tr>'
 							+'</table>'
 		}
 	}
